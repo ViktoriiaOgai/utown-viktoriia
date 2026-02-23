@@ -1,42 +1,63 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.mobile-layout {
+width: 430px;        /* фиксированная ширина макета */
+  max-width: 100%;
+  height: 100vh;
+  position: relative;
+  background: white;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.splash {
+  width: 100%;
+  min-height: 100vh;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.splash img {
+  width: 100%;
+  min-height: 100vh;
+  object-fit: cover;
+  display: block;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.auth-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
-.card {
-  padding: 2em;
+/* Картинка как фон */
+.splash-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
 }
 
-.read-the-docs {
-  color: #888;
+/* Кнопки поверх */
+.buttons {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+}
+
+/* Состояние при наведении */
+.button:hover {
+  color: #60a5fa;                    /* hover:text-blue-400 */
+  background-color: #6b7280;         /* hover:bg-gray-500 (стандартный Tailwind gray-500) */
+}
+
+/* Состояние фокуса (при клике или переходе табом) */
+.button:focus {
+  outline: 2px solid transparent;    /* focus:outline-none */
+  outline-offset: 2px;
+  box-shadow: 0 0 0 1px #374151;     /* focus:ring-1 focus:ring-gray-700 */
 }
