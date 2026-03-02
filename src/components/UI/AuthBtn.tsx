@@ -7,11 +7,11 @@ type Props = {
   onClick?: () => void;
 };
 
-export default function Button({ children, to, type = "button", onClick }: Props) {
+export default function AuthBtn({ children, to, type = "button", onClick }: Props) {
   // Если передан 'to', рендерим Link
   if (to) {
     return (
-      <Link to={to} className="btn">
+      <Link to={to} className="Button">
         {children}
       </Link>
     );
@@ -19,7 +19,7 @@ export default function Button({ children, to, type = "button", onClick }: Props
 
   // Иначе обычная кнопка
   return (
-    <button type={type} onClick={onClick} className="btn">
+    <button type={type} onClick={onClick} className="Button">
       {children}
     </button>
   );

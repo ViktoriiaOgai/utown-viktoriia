@@ -1,39 +1,62 @@
+import React, { useState } from "react";
+import "@/App.css";
+
 type Props = {
-  label?: string;
-  value: string;
-  onChange: (value: string) => void;
+  value?: string;
   placeholder?: string;
-  type?: 'text' | 'url';
-  required?: boolean;
-  className?: string;
+  type?: string;
+  error?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  icon?: string;
+  isPassword?: boolean;
+  eyeOpenIcon?: string;
+  eyeClosedIcon?: string;
 };
 
 export default function Input({
-  label,
   value,
-  onChange,
   placeholder,
-  type = 'text',
-  required = false,
+  type = "text",
+  error,
+  onChange,
+  icon,
+  isPassword,
+  eyeOpenIcon,
+  eyeClosedIcon,
 }: Props) {
-  return (
-    <label className="flex flex-col gap-1 text-sm">
-      {label && (
-        <span className="text-gray-700">
-          {label}
-          {required && ' *'}
-        </span>
-      )}
+  const [showPassword, setShowPassword] = useState(false);
 
-      <input
-        type={type}
-        value={value}
-        required={required}
-        placeholder={placeholder}
-        onChange={(e) => onChange(e.target.value)}
-        className="rounded border  border-blue-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-900  text-blue-500
-        hover:text-blue-900"
-      />
-    </label>
+  const inputType = isPassword
+    ? showPassword
+      ? "text"
+      : "password"
+    : type;
+
+  return (
+    <div className="input-group">
+      <div className="input-wrapper">
+        {icon && (
+          <img src={icon} alt="icon" className="input-icon" />
+        )}
+
+        <input
+          className={`input ${error ? "input--error" : ""}`}
+          type={inputType}
+          value={value}
+          placeholder={placeholder}
+          onChange={onChange}
+        />
+
+        {isPassword && (
+          <img
+            src={showPassword ? eyeOpenIcon : eyeClosedIcon}
+            className="input-eye"
+            onClick={() => setShowPassword(!showPassword)}
+          />
+        )}
+      </div>
+
+      {error && <div className="input-error">{error}</div>}
+    </div>
   );
 }
