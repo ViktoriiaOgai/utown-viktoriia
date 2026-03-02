@@ -70,45 +70,60 @@ width: 430px;        /* фиксированная ширина макета */
 }
 
 /* src/components/UI/Input.css */
-.input-group {
-  width: 100%;
-  max-width: 360px;
-   
-}
 .input-wrapper {
   position: relative;
   width: 100%;
-}
+  }
 
 .input-icon {
   position: absolute;
-  left: 16px;
   top: 50%;
   transform: translateY(-50%);
   width: 18px;
   height: 18px;
- 
+ z-index: 10;
+}
+/* По умолчанию левая иконка серая */
+.input-icon.left {
+  left: 20px;
+  color: rgba(167, 169, 183, 1);
+   transition: color 0.2s ease;
+   opacity: 0.5;
 }
 
-.input-eye {
+/* Когда именно этот input-wrapper в фокусе */
+.input-wrapper:focus-within > .input-icon.left {
+  color: rgb(10, 10, 10);
+  opacity: 1;
+}
+
+.input-icon.right {
   position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 18px;
+  right: 20px;
+  left: auto; 
   cursor: pointer;
+  opacity: 0.5;
+  transition: 0.2s;
+  color:  rgba(167, 169, 183, 1);
+}
+.input-icon.right.active {
+   opacity: 1;
+    color: rgb(10, 10, 10);
 }
 .input {
   border: 1px solid rgba(234, 234, 234, 1);
   border-radius: 8px;
-  font-size: 16px;
-  color:rgba(167, 169, 183, 1);
+  font-size: 12px;
+  color:rgb(10, 10, 10);
   background: rgba(255, 255, 255, 1);
+  width: 100%;
+  padding: 14px 50px 14px 50px; /* место под иконки */
   
-     width: 100%;
-  padding: 14px 45px 14px 45px; /* место под иконки */
 }
 
+.input::placeholder {
+  color: rgba(167, 169, 183, 1); /* placeholder — серый */
+}
 .input--error {
   border-color: #ef4444;
 }
@@ -184,7 +199,6 @@ width: 120px;
 
 }
 .input-group,
-.input,
 .Button {
   width: 100%;
   max-width: 350px;
@@ -244,7 +258,7 @@ text-align: center;
 .label {
    align-self: flex-start; /* прижмёт к левому краю */
   margin-bottom: 6px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
 font-style: Medium;
 line-height: 130%;

@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import AuthLayout from "../layout/AuthLayout";
-import Input from "../components/UI/Input";
+import AuthLayout from "@/layout/AuthLayout";
+import Input from "@/components/UI/Input";
 import "@/App.css";
 import BackButton from "@/components/UI/BackButton";
 import AuthBtn from "@/components/UI/AuthBtn";
+import Tel from "@/assets/icons/Tel.svg";
+import lock from "@/assets/icons/lock.svg";
+import eye from "@/assets/icons/eye.svg";
+
 
 export default function Register() {
 
@@ -17,7 +21,6 @@ export default function Register() {
     repeatPassword: "",
   });
 
-  // 👇 ВОТ СЮДА вставляется validate
   const validate = () => {
     const newErrors = {
       phone: "",
@@ -47,7 +50,6 @@ export default function Register() {
   return (
     <AuthLayout>
   <BackButton />
-
   <h2 className="auth-title">User Registration</h2>
   <p className="auth-subtitle">
     Register to access all the benefits of the app
@@ -58,23 +60,35 @@ export default function Register() {
         placeholder="Enter your phone number without dashes"
         value={phone}
         onChange={(e) => setPhone(e.target.value)}
+        icon={Tel}
+        error={errors.phone}
+        
   />
-   {errors.phone && <p className="input-error">{errors.phone}</p>}
-<label className="label">Password</label>
+
+   <label className="label">Password</label>
+
   <Input
     type="password"
     placeholder="Enter your password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        icon={lock}
+        iconRight={eye}
+        isPassword 
+        error={errors.password}
   />
-{errors.password && <p className="input-error">{errors.password}</p>}
+
   <Input
     type="password"
     placeholder="Repeat your password"
-     value={repeatPassword}
-        onChange={(e) => setRepeatPassword(e.target.value)}
+    value={repeatPassword}
+    onChange={(e) => setRepeatPassword(e.target.value)}
+    icon={lock}
+    iconRight={eye}
+    isPassword 
+    error={errors.password}
   />
-{errors.password && <p className="input-error">{errors.password}</p>}
+
   <AuthBtn onClick={() => {
     if (validate()) {
       console.log("Form is valid");

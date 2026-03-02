@@ -4,6 +4,7 @@ import Input from "../components/UI/Input";
 import "@/App.css";
 import BackButton from "@/components/UI/BackButton";
 import AuthBtn from "@/components/UI/AuthBtn";
+import Tel from "@/assets/icons/Tel.svg"
 
 export default function Recover() {
    const [phone, setPhone] = useState("");
@@ -39,12 +40,13 @@ export default function Recover() {
   </p>
  <label className="label">Phone Number</label>
   <Input
-    type="tel"
-    placeholder="Enter your phone number without dashes"
-  value={phone}
-  onChange={(e) => setPhone(e.target.value)}
+      type="tel"
+        placeholder="Enter your phone number without dashes"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
+        icon={Tel}
+        error={errors.phone}
   />
-{errors.phone && <p className="input-error">{errors.phone}</p>}
   <AuthBtn onClick={() => {
     if (validate()) {
       console.log("Form is valid");

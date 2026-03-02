@@ -6,7 +6,7 @@ import "@/App.css";
 import AuthBtn from "@/components/UI/AuthBtn";
 import Vector from "@/assets/icons/Vector.svg";
 import BackButton from "@/components/UI/BackButton";
-import Tel from "@/assets/icons/Tel.svg";
+
 
 
 export default function Login() {
@@ -48,7 +48,7 @@ export default function Login() {
         placeholder="Phone number"
         value={phone}
         onChange={(e) => setPhone(e.target.value)}
-        icon={Tel}
+        
         error={errors.phone}
         
       />
