@@ -1,6 +1,6 @@
 import SplashScreen from "@/pages/SplashScreen";
 import MobileLayout from "@/layout/MobileLayout";
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import Welcome from "@/pages/Welcome";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "@/pages/Login";
@@ -8,9 +8,8 @@ import Register from "@/pages/Register";
 import Home from "@/pages/Home";
 import Recover from "./pages/RecoverPage";
 
-
 function App() {
-   const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {

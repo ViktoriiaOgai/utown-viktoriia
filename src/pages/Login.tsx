@@ -1,15 +1,18 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "@/layout/AuthLayout";
 import Input from "@/components/UI/Input";
 import "@/App.css";
 import AuthBtn from "@/components/UI/AuthBtn";
 import Vector from "@/assets/icons/Vector.svg";
 import BackButton from "@/components/UI/BackButton";
+import { login } from "@/services/auth";
+
 
 
 
 export default function Login() {
+  const navigate = useNavigate();
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({
@@ -17,6 +20,27 @@ export default function Login() {
   password: "",
 });
 
+const handleLogin = async () => {
+
+  const isValid = validate();
+  if (!isValid) return;
+
+  try {
+   const response = await login(phone, password);
+
+    const token = response.data.token;
+
+    localStorage.setItem("accessToken", token);
+
+    navigate("/home"); 
+
+  } catch (error: any) {
+    setErrors({
+      phone: "",
+      password: "Invalid phone number or password",
+    });
+  }
+};
   const validate = () => {
     const newErrors = {
       phone: "",
@@ -62,13 +86,9 @@ export default function Login() {
         error={errors.password}
       />
      
-      <AuthBtn 
-       onClick={() => {
-    if (validate()) {
-      console.log("Form is valid");
-    }
-  }}
-      type="submit">LogIn</AuthBtn>
+      <AuthBtn onClick={handleLogin}>
+  LogIn
+</AuthBtn>
 
       <div className="auth-links">
         <Link to="/recover">Forgot password? Recover</Link>
