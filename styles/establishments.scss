@@ -1,0 +1,264 @@
+/* styles/establishments.scss */
+.establishments {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+}
+
+.establishmentsTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.establishmentsTitleBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.establishmentsTitle {
+  font-size: 56px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  margin: 0;
+  line-height: 1.05;
+  color: #111;
+  background: transparent;
+}
+
+.establishmentsCrumbs {
+  margin-top: 14px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.crumbLink {
+  color: #5b4bff;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.crumbSep {
+  color: #8b8b8b;
+}
+
+.crumbCurrent {
+  color: #777;
+}
+
+.establishmentsControls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  min-width: 420px;
+}
+
+.searchBox {
+  width: 420px;
+  height: 42px;
+  background: #fff;
+  border: 1px solid #cfd6e4;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  gap: 10px;
+  box-sizing: border-box;
+}
+
+.searchIcon {
+  color: #7c8597;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.searchInput {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 15px;
+  color: #111827;
+  background: transparent;
+}
+
+.searchInput::placeholder {
+  color: #8b95a7;
+}
+
+.controlsRow {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.selectLike {
+  width: 210px;
+  height: 40px;
+  background: #fff;
+  border: 1px solid #cfd6e4;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  font-size: 14px;
+  color: #6f7a8e;
+}
+
+.selectIcon {
+  color: #6f7a8e;
+  display: inline-flex;
+}
+
+.selectReal {
+  height: 40px;
+  min-width: 198px;
+  background: #fff;
+  border: 1px solid #cfd6e4;
+  border-radius: 4px;
+  padding: 0 34px 0 12px;
+  font-size: 14px;
+  color: #6f7a8e;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.controlsRow .selectReal:nth-child(2) {
+  min-width: 210px;
+}
+
+.applyBtn {
+  height: 40px;
+  min-width: 86px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 4px;
+  background: #4a4a4a;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.tableWrap {
+  background: #fff;
+  border-radius: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border: 1px solid #e7e7e7;
+}
+
+.table {
+  width: 100%;
+  min-width: 1120px;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.th {
+  background: #f1f1f1;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: left;
+  padding: 16px 18px;
+  color: #111;
+  white-space: nowrap;
+}
+
+.thFlex {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.thCaret {
+  color: #111;
+  display: inline-flex;
+  transform: translateY(1px);
+}
+
+.td {
+  padding: 14px 18px;
+  border-bottom: 1px solid #efefef;
+  font-size: 15px;
+  color: #111;
+  vertical-align: middle;
+  background: #fff;
+}
+
+.tr:hover td {
+  background: #fafafa;
+}
+
+.checkboxCol {
+  width: 44px;
+}
+
+.iconCol {
+  width: 54px;
+  text-align: center;
+}
+
+.historyTd {
+  white-space: nowrap;
+}
+
+.viewLink {
+  color: #2d2d2d;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.chev {
+  color: #9aa3b4;
+  display: inline-flex;
+  margin-left: 10px;
+  transform: translateY(2px);
+}
+
+.eye {
+  color: #111;
+  display: inline-flex;
+  cursor: pointer;
+}
+
+.pager {
+  display: flex;
+  justify-content: center;
+  margin-top: 26px;
+}
+
+.pagerBtn {
+  border: 1px solid #d7dbe6;
+  background: #fff;
+  height: 36px;
+  min-width: 42px;
+  padding: 0 14px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #555;
+}
+
+.pagerBtn.active {
+  background: #2f2f2f;
+  color: #fff;
+  border-color: #2f2f2f;
+}
+
+.pagerBtn:first-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.pagerBtn:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
