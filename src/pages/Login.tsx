@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import AuthLayout from "@/layout/AuthLayout";
 import Input from "@/components/UI/Input";
 import "@/App.css";
 import AuthBtn from "@/components/UI/AuthBtn";
 import Vector from "@/assets/icons/Vector.svg";
 import BackButton from "@/components/UI/BackButton";
-import { login } from "@/services/auth";
+import { login } from "@/hooks/auth";
 
 
 
@@ -26,20 +25,19 @@ const handleLogin = async () => {
   if (!isValid) return;
 
   try {
-   const response = await login(phone, password);
+  const response = await login(phone, password);
+  const token = response.data.token;
 
-    const token = response.data.token;
+  localStorage.setItem("accessToken", token);
+  localStorage.setItem("fullName", response.data.user.fullName);
 
-    localStorage.setItem("accessToken", token);
-
-    navigate("/home"); 
-
-  } catch (error: any) {
-    setErrors({
-      phone: "",
-      password: "Invalid phone number or password",
-    });
-  }
+  navigate("/home"); 
+} catch (error: unknown) {
+  setErrors({
+    phone: "",
+    password: "Invalid phone number or password",
+  });
+}
 };
   const validate = () => {
     const newErrors = {
@@ -63,7 +61,7 @@ const handleLogin = async () => {
   };
 
   return (
-    <AuthLayout>
+    <>
     <BackButton />
    <img src={Vector} alt="Vector" className="Vector" />
    
@@ -94,6 +92,6 @@ const handleLogin = async () => {
         <Link to="/recover">Forgot password? Recover</Link>
         <Link to="/register">Don't have an account?</Link>
       </div>
-    </AuthLayout>
+    </>
   );
 }

@@ -1,0 +1,99 @@
+
+/* --- Главный контейнер --- */
+.favor {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ background: white;
+   padding-top: 0;
+   overflow-x: hidden;
+}
+
+.favor .header-icons {
+  position: relative;
+  top: 0;
+  margin-top: 20px;
+}
+
+/* --- Основной белый блок --- */
+.favor .mainCont {
+  width: 100%;
+  min-height: 100vh;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 10px;
+}
+
+.favor .mainContInner {
+ width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: flex-start;
+}
+.favor .Hello {
+  font-size: 35px;
+  font-weight: 600;
+  color: black;
+  z-index: 20; /* выше хедера, если хедер фиксирован */
+  position: relative;
+}
+
+/* --- Горизонтальные скроллы --- */
+.restaurant-cards-container {
+  display: flex;
+  gap: 12px;
+  flex-wrap: nowrap;
+  overflow-x: auto;  /* горизонтальный скролл */
+  overflow-y: hidden; 
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory; 
+}
+.restaurant-cards-container::-webkit-scrollbar {
+  height: 6px;
+}
+.restaurant-cards-container::-webkit-scrollbar-thumb {
+  background: rgba(168, 167, 167, 0.2);
+  border-radius: 3px;
+}
+
+/* --- Карточки --- */
+.restaurant-card {
+  flex-shrink: 0;
+  border-radius: 15px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  background: rgba(245, 245, 245, 1);
+  scroll-snap-align: start;
+}
+
+/* --- Анимация появления --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.back-btn {
+  width: 26px;
+  height: 26px;
+
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Back_icon {
+  width: 20px;
+  height: 20px;
+}

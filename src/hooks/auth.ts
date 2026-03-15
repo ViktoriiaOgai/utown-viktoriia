@@ -1,4 +1,4 @@
-import { api } from "./api";
+import { api } from "../services/api";
 
 export const register = (
   phone: string,
@@ -26,4 +26,22 @@ export const login = (
     password,
   });
   
+};
+
+export const requestPasswordReset = (phone: string) => {
+  return api.post("/auth/password/forgot", {
+    username: phone,
+  });
+};
+
+
+export const resetPassword = (
+  username: string,
+  newPassword: string
+) => {
+  return api.post("/auth/password/reset", {
+    username,
+    code: "123456",
+    newPassword
+  });
 };

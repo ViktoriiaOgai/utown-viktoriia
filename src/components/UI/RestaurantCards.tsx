@@ -1,16 +1,19 @@
 // components/UI/RestaurantCards.tsx
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "@/App.css"
+import "@/styles/RestaurantCards.css";
+import placeholder from "@/assets/images/Ad 1.svg";
+import Deliver from "@/assets/icons/deliver.svg?react"
 
 type Restaurant = {
   id: number;
-  name: string;
+  title: string;
   description: string;
   logoUrl: string;
   category: string;
   minOrderAmount: number;
   deliveryTime: string;
+  imageUrl: string;
 };
 
 export default function RestaurantCards() {
@@ -40,10 +43,16 @@ export default function RestaurantCards() {
     <div className="restaurant-cards-container">
       {restaurants.map((r) => (
         <div className="restaurant-card" key={r.id}>
-          <img src={r.logoUrl} alt={r.name} />
-          <h4>{r.name}</h4>
-          <p>{r.category}</p>
-          <p>От {r.minOrderAmount}₩ • {r.deliveryTime}</p>
+          <img className="title"
+  src={r.imageUrl || placeholder}
+  alt={r.title}
+  onError={(e) => {
+    e.currentTarget.src = placeholder;
+  }}
+/>
+          <h4 className="title">{r.title}</h4>
+          <p className="categ">{r.category}</p>
+          <p className="categ"> <Deliver/> {r.minOrderAmount}₩ • {r.deliveryTime}</p>
         </div>
       ))}
     </div>

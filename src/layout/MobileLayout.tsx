@@ -1,8 +1,13 @@
+import Footer from "@/components/UI/Footer";
+import { Outlet } from "react-router-dom";
 
-type Props = {
-  children: React.ReactNode;
-};
-
-export default function MobileLayout({ children }: Props) {
-  return <div className="mobile-layout">  {children}</div>;
+export default function MobileLayout() {
+  return (
+    <div className="mobile-layout">
+      <main className="mobile-content">
+        <Outlet />
+      </main>
+      <Footer/>
+    </div>
+  );
 }

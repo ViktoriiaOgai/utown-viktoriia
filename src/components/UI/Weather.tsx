@@ -45,8 +45,8 @@ export default function Weather({ userCity, lat, lon }: WeatherProps) {
           icon: data.weather[0].icon,
           wind: data.wind.speed.toFixed(1),
         });
-      } catch (err) {
-        setError("❌ Не удалось получить погоду.");
+      } catch  {
+        setError(" Не удалось получить погоду.");
       }
     };
 
