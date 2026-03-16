@@ -32,7 +32,7 @@ const handleLogin = async () => {
   localStorage.setItem("fullName", response.data.user.fullName);
 
   navigate("/home"); 
-} catch (error: unknown) {
+} catch {
   setErrors({
     phone: "",
     password: "Invalid phone number or password",

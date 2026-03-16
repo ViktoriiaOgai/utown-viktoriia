@@ -18,20 +18,19 @@ type Restaurant = {
 
 export default function RestaurantCards() {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
-
+const API_URL = import.meta.env.VITE_API_URL;
   useEffect(() => {
-    const fetchRestaurants = async () => {
-      try {
-        const res = await axios.get(
-          "https://utown-api.habsida.net/api/public/restaurants"
-        );
-        setRestaurants(res.data.content || []);
-      } catch (err) {
-        console.error("Ошибка загрузки ресторанов", err);
-      }
-    };
-    fetchRestaurants();
-  }, []);
+  const fetchRestaurants = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/public/restaurants`);
+      setRestaurants(res.data.content || []);
+    } catch (err) {
+      console.error("Ошибка загрузки ресторанов", err);
+    }
+  };
+
+  fetchRestaurants();
+}, [API_URL]);
 
   return (
     <div className="restaurants-section">

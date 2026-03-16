@@ -24,7 +24,9 @@ const handleRecover = async () => {
   await requestPasswordReset(phone);
   setShowModal(true);
 } catch (error: unknown) {
-  const message = (error as any)?.response?.data?.message;
+  const message =
+    (error as { response?: { data?: { message?: string } } })?.response?.data?.message;
+
   setErrors({ phone: message || "User with this phone not found" });
 }
 };

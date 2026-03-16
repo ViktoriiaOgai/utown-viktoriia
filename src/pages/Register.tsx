@@ -69,14 +69,16 @@ export default function Register() {
     await register(phone, password, firstName, lastName, "CLIENT");
     setShowModal(true);
   } catch (error: unknown) {
-  const message = (error as any)?.response?.data?.message;
+  const message =
+    (error as { response?: { data?: { message?: string } } })?.response?.data?.message;
+
   if (message?.includes("users.username")) {
-      setErrors((prev) => ({
-        ...prev,
-        phone: "User with this phone already exists",
-      }));
-    }
+    setErrors((prev) => ({
+      ...prev,
+      phone: "User with this phone already exists",
+    }));
   }
+}
 };
 
   return (
