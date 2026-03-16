@@ -24,7 +24,8 @@ api.interceptors.response.use(
   (response: AxiosResponse) => response,
 
   async (error: AxiosError) => {
-    const originalRequest = error.config as InternalAxiosRequestConfig | undefined;
+    const originalRequest =
+      error.config as InternalAxiosRequestConfig | undefined;
 
     if (error.response?.status === 401 && originalRequest) {
       try {
