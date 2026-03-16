@@ -1,7 +1,7 @@
 import RestaurantCards from "@/components/UI/RestaurantCards";
 import MobileHeader from "@/components/UI/Header";
 
-import "@/styles/Favourites.css";
+import "@/pages/Favourites.css";
 
 export default function Favourites() {
   

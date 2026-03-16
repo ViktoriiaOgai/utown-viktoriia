@@ -1,9 +1,10 @@
 // components/UI/RestaurantCards.tsx
 import { useEffect, useState } from "react";
-import axios from "axios";
-import "@/styles/RestaurantCards.css";
+import { api } from "@/services/api";
+import "@/components/UI/RestaurantCards.css";
 import placeholder from "@/assets/images/Ad 1.svg";
 import Deliver from "@/assets/icons/deliver.svg?react"
+import { getErrorMessage } from "@/services/getErrorMessage";
 
 type Restaurant = {
   id: number;
@@ -16,21 +17,23 @@ type Restaurant = {
   imageUrl: string;
 };
 
+const API_URL = import.meta.env.VITE_API_URL;
 export default function RestaurantCards() {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
-const API_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
   const fetchRestaurants = async () => {
     try {
-      const res = await axios.get(`${API_URL}/public/restaurants`);
+      const res = await api.get(`${API_URL}/public/restaurants`);
       setRestaurants(res.data.content || []);
-    } catch (err) {
-      console.error("Ошибка загрузки ресторанов", err);
-    }
+    }catch (error) {
+  const message = getErrorMessage(error);
+  console.error("Ошибка загрузки ресторанов:", message);
+}
   };
 
   fetchRestaurants();
-}, [API_URL]);
+}, []);
 
   return (
     <div className="restaurants-section">

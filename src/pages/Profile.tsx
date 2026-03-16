@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"; 
 import ServicesCards from "@/components/UI/ServicesCards";
-import "@/styles/Profile.css";
+import "@/pages/Profile.css";
 import MobileHeader from "@/components/UI/Header";
 import { useNavigate} from "react-router-dom";
 import ProfileIcon from "@/assets/icons/profile-circle.svg?react";
@@ -8,6 +8,7 @@ import InformIcon from "@/assets/icons/setting-2.svg?react";
 import FavouritesIcon from "@/assets/icons/star-prof.svg?react";
 import SupportIcon from "@/assets/icons/sms-tracking.svg?react";
 import LogOutIcon from "@/assets/icons/logout.svg?react";
+import { logout } from "@/hooks/auth";
 
 export default function Profile() {
    const navigate = useNavigate();
@@ -22,6 +23,10 @@ export default function Profile() {
     }
     
   }, []);
+  const handleLogout = () => {
+  logout();
+navigate("/login");
+};
 
   return (
     <div className="profile">
@@ -58,7 +63,7 @@ export default function Profile() {
           <h3 className="label">Contact Support</h3>
         </div>
       </button>
-      <button className="prof-button" onClick={() => navigate("/home")}>
+      <button className="prof-button" onClick={handleLogout}>
         <div className="profile-btn">
           <LogOutIcon className="profile-icon-out" />
           <h3 className="label-out">LogOut</h3>

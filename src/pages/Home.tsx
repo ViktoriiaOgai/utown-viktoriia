@@ -5,7 +5,7 @@ import ServicesCards from "@/components/UI/ServicesCards";
 import PromoCards from "@/components/UI/PromoCards";
 import RestaurantCards from "@/components/UI/RestaurantCards";
 import Pic from "@/assets/images/Pic.svg";
-import "@/styles/Home.css";
+import "@/pages/Home.css";
 import MobileHeader from "@/components/UI/Header";
 
 export default function Home() {

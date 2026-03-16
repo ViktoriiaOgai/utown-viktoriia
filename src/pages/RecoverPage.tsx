@@ -7,6 +7,7 @@ import Tel from "@/assets/icons/Tel.svg";
 import Modal from "@/components/UI/Modal";
 import { useNavigate} from "react-router-dom";
 import { requestPasswordReset } from "@/hooks/auth";
+import { getErrorMessage } from "@/services/getErrorMessage";
 
 export default function Recover() {
   const navigate = useNavigate();
@@ -23,11 +24,12 @@ const handleRecover = async () => {
   try {
   await requestPasswordReset(phone);
   setShowModal(true);
-} catch (error: unknown) {
-  const message =
-    (error as { response?: { data?: { message?: string } } })?.response?.data?.message;
+} catch (error) {
+  const message = getErrorMessage(error);
 
-  setErrors({ phone: message || "User with this phone not found" });
+  setErrors({
+    phone: message || "User with this phone not found",
+  });
 }
 };
   const validate = () => {

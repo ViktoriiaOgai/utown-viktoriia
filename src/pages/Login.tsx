@@ -6,7 +6,7 @@ import AuthBtn from "@/components/UI/AuthBtn";
 import Vector from "@/assets/icons/Vector.svg";
 import BackButton from "@/components/UI/BackButton";
 import { login } from "@/hooks/auth";
-
+import { getErrorMessage } from "@/services/getErrorMessage";
 
 
 
@@ -25,17 +25,21 @@ const handleLogin = async () => {
   if (!isValid) return;
 
   try {
-  const response = await login(phone, password);
-  const token = response.data.token;
+       const response = await login(phone, password);
 
-  localStorage.setItem("accessToken", token);
-  localStorage.setItem("fullName", response.data.user.fullName);
+        const { token, refreshToken, user } = response.data;
 
-  navigate("/home"); 
-} catch {
-  setErrors({
-    phone: "",
-    password: "Invalid phone number or password",
+        localStorage.setItem("accessToken", token);
+        localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("fullName", user.fullName);
+
+navigate("/home");
+} catch (error) {
+                  const message = getErrorMessage(error);
+
+                  setErrors({
+                    phone: "",
+                    password: message || "Invalid phone number or password",
   });
 }
 };

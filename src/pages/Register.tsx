@@ -9,6 +9,7 @@ import lock from "@/assets/icons/lock.svg";
 import eye from "@/assets/icons/eye.svg";
 import { register } from "@/hooks/auth";
 import Modal from "@/components/UI/Modal";
+import { getErrorMessage } from "@/services/getErrorMessage";
 
 
 export default function Register() {
@@ -68,11 +69,10 @@ export default function Register() {
   try {
     await register(phone, password, firstName, lastName, "CLIENT");
     setShowModal(true);
-  } catch (error: unknown) {
-  const message =
-    (error as { response?: { data?: { message?: string } } })?.response?.data?.message;
+  } catch (error) {
+  const message = getErrorMessage(error);
 
-  if (message?.includes("users.username")) {
+  if (message.includes("users.username")) {
     setErrors((prev) => ({
       ...prev,
       phone: "User with this phone already exists",

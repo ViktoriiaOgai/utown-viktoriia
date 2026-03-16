@@ -1,4 +1,4 @@
-import { api } from "../services/api";
+import { api } from "@/services/api";
 
 export const register = (
   phone: string,
@@ -44,4 +44,9 @@ export const resetPassword = (
     code: "123456",
     newPassword
   });
+};
+export const logout = () => {
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
+  localStorage.removeItem("fullName");
 };

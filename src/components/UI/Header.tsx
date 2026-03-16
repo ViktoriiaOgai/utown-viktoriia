@@ -2,7 +2,7 @@ import LogoGradient from "@/assets/icons/Vector.svg?react";
 import LogoWhite from "@/assets/icons/Vector-1.svg?react";
 import BackButton from "./BackButton";
 import BellIcon from "./BellIcon";
-import "@/styles/Header.css";
+import "@/components/UI/Header.css";
 
 type Props = {
   showBack?: boolean;
