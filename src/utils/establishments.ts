@@ -61,3 +61,10 @@ export function getErrorMessage(error: unknown, fallback = 'Something went wrong
 
   return fallback
 }
+
+import { api } from '../services/api'
+
+export async function getOrders(page = 0, size = 6) {
+  const response = await api.get(`/admin/orders?page=${page}&size=${size}`)
+  return response.data
+}

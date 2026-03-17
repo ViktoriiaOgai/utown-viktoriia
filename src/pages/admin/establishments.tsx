@@ -9,7 +9,7 @@ import {
   IconEye,
   IconSearch,
 } from '../../assets/icons/EstablishmentsIcons'
-import { apiFetch } from '../../services/api'
+import { api } from '../../services/api'
 import type { Establishment, PageResponse } from '../../types/establishment'
 import {
   asArray,
@@ -43,8 +43,10 @@ export default function EstablishmentsPage() {
     setIsModalOpen(true)
     setDetailsError('')
 
-    apiFetch(`/admin/restaurants/${e.id}`)
-      .then((data: any) => {
+    api
+      .get(`/admin/restaurants/${e.id}`)
+      .then((r) => {
+        const data = r.data
         const detailsSource =
           asArray(data).find((x: any) => Number(x?.id ?? x?.restaurantId) === Number(e.id)) ??
           data?.data ??
@@ -71,10 +73,12 @@ export default function EstablishmentsPage() {
     setIsLoading(true)
     setPageError('')
 
-    apiFetch(`/admin/restaurants?page=${page - 1}&size=${pageSize}`, {
-      signal: controller.signal,
-    })
-      .then((data: PageResponse<Establishment>) => {
+    api
+      .get(`/admin/restaurants?page=${page - 1}&size=${pageSize}`, {
+        signal: controller.signal,
+      })
+      .then((r) => {
+        const data = r.data as PageResponse<Establishment>
         setRows(asArray(data).map(normalizeEstablishment))
         setTotalPages(getPageTotalPages(data))
       })
@@ -161,13 +165,7 @@ export default function EstablishmentsPage() {
     setDeleteError('')
 
     try {
-      await Promise.all(
-        idsToDelete.map((id) =>
-          apiFetch(`/admin/restaurants/${id}`, {
-            method: 'DELETE',
-          }).catch(() => null)
-        )
-      )
+      await Promise.all(idsToDelete.map((id) => api.delete(`/admin/restaurants/${id}`)))
 
       setRows((prev) => prev.filter((item) => !idsToDelete.includes(item.id)))
       setSelectedIds([])
@@ -234,7 +232,7 @@ export default function EstablishmentsPage() {
             <div className="controlsRow">
               <button
                 className="applyBtn"
-                onClick={() => navigate('/admin/establishments/new/add')}
+                onClick={() => navigate('/admin/establishments/add')}
                 type="button"
               >
                 Add establishment

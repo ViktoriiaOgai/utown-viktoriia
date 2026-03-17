@@ -8,7 +8,6 @@ export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 
-// REQUEST INTERCEPTOR
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const token = localStorage.getItem("accessToken");
 
@@ -19,10 +18,8 @@ api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   return config;
 });
 
-// RESPONSE INTERCEPTOR
 api.interceptors.response.use(
   (response: AxiosResponse) => response,
-
   async (error: AxiosError) => {
     const originalRequest =
       error.config as InternalAxiosRequestConfig | undefined;
@@ -48,7 +45,6 @@ api.interceptors.response.use(
       } catch {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
-
         window.location.href = "/login";
       }
     }
@@ -56,49 +52,3 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
-
-export async function apiFetch(path: string, options: RequestInit = {}) {
-  const token =
-    localStorage.getItem("token") ||
-    JSON.parse(localStorage.getItem("user") || "{}")?.token ||
-    localStorage.getItem("accessToken") ||
-    "";
-
-  const headers = new Headers(options.headers || {});
-
-  if (!headers.has("Content-Type") && !(options.body instanceof FormData)) {
-    headers.set("Content-Type", "application/json");
-  }
-
-  if (token) {
-    headers.set("Authorization", `Bearer ${token}`);
-  }
-
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    ...options,
-    headers,
-  });
-
-  if (!response.ok) {
-    const text = await response.text().catch(() => "");
-    throw new Error(text || `HTTP ${response.status}`);
-  }
-
-  if (response.status === 204) {
-    return null;
-  }
-
-  const contentType = response.headers.get("content-type") || "";
-
-  if (contentType.includes("application/json")) {
-    return response.json();
-  }
-
-  return response.text();
-}
-
-export async function getOrders(page = 0, size = 6) {
-  return apiFetch(`/admin/orders?page=${page}&size=${size}`);
-}

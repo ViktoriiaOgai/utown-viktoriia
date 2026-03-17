@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import MainLayout from '../../../../components/MainLayout'
 import EstablishmentForm from '../EstablishmentForm'
-import { apiFetch } from '../../../../services/api'
+import { api } from '../../../../services/api'
 import type { EstablishmentFormValues } from '../../../../types/establishment'
 import { getErrorMessage } from '../../../../utils/establishments'
+import { getRole, isAdminRole } from '../../../../hooks/auth'
 
 const initialValues: EstablishmentFormValues = {
   name: '',
@@ -32,6 +33,14 @@ export default function EditEstablishmentPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
 
+  useEffect(() => {
+    const role = getRole()
+
+    if (!isAdminRole(role)) {
+      navigate('/home', { replace: true })
+    }
+  }, [navigate])
+
   const handleChange = (field: keyof EstablishmentFormValues, value: string) => {
     setValues((prev) => ({
       ...prev,
@@ -45,8 +54,10 @@ export default function EditEstablishmentPage() {
     setIsLoading(true)
     setError('')
 
-    apiFetch(`/admin/restaurants/${id}`)
-      .then((data: any) => {
+    api
+      .get(`/admin/restaurants/${id}`)
+      .then((r) => {
+        const data = r.data
         const details = data?.data ?? data
         const areas = details?.deliveryAreas
         const hours = details?.openingHours ?? details?.workingHours ?? {}
@@ -83,32 +94,29 @@ export default function EditEstablishmentPage() {
     setIsSaving(true)
 
     try {
-      await apiFetch(`/admin/restaurants/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify({
-          id: Number(id),
-          name: values.name,
-          description: values.description,
-          minOrder: values.minimumOrder,
-          minimumOrder: values.minimumOrder,
-          phone: values.phone,
-          phoneNumber: values.phone,
-          category: values.category,
-          city: values.city,
-          deliveryAreas: values.deliveryAreas
-            .split('\n')
-            .map((x) => x.trim())
-            .filter(Boolean),
-          openingHours: {
-            Monday: values.mon,
-            Tuesday: values.tue,
-            Wednesday: values.wed,
-            Thursday: values.thu,
-            Friday: values.fri,
-            Saturday: values.sat,
-            Sunday: values.sun,
-          },
-        }),
+      await api.put(`/admin/restaurants/${id}`, {
+        id: Number(id),
+        name: values.name,
+        description: values.description,
+        minOrder: values.minimumOrder,
+        minimumOrder: values.minimumOrder,
+        phone: values.phone,
+        phoneNumber: values.phone,
+        category: values.category,
+        city: values.city,
+        deliveryAreas: values.deliveryAreas
+          .split('\n')
+          .map((x) => x.trim())
+          .filter(Boolean),
+        openingHours: {
+          Monday: values.mon,
+          Tuesday: values.tue,
+          Wednesday: values.wed,
+          Thursday: values.thu,
+          Friday: values.fri,
+          Saturday: values.sat,
+          Sunday: values.sun,
+        },
       })
 
       navigate('/admin/establishments')

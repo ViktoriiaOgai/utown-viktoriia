@@ -1,16 +1,12 @@
 import { Navigate } from 'react-router-dom'
 import type { ReactNode } from 'react'
-import { getToken, getRole, isAdminRole } from '../utils/auth'
+import { getToken, getRole, isAdminRole } from '../hooks/auth'
 
-type Props = {
+type ProtectedRouteProps = {
   children: ReactNode
-  requireAdmin?: boolean
 }
 
-export default function ProtectedRoute({
-  children,
-  requireAdmin = false,
-}: Props) {
+export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const token = getToken()
   const role = getRole()
 
@@ -18,7 +14,7 @@ export default function ProtectedRoute({
     return <Navigate to="/login" replace />
   }
 
-  if (requireAdmin && !isAdminRole(role)) {
+  if (!isAdminRole(role)) {
     return <Navigate to="/home" replace />
   }
 

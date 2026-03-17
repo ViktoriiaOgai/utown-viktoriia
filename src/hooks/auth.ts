@@ -13,19 +13,17 @@ export const register = (
     firstName,
     lastName,
     role,
-
   });
 };
 
 export const login = (
-    phone: string,
+  phone: string,
   password: string
 ) => {
   return api.post("/auth/login", {
     username: phone,
     password,
   });
-  
 };
 
 export const requestPasswordReset = (phone: string) => {
@@ -33,7 +31,6 @@ export const requestPasswordReset = (phone: string) => {
     username: phone,
   });
 };
-
 
 export const resetPassword = (
   username: string,
@@ -45,6 +42,29 @@ export const resetPassword = (
     newPassword
   });
 };
+
+export const getToken = () => {
+  return (
+    localStorage.getItem("accessToken") ||
+    localStorage.getItem("token") ||
+    JSON.parse(localStorage.getItem("user") || "{}")?.token ||
+    ""
+  );
+};
+
+export const getRole = () => {
+  return (
+    localStorage.getItem("role") ||
+    JSON.parse(localStorage.getItem("user") || "{}")?.role ||
+    ""
+  );
+};
+
+export const isAdminRole = (role?: string) => {
+  const currentRole = role || getRole();
+  return ["ADMIN", "SUPER_ADMIN"].includes(String(currentRole).toUpperCase());
+};
+
 export const logout = () => {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");

@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import MainLayout from '../../../components/MainLayout'
 import EstablishmentForm from './EstablishmentForm'
-import { apiFetch } from '../../../services/api'
+import { api } from '../../../services/api'
 import type { EstablishmentFormValues } from '../../../types/establishment'
 import { getErrorMessage } from '../../../utils/establishments'
-import { getRole, isAdminRole } from '../../../utils/auth'
+import { getRole, isAdminRole } from '../../../hooks/auth'
 
 const initialValues: EstablishmentFormValues = {
   name: '',
@@ -56,31 +56,28 @@ export default function AddEstablishmentPage() {
     setIsSaving(true)
 
     try {
-      await apiFetch('/admin/restaurants', {
-        method: 'POST',
-        body: JSON.stringify({
-          name: values.name.trim(),
-          description: values.description.trim(),
-          minOrder: values.minimumOrder.trim(),
-          minimumOrder: values.minimumOrder.trim(),
-          phone: values.phone.trim(),
-          phoneNumber: values.phone.trim(),
-          category: values.category,
-          city: values.city,
-          deliveryAreas: values.deliveryAreas
-            .split('\n')
-            .map((x: string) => x.trim())
-            .filter(Boolean),
-          openingHours: {
-            Monday: values.mon,
-            Tuesday: values.tue,
-            Wednesday: values.wed,
-            Thursday: values.thu,
-            Friday: values.fri,
-            Saturday: values.sat,
-            Sunday: values.sun,
-          },
-        }),
+      await api.post('/admin/restaurants', {
+        name: values.name.trim(),
+        description: values.description.trim(),
+        minOrder: values.minimumOrder.trim(),
+        minimumOrder: values.minimumOrder.trim(),
+        phone: values.phone.trim(),
+        phoneNumber: values.phone.trim(),
+        category: values.category,
+        city: values.city,
+        deliveryAreas: values.deliveryAreas
+          .split('\n')
+          .map((x: string) => x.trim())
+          .filter(Boolean),
+        openingHours: {
+          Monday: values.mon,
+          Tuesday: values.tue,
+          Wednesday: values.wed,
+          Thursday: values.thu,
+          Friday: values.fri,
+          Saturday: values.sat,
+          Sunday: values.sun,
+        },
       })
 
       navigate('/admin/establishments')
