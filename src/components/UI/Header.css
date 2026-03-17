@@ -1,0 +1,31 @@
+.header-icons {
+  position: relative; /* не ломаем страницы без showBack */
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+header-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.logo-icon {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 24px;
+}

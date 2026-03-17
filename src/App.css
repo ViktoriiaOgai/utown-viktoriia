@@ -1,15 +1,24 @@
 * {
   box-sizing: border-box;
 }
-.mobile-layout {
-width: 430px;        /* фиксированная ширина макета */
-  max-width: 100%;
-  height: 100vh;
-  position: relative;
-  background: white;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+body {
+  margin: 0;
+  
+  background: #f1f5f9;
+  
 }
+.mobile-layout {
+  width: 100%;
+  max-width: 430px;
+  min-height: 100vh;
+
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  background: white;
+}
+
 
 .splash {
   width: 100%;
@@ -26,17 +35,17 @@ width: 430px;        /* фиксированная ширина макета */
 .auth-container {
   position: relative;
   width: 100%;
-  height: 100%;
+  margin: 0 auto;
+  height: 100vh;
+  overflow: hidden;
 }
 
 /* Картинка как фон */
 .splash-img {
-  position: absolute;
-  inset: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   object-fit: cover;
-
+   z-index: 0;
 }
 /* src/components/UI/Button.css */
 /* Кнопки поверх */
@@ -55,6 +64,7 @@ width: 430px;        /* фиксированная ширина макета */
 .btn {
   padding: 12px 20px;
   border-radius: 12px;
+  border:none;
   background: white;
   text-align: center;
   cursor: pointer;
@@ -70,45 +80,60 @@ width: 430px;        /* фиксированная ширина макета */
 }
 
 /* src/components/UI/Input.css */
-.input-group {
-  width: 100%;
-  max-width: 360px;
-   
-}
 .input-wrapper {
   position: relative;
   width: 100%;
-}
+  }
 
 .input-icon {
   position: absolute;
-  left: 16px;
   top: 50%;
   transform: translateY(-50%);
   width: 18px;
   height: 18px;
- 
+ z-index: 10;
+}
+/* По умолчанию левая иконка серая */
+.input-icon.left {
+  left: 20px;
+  color: rgba(167, 169, 183, 1);
+   transition: color 0.2s ease;
+   opacity: 0.5;
 }
 
-.input-eye {
+/* Когда именно этот input-wrapper в фокусе */
+.input-wrapper:focus-within > .input-icon.left {
+  color: rgb(10, 10, 10);
+  opacity: 1;
+}
+
+.input-icon.right {
   position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 18px;
+  right: 20px;
+  left: auto; 
   cursor: pointer;
+  opacity: 0.5;
+  transition: 0.2s;
+  color:  rgba(167, 169, 183, 1);
+}
+.input-icon.right.active {
+   opacity: 1;
+    color: rgb(10, 10, 10);
 }
 .input {
   border: 1px solid rgba(234, 234, 234, 1);
   border-radius: 8px;
-  font-size: 16px;
-  color:rgba(167, 169, 183, 1);
+  font-size: 12px;
+  color:rgb(10, 10, 10);
   background: rgba(255, 255, 255, 1);
+  width: 100%;
+  padding: 14px 50px 14px 50px; /* место под иконки */
   
-     width: 100%;
-  padding: 14px 45px 14px 45px; /* место под иконки */
 }
 
+.input::placeholder {
+  color: rgba(167, 169, 183, 1); /* placeholder — серый */
+}
 .input--error {
   border-color: #ef4444;
 }
@@ -121,27 +146,27 @@ width: 430px;        /* фиксированная ширина макета */
 .auth {
   min-height: 100vh;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: flex-start;
   background: #f8fafc;
-  padding: 16px;
- 
-}
+  }
 
 .auth__card {
   position: relative;
-  padding-top: 60px;
   width: 100%;
   max-width: 430px;
   min-height: 100vh;
+  overflow-y: auto;
   background: #f8fafc;
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
-   align-items:center;
-  padding: 110px 24px 40px 24px;
-   gap: 16px;
+  align-items: stretch;
+justify-content:flex-start;
+align-items: center;
+  padding: 85px 24px 24px;
+  gap: 8px;
+
 }
 
 /* Общие стили для Логин-Регистация */
@@ -154,6 +179,7 @@ width: 430px;        /* фиксированная ширина макета */
   align-items: center;
   gap: 20px;
   font-size: 14px;
+  
 }
 
 .auth-links a {
@@ -173,7 +199,7 @@ width: 430px;        /* фиксированная ширина макета */
   bottom: 40px;
   left: 50%;
   color: white;
-  
+  height: 44px;
 }
 
 .Vector {
@@ -184,10 +210,10 @@ width: 120px;
 
 }
 .input-group,
-.input,
 .Button {
   width: 100%;
   max-width: 350px;
+  
 }
 
 .back-btn {
@@ -196,7 +222,7 @@ width: 120px;
   width: 26px;
 height: 26px;
 opacity: 1;
-top: 74px;
+top: 50px;
 left: 17px;
 
   background: none;
@@ -211,22 +237,19 @@ left: 17px;
 }
 
 .auth-title {
-   margin-top: 20px;
+   margin-top: 16px;
   align-self: flex-start;
-font-weight: 600;
-font-size: 30px;
-line-height: 120%;
-letter-spacing: 0%;
+  font-weight: 600;
+  font-size: 22px;
+
 color: rgba(25, 29, 49, 1);
 
 }
 .auth-subtitle, .auth-terms {
-  font-weight: 400;
-font-style: Regular;
-font-size: 16px;
-line-height: 160%;
-letter-spacing: 0%;
-color: rgba(167, 169, 183, 1);
+    font-weight: 400;
+    font-size: 14px;
+    color: rgba(167, 169, 183, 1);
+     margin-bottom: 10px;
 
 }
 
@@ -243,13 +266,11 @@ text-align: center;
 }
 .label {
    align-self: flex-start; /* прижмёт к левому краю */
-  margin-bottom: 6px;
-  font-size: 14px;
-  font-weight: 500;
-font-style: Medium;
-line-height: 130%;
-letter-spacing: 0%;
-color: rgba(25, 29, 49, 1);
+   font-size: 13px;
+   margin-top: 6px;
+   margin-bottom: 3px;
+   display: block;
+   color: rgba(25, 29, 49, 1);
 
 }
  .input-error {

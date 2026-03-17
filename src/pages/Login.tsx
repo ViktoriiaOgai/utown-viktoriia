@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import AuthLayout from "@/layout/AuthLayout";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "@/components/UI/Input";
 import "@/App.css";
 import AuthBtn from "@/components/UI/AuthBtn";
 import Vector from "@/assets/icons/Vector.svg";
 import BackButton from "@/components/UI/BackButton";
-import Tel from "@/assets/icons/Tel.svg";
+import { login } from "@/hooks/auth";
+import { getErrorMessage } from "@/services/getErrorMessage";
+
 
 
 export default function Login() {
+  const navigate = useNavigate();
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({
@@ -17,6 +19,30 @@ export default function Login() {
   password: "",
 });
 
+const handleLogin = async () => {
+
+  const isValid = validate();
+  if (!isValid) return;
+
+  try {
+       const response = await login(phone, password);
+
+        const { token, refreshToken, user } = response.data;
+
+        localStorage.setItem("accessToken", token);
+        localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("fullName", user.fullName);
+
+navigate("/home");
+} catch (error) {
+                  const message = getErrorMessage(error);
+
+                  setErrors({
+                    phone: "",
+                    password: message || "Invalid phone number or password",
+  });
+}
+};
   const validate = () => {
     const newErrors = {
       phone: "",
@@ -39,7 +65,7 @@ export default function Login() {
   };
 
   return (
-    <AuthLayout>
+    <>
     <BackButton />
    <img src={Vector} alt="Vector" className="Vector" />
    
@@ -48,7 +74,7 @@ export default function Login() {
         placeholder="Phone number"
         value={phone}
         onChange={(e) => setPhone(e.target.value)}
-        icon={Tel}
+        
         error={errors.phone}
         
       />
@@ -62,18 +88,14 @@ export default function Login() {
         error={errors.password}
       />
      
-      <AuthBtn 
-       onClick={() => {
-    if (validate()) {
-      console.log("Form is valid");
-    }
-  }}
-      type="submit">LogIn</AuthBtn>
+      <AuthBtn onClick={handleLogin}>
+  LogIn
+</AuthBtn>
 
       <div className="auth-links">
         <Link to="/recover">Forgot password? Recover</Link>
         <Link to="/register">Don't have an account?</Link>
       </div>
-    </AuthLayout>
+    </>
   );
 }

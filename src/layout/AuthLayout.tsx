@@ -1,17 +1,15 @@
-import { ReactNode } from "react";
-import "@/App.css";
+
+import { Outlet } from "react-router-dom";
 
 
-type Props = {
-  children: ReactNode;
-};
 
-export default function AuthLayout({ children }: Props) {
+export default function AuthLayout() {
   return (
     <div className="auth">
       <div className="auth__card">
       
-        {children}
+        <Outlet />
+        
       </div>
     </div>
   );

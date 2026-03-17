@@ -1,6 +1,7 @@
 
 import "@/App.css";
 import Button from '@/components/UI/Button';
+import splash from "@/assets/images/Splashscreen.svg";
 
 
 
@@ -10,7 +11,7 @@ export default function Welcome() {
   return (
     
     <div className="auth-container">
-      <img className="splash-img" src="/Splashscreen.svg" alt="Splash" />
+      <img className="splash-img" src={splash} alt="Splash" />
 
       <div className="buttons">
   

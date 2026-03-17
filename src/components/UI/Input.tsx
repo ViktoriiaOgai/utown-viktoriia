@@ -8,9 +8,10 @@ type Props = {
   error?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   icon?: string;
+  iconRight?: string;
   isPassword?: boolean;
-  eyeOpenIcon?: string;
-  eyeClosedIcon?: string;
+  
+  
 };
 
 export default function Input({
@@ -20,10 +21,9 @@ export default function Input({
   error,
   onChange,
   icon,
+  iconRight,
   isPassword,
-  eyeOpenIcon,
-  eyeClosedIcon,
-}: Props) {
+ }: Props) {
   const [showPassword, setShowPassword] = useState(false);
 
   const inputType = isPassword
@@ -36,7 +36,7 @@ export default function Input({
     <div className="input-group">
       <div className="input-wrapper">
         {icon && (
-          <img src={icon} alt="icon" className="input-icon" />
+          <img src={icon} alt="icon" className="input-icon left" />
         )}
 
         <input
@@ -46,15 +46,15 @@ export default function Input({
           placeholder={placeholder}
           onChange={onChange}
         />
-
-        {isPassword && (
+      {iconRight && isPassword && (
           <img
-            src={showPassword ? eyeOpenIcon : eyeClosedIcon}
-            className="input-eye"
+            src={iconRight}
+            alt="toggle password"
+            className={`input-icon right ${showPassword ? "active" : ""}`}
             onClick={() => setShowPassword(!showPassword)}
           />
         )}
-      </div>
+        </div>
 
       {error && <div className="input-error">{error}</div>}
     </div>
