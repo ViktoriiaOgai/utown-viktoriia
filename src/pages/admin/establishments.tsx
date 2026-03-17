@@ -419,10 +419,14 @@ export default function EstablishmentsPage() {
                         />
                       </td>
 
-                      <td className="td" style={{ fontWeight: 500 }}>{e.name}</td>
+                      <td className="td" style={{ fontWeight: 500 }}>
+                        {e.name}
+                      </td>
                       <td className="td">{e.phone}</td>
                       <td className="td">{e.city}</td>
-                      <td className="td" style={{ fontWeight: 600 }}>{e.ordersCount}</td>
+                      <td className="td" style={{ fontWeight: 600 }}>
+                        {e.ordersCount}
+                      </td>
 
                       <td
                         className="td historyTd"
@@ -433,7 +437,9 @@ export default function EstablishmentsPage() {
                         style={{ cursor: 'pointer' }}
                       >
                         <span className="viewLink">View</span>
-                        <span className="chev"><IconChevronRight /></span>
+                        <span className="chev">
+                          <IconChevronRight />
+                        </span>
                       </td>
 
                       <td
@@ -445,12 +451,16 @@ export default function EstablishmentsPage() {
                         style={{ cursor: 'pointer' }}
                       >
                         <span className="viewLink">View</span>
-                        <span className="chev"><IconChevronRight /></span>
+                        <span className="chev">
+                          <IconChevronRight />
+                        </span>
                       </td>
 
                       <td className="td historyTd" onClick={(ev) => ev.stopPropagation()}>
                         <span className="viewLink">View</span>
-                        <span className="chev"><IconChevronRight /></span>
+                        <span className="chev">
+                          <IconChevronRight />
+                        </span>
                       </td>
 
                       <td className="td iconCol" onClick={(ev) => ev.stopPropagation()}>

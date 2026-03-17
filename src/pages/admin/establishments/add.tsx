@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import MainLayout from '../../../components/MainLayout'
 import EstablishmentForm from './EstablishmentForm'
 import { apiFetch } from '../../../services/api'
 import type { EstablishmentFormValues } from '../../../types/establishment'
 import { getErrorMessage } from '../../../utils/establishments'
+import { getRole, isAdminRole } from '../../../utils/auth'
 
 const initialValues: EstablishmentFormValues = {
   name: '',
@@ -28,6 +29,14 @@ export default function AddEstablishmentPage() {
   const [values, setValues] = useState<EstablishmentFormValues>(initialValues)
   const [isSaving, setIsSaving] = useState(false)
   const [error, setError] = useState('')
+
+  useEffect(() => {
+    const role = getRole()
+
+    if (!isAdminRole(role)) {
+      navigate('/home', { replace: true })
+    }
+  }, [navigate])
 
   const handleChange = (field: keyof EstablishmentFormValues, value: string) => {
     setValues((prev: EstablishmentFormValues) => ({
