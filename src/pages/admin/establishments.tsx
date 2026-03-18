@@ -188,26 +188,14 @@ export default function EstablishmentsPage() {
             <h1 className="establishmentsTitle">Establishments</h1>
 
             <div className="establishmentsCrumbs">
-              <span
-                className="crumbLink"
-                style={{ cursor: 'pointer' }}
-                onClick={() => navigate('/home')}
-              >
+              <span className="crumbLink" onClick={() => navigate('/home')}>
                 Home
               </span>
-
               <span className="crumbSep">/</span>
-
-              <span
-                className="crumbLink"
-                style={{ cursor: 'pointer' }}
-                onClick={() => navigate('/profile')}
-              >
+              <span className="crumbLink" onClick={() => navigate('/profile')}>
                 Users
               </span>
-
               <span className="crumbSep">/</span>
-
               <span className="crumbCurrent">Establishments</span>
             </div>
           </div>
@@ -231,7 +219,7 @@ export default function EstablishmentsPage() {
 
             <div className="controlsRow">
               <button
-                className="applyBtn"
+                className="applyBtn addBtn"
                 onClick={() => navigate('/admin/establishments/add')}
                 type="button"
               >
@@ -263,7 +251,7 @@ export default function EstablishmentsPage() {
                 <option>Export</option>
               </select>
 
-              <button className="applyBtn" onClick={handleApply}>
+              <button className="applyBtn" onClick={handleApply} type="button">
                 Apply
               </button>
             </div>
@@ -271,82 +259,39 @@ export default function EstablishmentsPage() {
         </div>
 
         {pageError && (
-          <div
-            style={{
-              marginBottom: 16,
-              padding: '12px 14px',
-              borderRadius: 8,
-              background: '#fef2f2',
-              color: '#b91c1c',
-              border: '1px solid #fecaca',
-              fontSize: 14,
-              fontWeight: 600,
-            }}
-          >
+          <div className="pageMessage pageMessageError">
             {pageError}
           </div>
         )}
 
         {detailsError && (
-          <div
-            style={{
-              marginBottom: 16,
-              padding: '12px 14px',
-              borderRadius: 8,
-              background: '#fff7ed',
-              color: '#c2410c',
-              border: '1px solid #fdba74',
-              fontSize: 14,
-              fontWeight: 600,
-            }}
-          >
+          <div className="pageMessage pageMessageWarn">
             {detailsError}
           </div>
         )}
 
         {deleteError && (
-          <div
-            style={{
-              marginBottom: 16,
-              padding: '12px 14px',
-              borderRadius: 8,
-              background: '#fef2f2',
-              color: '#b91c1c',
-              border: '1px solid #fecaca',
-              fontSize: 14,
-              fontWeight: 600,
-            }}
-          >
+          <div className="pageMessage pageMessageError">
             {deleteError}
           </div>
         )}
 
         {isLoading ? (
-          <div
-            style={{
-              padding: '40px 0',
-              textAlign: 'center',
-              fontSize: 16,
-              fontWeight: 600,
-              color: '#475569',
-            }}
-          >
-            Loading...
-          </div>
+          <div className="loadingState">Loading...</div>
         ) : (
           <>
             <div className="tableWrap">
               <table className="table">
                 <colgroup>
-                  <col style={{ width: '50px' }} />
-                  <col style={{ width: '22%' }} />
+                  <col style={{ width: '52px' }} />
+                  <col style={{ width: '23%' }} />
                   <col style={{ width: '16%' }} />
                   <col style={{ width: '12%' }} />
                   <col style={{ width: '16%' }} />
-                  <col style={{ width: '12%' }} />
-                  <col style={{ width: '12%' }} />
-                  <col style={{ width: '12%' }} />
-                  <col style={{ width: '60px' }} />
+                  <col style={{ width: '11%' }} />
+                  <col style={{ width: '11%' }} />
+                  <col style={{ width: '11%' }} />
+                  <col style={{ width: '56px' }} />
                 </colgroup>
 
                 <thead>
@@ -407,7 +352,6 @@ export default function EstablishmentsPage() {
                       key={e.id}
                       className="tr"
                       onClick={() => openEstablishment(e)}
-                      style={{ cursor: 'pointer' }}
                     >
                       <td className="td checkboxCol" onClick={(ev) => ev.stopPropagation()}>
                         <input
@@ -417,14 +361,10 @@ export default function EstablishmentsPage() {
                         />
                       </td>
 
-                      <td className="td" style={{ fontWeight: 500 }}>
-                        {e.name}
-                      </td>
+                      <td className="td cellStrong">{e.name}</td>
                       <td className="td">{e.phone}</td>
                       <td className="td">{e.city}</td>
-                      <td className="td" style={{ fontWeight: 600 }}>
-                        {e.ordersCount}
-                      </td>
+                      <td className="td cellStrong">{e.ordersCount}</td>
 
                       <td
                         className="td historyTd"
@@ -432,7 +372,6 @@ export default function EstablishmentsPage() {
                           ev.stopPropagation()
                           navigate(`/admin/establishments/${e.id}/positions/categories`)
                         }}
-                        style={{ cursor: 'pointer' }}
                       >
                         <span className="viewLink">View</span>
                         <span className="chev">
@@ -446,7 +385,6 @@ export default function EstablishmentsPage() {
                           ev.stopPropagation()
                           navigate(`/admin/establishments/${e.id}/positions`)
                         }}
-                        style={{ cursor: 'pointer' }}
                       >
                         <span className="viewLink">View</span>
                         <span className="chev">
@@ -462,11 +400,7 @@ export default function EstablishmentsPage() {
                       </td>
 
                       <td className="td iconCol" onClick={(ev) => ev.stopPropagation()}>
-                        <span
-                          className="eye"
-                          onClick={() => openEstablishment(e)}
-                          style={{ display: 'inline-flex' }}
-                        >
+                        <span className="eye" onClick={() => openEstablishment(e)}>
                           <IconEye />
                         </span>
                       </td>
@@ -475,7 +409,7 @@ export default function EstablishmentsPage() {
 
                   {filtered.length === 0 && (
                     <tr>
-                      <td className="td" colSpan={9} style={{ color: '#6b7280' }}>
+                      <td className="td emptyRow" colSpan={9}>
                         No establishments found
                       </td>
                     </tr>

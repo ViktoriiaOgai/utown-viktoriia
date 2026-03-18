@@ -37,13 +37,14 @@ export default function EstablishmentForm({
   const inputStyle: CSSProperties = useMemo(
     () => ({
       width: '100%',
-      height: 34,
+      height: 38,
       borderRadius: 4,
-      border: '1px solid #cbd5e1',
+      border: '1px solid #cfd6e4',
       padding: '0 12px',
       fontSize: 13,
       outline: 'none',
       background: '#fff',
+      boxSizing: 'border-box',
     }),
     []
   )
@@ -52,13 +53,14 @@ export default function EstablishmentForm({
     () => ({
       width: '100%',
       borderRadius: 4,
-      border: '1px solid #cbd5e1',
+      border: '1px solid #cfd6e4',
       padding: '10px 12px',
       fontSize: 13,
       outline: 'none',
       background: '#fff',
       resize: 'none',
       minHeight: 92,
+      boxSizing: 'border-box',
     }),
     []
   )
@@ -84,9 +86,9 @@ export default function EstablishmentForm({
   const hoursWrapStyle: CSSProperties = useMemo(
     () => ({
       display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
+      gridTemplateColumns: '116px 1fr',
       gap: 8,
-      maxWidth: 220,
+      maxWidth: 320,
     }),
     []
   )
@@ -94,7 +96,8 @@ export default function EstablishmentForm({
   const dayStyle: CSSProperties = useMemo(
     () => ({
       ...inputStyle,
-      background: '#fff',
+      background: '#f8fafc',
+      color: '#475569',
     }),
     [inputStyle]
   )
@@ -108,25 +111,28 @@ export default function EstablishmentForm({
   )
 
   return (
-    <div style={{ padding: 34, paddingTop: 28, background: '#fff', minHeight: '100%' }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-        <div style={{ fontSize: 44, fontWeight: 800, color: '#0f172a', letterSpacing: -0.5 }}>
+    <div style={{ padding: '26px 8px 12px 8px', minHeight: '100%' }}>
+      <div style={{ maxWidth: 1240, margin: '0 auto' }}>
+        <div style={{ fontSize: 34, fontWeight: 800, color: '#111827', letterSpacing: -0.4 }}>
           {title}
         </div>
 
-        <div style={{ marginTop: 10, fontSize: 13, color: '#6b7280' }}>
-          <span style={{ color: '#6d4cff', cursor: 'pointer' }} onClick={onNavigateHome}>
+        <div style={{ marginTop: 12, fontSize: 14, color: '#8b8b8b', display: 'flex', gap: 8 }}>
+          <span style={{ color: '#6d4cff', cursor: 'pointer', fontWeight: 600 }} onClick={onNavigateHome}>
             Home
           </span>
-          <span style={{ margin: '0 8px' }}>/</span>
-          <span style={{ color: '#6d4cff', cursor: 'pointer' }} onClick={onNavigateProfile}>
+          <span>/</span>
+          <span style={{ color: '#6d4cff', cursor: 'pointer', fontWeight: 600 }} onClick={onNavigateProfile}>
             Users
           </span>
-          <span style={{ margin: '0 8px' }}>/</span>
-          <span style={{ color: '#6d4cff', cursor: 'pointer' }} onClick={onNavigateEstablishments}>
+          <span>/</span>
+          <span
+            style={{ color: '#6d4cff', cursor: 'pointer', fontWeight: 600 }}
+            onClick={onNavigateEstablishments}
+          >
             Establishments
           </span>
-          <span style={{ margin: '0 8px' }}>/</span>
+          <span>/</span>
           <span>{breadcrumbLast}</span>
         </div>
 
@@ -164,33 +170,32 @@ export default function EstablishmentForm({
           </div>
         ) : (
           <>
-            <div style={{ marginTop: 26, display: 'flex', justifyContent: 'center' }}>
+            <div style={{ marginTop: 24, display: 'flex', justifyContent: 'center' }}>
               <div
                 style={{
-                  width: 'min(820px, 100%)',
+                  width: 'min(860px, 100%)',
                   border: '1px solid #d9d9d9',
-                  borderRadius: 10,
                   background: '#fff',
-                  padding: 34,
+                  padding: 28,
                 }}
               >
                 <div style={{ width: 'min(640px, 100%)', margin: '0 auto' }}>
                   <div
                     style={{
                       display: 'flex',
-                      height: 150,
-                      borderRadius: 8,
+                      height: 156,
                       overflow: 'hidden',
                       background: '#f3f3f3',
                     }}
                   >
                     <div
                       style={{
-                        width: 170,
+                        width: 188,
                         background: '#ededed',
                         display: 'grid',
                         placeItems: 'center',
                         color: '#111827',
+                        borderRight: '1px solid #e5e7eb',
                       }}
                     >
                       <div style={{ opacity: 0.75 }}>
@@ -303,13 +308,13 @@ export default function EstablishmentForm({
               </div>
             </div>
 
-            <div style={{ marginTop: 26, display: 'flex', justifyContent: 'center', gap: 22 }}>
+            <div style={{ marginTop: 24, display: 'flex', justifyContent: 'center', gap: 18 }}>
               <button
                 onClick={onCancel}
                 style={{
-                  width: 170,
-                  height: 46,
-                  borderRadius: 6,
+                  width: 160,
+                  height: 42,
+                  borderRadius: 4,
                   border: 'none',
                   background: '#f3f4f6',
                   color: '#111827',
@@ -322,12 +327,12 @@ export default function EstablishmentForm({
 
               <button
                 style={{
-                  width: 170,
-                  height: 46,
-                  borderRadius: 6,
+                  width: 160,
+                  height: 42,
+                  borderRadius: 4,
                   border: 'none',
-                  background: '#111',
-                  color: '#fff',
+                  background: '#111111',
+                  color: '#ffffff',
                   fontWeight: 600,
                   cursor: isSaving ? 'not-allowed' : 'pointer',
                   opacity: isSaving ? 0.7 : 1,

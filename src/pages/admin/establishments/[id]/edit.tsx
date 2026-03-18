@@ -59,24 +59,23 @@ export default function EditEstablishmentPage() {
       .then((r) => {
         const data = r.data
         const details = data?.data ?? data
-        const areas = details?.deliveryAreas
-        const hours = details?.openingHours ?? details?.workingHours ?? {}
+        const address = details?.address ?? {}
 
         setValues({
-          name: String(details?.name ?? ''),
+          name: String(details?.title ?? details?.name ?? ''),
           description: String(details?.description ?? ''),
-          minimumOrder: String(details?.minOrder ?? details?.minimumOrder ?? ''),
-          phone: String(details?.phone ?? details?.phoneNumber ?? ''),
+          minimumOrder: String(details?.minOrderAmount ?? details?.minOrder ?? details?.minimumOrder ?? ''),
+          phone: String(details?.phone ?? ''),
           category: String(details?.category ?? ''),
-          city: String(details?.city ?? ''),
-          deliveryAreas: Array.isArray(areas) ? areas.join('\n') : String(areas ?? ''),
-          mon: String(hours?.Monday ?? hours?.MONDAY ?? '9:00 — 22:00'),
-          tue: String(hours?.Tuesday ?? hours?.TUESDAY ?? 'Day off'),
-          wed: String(hours?.Wednesday ?? hours?.WEDNESDAY ?? '9:00 — 22:00'),
-          thu: String(hours?.Thursday ?? hours?.THURSDAY ?? '9:00 — 22:00'),
-          fri: String(hours?.Friday ?? hours?.FRIDAY ?? '9:00 — 22:00'),
-          sat: String(hours?.Saturday ?? hours?.SATURDAY ?? '9:00 — 22:00'),
-          sun: String(hours?.Sunday ?? hours?.SUNDAY ?? '9:00 — 22:00'),
+          city: String(address?.city ?? details?.city ?? ''),
+          deliveryAreas: String(address?.details ?? ''),
+          mon: String(details?.deliveryTime ?? '9:00 — 22:00'),
+          tue: 'Day off',
+          wed: '9:00 — 22:00',
+          thu: '9:00 — 22:00',
+          fri: '9:00 — 22:00',
+          sat: '9:00 — 22:00',
+          sun: '9:00 — 22:00',
         })
       })
       .catch((err) => {
@@ -91,32 +90,42 @@ export default function EditEstablishmentPage() {
     if (!id) return
 
     setError('')
+
+    const title = values.name.trim()
+    const description = values.description.trim()
+    const minOrderAmount = Number(values.minimumOrder) || 0
+    const phone = values.phone.trim()
+    const category = values.category.trim()
+    const city = values.city.trim()
+    const deliveryAreas = values.deliveryAreas.trim()
+
     setIsSaving(true)
 
     try {
       await api.put(`/admin/restaurants/${id}`, {
-        id: Number(id),
-        name: values.name,
-        description: values.description,
-        minOrder: values.minimumOrder,
-        minimumOrder: values.minimumOrder,
-        phone: values.phone,
-        phoneNumber: values.phone,
-        category: values.category,
-        city: values.city,
-        deliveryAreas: values.deliveryAreas
-          .split('\n')
-          .map((x) => x.trim())
-          .filter(Boolean),
-        openingHours: {
-          Monday: values.mon,
-          Tuesday: values.tue,
-          Wednesday: values.wed,
-          Thursday: values.thu,
-          Friday: values.fri,
-          Saturday: values.sat,
-          Sunday: values.sun,
+        title,
+        description,
+        category,
+        deliveryTime: values.mon || '',
+        facilities: '',
+        isRecommended: false,
+        minOrderAmount,
+        phone,
+        imageUrl: '',
+        address: {
+          area: '',
+          city,
+          details: deliveryAreas,
+          fullAddress: city,
+          latitude: 0,
+          longitude: 0,
+          postcode: '',
+          state: '',
+          street: city,
+          typeAddress: 0,
+          intercomCode: '',
         },
+        ownerId: 0,
       })
 
       navigate('/admin/establishments')

@@ -67,8 +67,7 @@ export default function EstablishmentCardModal({
       <div
         style={{
           width: 'min(920px, 100%)',
-          background: '#fff',
-          borderRadius: 12,
+          background: '#ffffff',
           boxShadow: '0 18px 60px rgba(0,0,0,0.25)',
           position: 'relative',
           overflow: 'hidden',
@@ -104,7 +103,6 @@ export default function EstablishmentCardModal({
                 overflow: 'hidden',
                 background: '#f1f1f1',
                 flex: '0 0 auto',
-                borderRadius: 2,
               }}
             >
               {!imgBroken ? (
@@ -135,7 +133,6 @@ export default function EstablishmentCardModal({
               style={{
                 flex: 1,
                 background: '#efefef',
-                borderRadius: 4,
                 position: 'relative',
                 height: 165,
                 paddingRight: 64,
@@ -159,7 +156,6 @@ export default function EstablishmentCardModal({
                   style={{
                     height: 40,
                     padding: '0 16px',
-                    borderRadius: 6,
                     border: '1px solid #e0e0e0',
                     background: '#fff',
                     cursor: 'pointer',
@@ -181,7 +177,6 @@ export default function EstablishmentCardModal({
                   style={{
                     height: 40,
                     padding: '0 16px',
-                    borderRadius: 6,
                     border: '1px solid #e0e0e0',
                     background: '#fff',
                     cursor: 'pointer',
@@ -201,9 +196,9 @@ export default function EstablishmentCardModal({
             </div>
           </div>
 
-          <div style={{ display: 'flex', marginTop: 18, gap: 26 }}>
+          <div style={{ display: 'flex', marginTop: 20, gap: 26 }}>
             <div style={{ width: 360 }}>
-              <div style={{ fontSize: 20, fontWeight: 800, color: '#1d2a3a' }}>
+              <div style={{ fontSize: 18, fontWeight: 800, color: '#1d2a3a' }}>
                 {establishment.name || 'Establishment Name'}
               </div>
 
@@ -278,7 +273,7 @@ export default function EstablishmentCardModal({
             </div>
           </div>
 
-          <div style={{ height: 18 }} />
+          <div style={{ height: 12 }} />
         </div>
       </div>
     </div>

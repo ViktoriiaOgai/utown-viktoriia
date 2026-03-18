@@ -48,7 +48,15 @@ export default function AddEstablishmentPage() {
   const handleAdd = async () => {
     setError('')
 
-    if (!values.name.trim() || !values.phone.trim()) {
+    const title = values.name.trim()
+    const description = values.description.trim()
+    const minOrderAmount = Number(values.minimumOrder) || 0
+    const phone = values.phone.trim()
+    const category = values.category.trim()
+    const city = values.city.trim()
+    const deliveryAreas = values.deliveryAreas.trim()
+
+    if (!title || !phone) {
       setError('Fill in Establishment name and Phone number')
       return
     }
@@ -57,27 +65,29 @@ export default function AddEstablishmentPage() {
 
     try {
       await api.post('/admin/restaurants', {
-        name: values.name.trim(),
-        description: values.description.trim(),
-        minOrder: values.minimumOrder.trim(),
-        minimumOrder: values.minimumOrder.trim(),
-        phone: values.phone.trim(),
-        phoneNumber: values.phone.trim(),
-        category: values.category,
-        city: values.city,
-        deliveryAreas: values.deliveryAreas
-          .split('\n')
-          .map((x: string) => x.trim())
-          .filter(Boolean),
-        openingHours: {
-          Monday: values.mon,
-          Tuesday: values.tue,
-          Wednesday: values.wed,
-          Thursday: values.thu,
-          Friday: values.fri,
-          Saturday: values.sat,
-          Sunday: values.sun,
+        title,
+        description,
+        category,
+        deliveryTime: values.mon || '',
+        facilities: '',
+        isRecommended: false,
+        minOrderAmount,
+        phone,
+        imageUrl: '',
+        address: {
+          area: '',
+          city,
+          details: deliveryAreas,
+          fullAddress: city,
+          latitude: 0,
+          longitude: 0,
+          postcode: '',
+          state: '',
+          street: city,
+          typeAddress: 0,
+          intercomCode: '',
         },
+        ownerId: 0,
       })
 
       navigate('/admin/establishments')

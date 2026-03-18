@@ -1,4 +1,4 @@
-import { api } from "@/services/api";
+import { api } from "../services/api";
 
 export const register = (
   phone: string,
@@ -16,10 +16,7 @@ export const register = (
   });
 };
 
-export const login = (
-  phone: string,
-  password: string
-) => {
+export const login = (phone: string, password: string) => {
   return api.post("/auth/login", {
     username: phone,
     password,
@@ -39,23 +36,36 @@ export const resetPassword = (
   return api.post("/auth/password/reset", {
     username,
     code: "123456",
-    newPassword
+    newPassword,
   });
 };
 
+const getStoredUser = () => {
+  try {
+    return JSON.parse(localStorage.getItem("user") || "{}");
+  } catch {
+    return {};
+  }
+};
+
 export const getToken = () => {
+  const user = getStoredUser();
+
   return (
     localStorage.getItem("accessToken") ||
     localStorage.getItem("token") ||
-    JSON.parse(localStorage.getItem("user") || "{}")?.token ||
+    user?.accessToken ||
+    user?.token ||
     ""
   );
 };
 
 export const getRole = () => {
+  const user = getStoredUser();
+
   return (
     localStorage.getItem("role") ||
-    JSON.parse(localStorage.getItem("user") || "{}")?.role ||
+    user?.role ||
     ""
   );
 };
@@ -68,5 +78,8 @@ export const isAdminRole = (role?: string) => {
 export const logout = () => {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");
+  localStorage.removeItem("token");
+  localStorage.removeItem("role");
+  localStorage.removeItem("user");
   localStorage.removeItem("fullName");
 };

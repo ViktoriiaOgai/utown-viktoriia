@@ -11,13 +11,12 @@ import NewPassword from "../components/UI/NewPassword";
 import Home from "../pages/Home";
 import Favourites from "../pages/Favourites";
 import Profile from "../pages/Profile";
+import AdminLogin from "../pages/AdminLogin";
 
 import EstablishmentsPage from "../pages/admin/establishments";
 import AddEstablishmentPage from "../pages/admin/establishments/add";
 import EditEstablishmentPage from "../pages/admin/establishments/[id]/edit";
-import ProtectedRoute from "../components/ProtectedRoute";
-
-const isAuth = !!localStorage.getItem("accessToken");
+import { AdminRoute, ProtectedRoute } from "../components/ProtectedRoute";
 
 export const router = createBrowserRouter([
   {
@@ -33,15 +32,27 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/home",
-        element: isAuth ? <Home /> : <Navigate to="/login" />,
+        element: (
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/favourites",
-        element: <Favourites />,
+        element: (
+          <ProtectedRoute>
+            <Favourites />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/profile",
-        element: <Profile />,
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
@@ -55,27 +66,31 @@ export const router = createBrowserRouter([
     ],
   },
   {
+    path: "/admin/login",
+    element: <AdminLogin />,
+  },
+  {
     path: "/admin/establishments",
     element: (
-      <ProtectedRoute>
+      <AdminRoute>
         <EstablishmentsPage />
-      </ProtectedRoute>
+      </AdminRoute>
     ),
   },
   {
     path: "/admin/establishments/add",
     element: (
-      <ProtectedRoute>
+      <AdminRoute>
         <AddEstablishmentPage />
-      </ProtectedRoute>
+      </AdminRoute>
     ),
   },
   {
     path: "/admin/establishments/:id/edit",
     element: (
-      <ProtectedRoute>
+      <AdminRoute>
         <EditEstablishmentPage />
-      </ProtectedRoute>
+      </AdminRoute>
     ),
   },
 ]);
