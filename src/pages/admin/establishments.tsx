@@ -219,6 +219,7 @@ export default function EstablishmentsPage() {
 
             <div className="controlsRow">
               <button
+                style={{ display: 'none' }}
                 className="applyBtn addBtn"
                 onClick={() => navigate('/admin/establishments/add')}
                 type="button"
