@@ -25,6 +25,12 @@ api.interceptors.response.use(
       error.config as InternalAxiosRequestConfig | undefined;
 
     if (error.response?.status === 401 && originalRequest) {
+      const requestUrl = originalRequest.url || "";
+
+      if (requestUrl.includes("/auth/login")) {
+        return Promise.reject(error);
+      }
+
       try {
         const refreshToken = localStorage.getItem("refreshToken");
 
@@ -45,7 +51,14 @@ api.interceptors.response.use(
       } catch {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
-        window.location.href = "/login";
+        localStorage.removeItem("role");
+        localStorage.removeItem("user");
+
+        if (window.location.pathname.startsWith("/admin")) {
+          window.location.href = "/admin/login";
+        } else {
+          window.location.href = "/login";
+        }
       }
     }
 

@@ -37,33 +37,47 @@ export default function AdminLogin() {
         data.refresh_token ??
         ''
 
-      const role =
+      const rawRole =
         data.role ??
         data.user?.role ??
+        data.user?.userRole ??
+        data.user?.roles?.[0] ??
+        data.user?.authorities?.[0] ??
         ''
 
-      if (accessToken) {
-        localStorage.setItem('accessToken', accessToken)
-      }
-
-      if (refreshToken) {
-        localStorage.setItem('refreshToken', refreshToken)
-      }
-
-      if (role) {
-        localStorage.setItem('role', role)
-      }
-
-      if (data.user) {
-        localStorage.setItem('user', JSON.stringify(data.user))
-      }
+      const normalizedRole = String(rawRole).toUpperCase()
+      const isAdmin =
+        normalizedRole === 'ADMIN' ||
+        normalizedRole === 'SUPER_ADMIN' ||
+        data.user?.username === 'admin'
 
       if (!accessToken) {
         setError('Access token was not returned')
         return
       }
 
-      navigate('/admin/establishments', { replace: true })
+      if (!isAdmin) {
+        localStorage.removeItem('accessToken')
+        localStorage.removeItem('refreshToken')
+        localStorage.removeItem('role')
+        localStorage.removeItem('user')
+        setError('У вас нет доступа к админ-панели')
+        return
+      }
+
+      localStorage.setItem('accessToken', accessToken)
+
+      if (refreshToken) {
+        localStorage.setItem('refreshToken', refreshToken)
+      }
+
+      localStorage.setItem('role', normalizedRole || 'ADMIN')
+
+      if (data.user) {
+        localStorage.setItem('user', JSON.stringify(data.user))
+      }
+
+      navigate('/admin/home', { replace: true })
     } catch (err: any) {
       setError(
         err?.response?.data?.message ||

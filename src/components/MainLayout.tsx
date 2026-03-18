@@ -7,14 +7,16 @@ type MainLayoutProps = {
 
 const linkStyle = (active: boolean): React.CSSProperties => ({
   display: "block",
-  padding: "9px 12px",
+  padding: "8px 14px",
   borderRadius: 0,
   textDecoration: "none",
   color: "#3f3f46",
   background: active ? "#eef2ff" : "transparent",
   fontSize: 14,
   fontWeight: 500,
-  marginBottom: 2,
+  marginBottom: 4,
+  width: 188,
+  boxSizing: "border-box",
 });
 
 export default function MainLayout({ children }: MainLayoutProps) {
@@ -43,26 +45,29 @@ export default function MainLayout({ children }: MainLayoutProps) {
       >
         <div>
           <div
+            onClick={() => navigate("/admin/home")}
             style={{
-              height: 92,
+              height: 86,
               display: "flex",
               alignItems: "center",
-              padding: "0 34px",
+              justifyContent: "center",
+              padding: "0 24px",
               borderBottom: "1px solid #d4d4d8",
+              cursor: "pointer",
             }}
           >
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
-                fontSize: 28,
+                fontSize: 24,
                 lineHeight: 1,
               }}
             >
               <span style={{ fontWeight: 900, color: "#111111" }}>UT</span>
               <span
                 style={{
-                  marginLeft: 6,
+                  marginLeft: 4,
                   fontWeight: 400,
                   color: "#111111",
                   letterSpacing: 1,
@@ -73,8 +78,8 @@ export default function MainLayout({ children }: MainLayoutProps) {
             </div>
           </div>
 
-          <div style={{ padding: "34px 20px 0 20px" }}>
-            <div style={{ marginBottom: 44 }}>
+          <div style={{ padding: "34px 32px 0 32px" }}>
+            <div style={{ marginBottom: 52 }}>
               <div
                 style={{
                   fontSize: 14,
@@ -86,27 +91,38 @@ export default function MainLayout({ children }: MainLayoutProps) {
                   gap: 8,
                 }}
               >
-                <span style={{ fontSize: 12 }}>▼</span>
+                <span style={{ fontSize: 10 }}>▼</span>
                 <span>Users</span>
               </div>
 
-              <div style={{ paddingLeft: 28 }}>
-                <Link to="/admin/clients" style={linkStyle(false)}>
+              <div style={{ paddingLeft: 18 }}>
+                <Link
+                  to="/admin/clients"
+                  style={linkStyle(location.pathname === "/admin/clients")}
+                >
                   Clients
                 </Link>
 
-                <Link to="/admin/riders" style={linkStyle(false)}>
+                <Link
+                  to="/admin/riders"
+                  style={linkStyle(location.pathname === "/admin/riders")}
+                >
                   Riders
                 </Link>
 
                 <Link
                   to="/admin/establishments"
-                  style={linkStyle(location.pathname.startsWith("/admin/establishments"))}
+                  style={linkStyle(
+                    location.pathname.startsWith("/admin/establishments")
+                  )}
                 >
                   Establishments
                 </Link>
 
-                <Link to="/admin/orders" style={linkStyle(false)}>
+                <Link
+                  to="/admin/orders"
+                  style={linkStyle(location.pathname === "/admin/orders")}
+                >
                   Orders
                 </Link>
               </div>
@@ -129,16 +145,22 @@ export default function MainLayout({ children }: MainLayoutProps) {
                   gap: 8,
                 }}
               >
-                <span style={{ fontSize: 12 }}>▼</span>
+                <span style={{ fontSize: 10 }}>▼</span>
                 <span>App</span>
               </div>
 
-              <div style={{ paddingLeft: 28 }}>
-                <Link to="/services" style={linkStyle(false)}>
+              <div style={{ paddingLeft: 18 }}>
+                <Link
+                  to="/admin/services"
+                  style={linkStyle(location.pathname === "/admin/services")}
+                >
                   Services
                 </Link>
 
-                <Link to="/vacancies" style={linkStyle(false)}>
+                <Link
+                  to="/admin/vacancies"
+                  style={linkStyle(location.pathname === "/admin/vacancies")}
+                >
                   Vacancies
                 </Link>
               </div>
@@ -149,25 +171,45 @@ export default function MainLayout({ children }: MainLayoutProps) {
         <div>
           <div
             style={{
-              padding: "20px 36px 26px 36px",
+              padding: "20px 32px 26px 32px",
             }}
           >
             <button
               type="button"
               onClick={() => navigate("/admin/establishments/add")}
               style={{
-                width: "100%",
-                height: 44,
+                width: 142,
+                height: 40,
                 borderRadius: 4,
                 border: "none",
                 background: "#171717",
                 color: "#ffffff",
                 fontSize: 14,
-                fontWeight: 600,
+                fontWeight: 500,
                 cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 10,
               }}
             >
-              Add
+              <span
+                style={{
+                  width: 26,
+                  height: 26,
+                  borderRadius: "50%",
+                  background: "#f5f5f5",
+                  color: "#171717",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 16,
+                  lineHeight: 1,
+                }}
+              >
+                ⊕
+              </span>
+              <span>Add</span>
             </button>
           </div>
 
@@ -177,19 +219,20 @@ export default function MainLayout({ children }: MainLayoutProps) {
               height: 84,
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
+              justifyContent: "flex-end",
+              paddingRight: 26,
             }}
           >
             <button
               type="button"
               style={{
-                width: 40,
-                height: 40,
+                width: 36,
+                height: 36,
                 borderRadius: "50%",
                 border: "none",
                 background: "transparent",
                 color: "#111827",
-                fontSize: 24,
+                fontSize: 22,
                 cursor: "pointer",
                 lineHeight: 1,
               }}
@@ -203,8 +246,9 @@ export default function MainLayout({ children }: MainLayoutProps) {
       <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
         <header
           style={{
-            height: 92,
-            background: "linear-gradient(90deg, #53b4e8 0%, #4478f4 52%, #c663eb 100%)",
+            height: 86,
+            background:
+              "linear-gradient(90deg, #53b4e8 0%, #4478f4 52%, #c663eb 100%)",
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
@@ -212,6 +256,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
           }}
         >
           <div
+            onClick={() => navigate("/admin/profile")}
             style={{
               minWidth: 170,
               height: 46,
@@ -225,6 +270,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
               fontSize: 14,
               fontWeight: 500,
               boxShadow: "0 0 0 1px rgba(0,0,0,0.04)",
+              cursor: "pointer",
             }}
           >
             <span style={{ fontSize: 18 }}>👤</span>

@@ -26,7 +26,7 @@ export default function EstablishmentsPage() {
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
-  const [pageSize] = useState(10)
+  const [pageSize] = useState(9)
   const [selected, setSelected] = useState<Establishment | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedIds, setSelectedIds] = useState<number[]>([])
@@ -188,11 +188,11 @@ export default function EstablishmentsPage() {
             <h1 className="establishmentsTitle">Establishments</h1>
 
             <div className="establishmentsCrumbs">
-              <span className="crumbLink" onClick={() => navigate('/home')}>
+              <span className="crumbLink" onClick={() => navigate('/admin/home')}>
                 Home
               </span>
               <span className="crumbSep">/</span>
-              <span className="crumbLink" onClick={() => navigate('/profile')}>
+              <span className="crumbLink" onClick={() => navigate('/admin/profile')}>
                 Users
               </span>
               <span className="crumbSep">/</span>
@@ -258,23 +258,11 @@ export default function EstablishmentsPage() {
           </div>
         </div>
 
-        {pageError && (
-          <div className="pageMessage pageMessageError">
-            {pageError}
-          </div>
-        )}
+        {pageError && <div className="pageMessage pageMessageError">{pageError}</div>}
 
-        {detailsError && (
-          <div className="pageMessage pageMessageWarn">
-            {detailsError}
-          </div>
-        )}
+        {detailsError && <div className="pageMessage pageMessageWarn">{detailsError}</div>}
 
-        {deleteError && (
-          <div className="pageMessage pageMessageError">
-            {deleteError}
-          </div>
-        )}
+        {deleteError && <div className="pageMessage pageMessageError">{deleteError}</div>}
 
         {isLoading ? (
           <div className="loadingState">Loading...</div>
@@ -348,11 +336,7 @@ export default function EstablishmentsPage() {
 
                 <tbody>
                   {filtered.map((e) => (
-                    <tr
-                      key={e.id}
-                      className="tr"
-                      onClick={() => openEstablishment(e)}
-                    >
+                    <tr key={e.id} className="tr" onClick={() => openEstablishment(e)}>
                       <td className="td checkboxCol" onClick={(ev) => ev.stopPropagation()}>
                         <input
                           type="checkbox"
