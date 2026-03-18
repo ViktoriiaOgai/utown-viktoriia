@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 
 import AuthLayout from "../layout/AuthLayout";
 import MobileLayout from "../layout/MobileLayout";
@@ -87,88 +87,29 @@ export const router = createBrowserRouter([
       { path: "/new", element: <NewPassword /> },
     ],
   },
+  
   {
     path: "/admin/login",
     element: <AdminLogin />,
   },
   {
-    path: "/admin/home",
+    path: "/admin",
     element: (
       <AdminRoute>
-        <AdminHome />
+        <Outlet />
       </AdminRoute>
     ),
-  },
-  {
-    path: "/admin/profile",
-    element: (
-      <AdminRoute>
-        <AdminProfile />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/admin/clients",
-    element: (
-      <AdminRoute>
-        <AdminClientsPage />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/admin/riders",
-    element: (
-      <AdminRoute>
-        <AdminRidersPage />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/admin/orders",
-    element: (
-      <AdminRoute>
-        <AdminOrdersPage />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/admin/services",
-    element: (
-      <AdminRoute>
-        <AdminServicesPage />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/admin/vacancies",
-    element: (
-      <AdminRoute>
-        <AdminVacanciesPage />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/admin/establishments",
-    element: (
-      <AdminRoute>
-        <EstablishmentsPage />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/admin/establishments/add",
-    element: (
-      <AdminRoute>
-        <AddEstablishmentPage />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/admin/establishments/:id/edit",
-    element: (
-      <AdminRoute>
-        <EditEstablishmentPage />
-      </AdminRoute>
-    ),
+    children: [
+      { path: "home", element: <AdminHome /> },
+      { path: "profile", element: <AdminProfile /> },
+      { path: "clients", element: <AdminClientsPage /> },
+      { path: "riders", element: <AdminRidersPage /> },
+      { path: "orders", element: <AdminOrdersPage /> },
+      { path: "services", element: <AdminServicesPage /> },
+      { path: "vacancies", element: <AdminVacanciesPage /> },
+      { path: "establishments", element: <EstablishmentsPage /> },
+      { path: "establishments/add", element: <AddEstablishmentPage /> },
+      { path: "establishments/:id/edit", element: <EditEstablishmentPage /> },
+    ],
   },
 ]);

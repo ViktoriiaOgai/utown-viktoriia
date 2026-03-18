@@ -61,6 +61,7 @@ export default function AdminLogin() {
         localStorage.removeItem('refreshToken')
         localStorage.removeItem('role')
         localStorage.removeItem('user')
+        localStorage.removeItem('isAdminAuthenticated')
         setError('У вас нет доступа к админ-панели')
         return
       }
@@ -72,6 +73,7 @@ export default function AdminLogin() {
       }
 
       localStorage.setItem('role', normalizedRole || 'ADMIN')
+      localStorage.setItem('isAdminAuthenticated', 'true')
 
       if (data.user) {
         localStorage.setItem('user', JSON.stringify(data.user))

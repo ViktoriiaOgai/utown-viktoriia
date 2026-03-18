@@ -62,24 +62,6 @@ export default function AdminHome() {
               <span style={{ color: '#8b8b8b', fontWeight: 600 }}>Admin Home</span>
             </div>
           </div>
-
-          <button
-            type="button"
-            onClick={() => navigate('/admin/establishments/add')}
-            style={{
-              height: 44,
-              border: 'none',
-              borderRadius: 6,
-              background: '#111111',
-              color: '#ffffff',
-              fontSize: 14,
-              fontWeight: 700,
-              padding: '0 18px',
-              cursor: 'pointer',
-            }}
-          >
-            Add establishment
-          </button>
         </div>
 
         <div
