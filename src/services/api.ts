@@ -1,12 +1,14 @@
-import axios from "axios";
+import axios, {
+  AxiosError,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from "axios";
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 
-
-// REQUEST INTERCEPTOR
-api.interceptors.request.use((config) => {
+api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const token = localStorage.getItem("accessToken");
 
   if (token && config.headers) {
@@ -16,15 +18,19 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-
-// RESPONSE INTERCEPTOR
 api.interceptors.response.use(
-  (response) => response,
+  (response: AxiosResponse) => response,
+  async (error: AxiosError) => {
+    const originalRequest =
+      error.config as InternalAxiosRequestConfig | undefined;
 
-  async (error) => {
-    const originalRequest = error.config;
+    if (error.response?.status === 401 && originalRequest) {
+      const requestUrl = originalRequest.url || "";
 
-    if (error.response?.status === 401) {
+      if (requestUrl.includes("/auth/login")) {
+        return Promise.reject(error);
+      }
+
       try {
         const refreshToken = localStorage.getItem("refreshToken");
 
@@ -42,12 +48,17 @@ api.interceptors.response.use(
         }
 
         return api(originalRequest);
-
       } catch {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
+        localStorage.removeItem("role");
+        localStorage.removeItem("user");
 
-        window.location.href = "/login";
+        if (window.location.pathname.startsWith("/admin")) {
+          window.location.href = "/admin/login";
+        } else {
+          window.location.href = "/login";
+        }
       }
     }
 
