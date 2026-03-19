@@ -45,21 +45,7 @@ export default function AdminHome() {
                 flexWrap: 'wrap',
               }}
             >
-              <span
-                style={{ cursor: 'pointer', color: '#7c5cff', fontWeight: 600 }}
-                onClick={() => navigate('/admin/home')}
-              >
-                Home
-              </span>
-              <span>/</span>
-              <span
-                style={{ cursor: 'pointer', color: '#7c5cff', fontWeight: 600 }}
-                onClick={() => navigate('/admin/home')}
-              >
-                Users
-              </span>
-              <span>/</span>
-              <span style={{ color: '#8b8b8b', fontWeight: 600 }}>Admin Home</span>
+              <span style={{ color: '#8b8b8b', fontWeight: 600 }}>Home</span>
             </div>
           </div>
         </div>

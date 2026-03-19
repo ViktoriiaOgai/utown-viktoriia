@@ -56,7 +56,7 @@ export default function EstablishmentCardModal({
       style={{
         position: 'fixed',
         inset: 0,
-        background: 'rgba(0,0,0,0.35)',
+        background: 'rgba(0,0,0,0.45)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -68,7 +68,8 @@ export default function EstablishmentCardModal({
         style={{
           width: 'min(920px, 100%)',
           background: '#ffffff',
-          boxShadow: '0 18px 60px rgba(0,0,0,0.25)',
+          borderRadius: 12,
+          boxShadow: '0 24px 80px rgba(0,0,0,0.18)',
           position: 'relative',
           overflow: 'hidden',
         }}
@@ -85,23 +86,26 @@ export default function EstablishmentCardModal({
             border: 'none',
             background: 'transparent',
             cursor: 'pointer',
-            color: '#7b7b7b',
+            color: '#9ca3af',
             padding: 6,
             lineHeight: 0,
             zIndex: 2,
+            borderRadius: 6,
+            transition: 'color 0.15s',
           }}
         >
           <IconClose />
         </button>
 
-        <div style={{ padding: 26 }}>
+        <div style={{ padding: 28 }}>
           <div style={{ display: 'flex', gap: 18, alignItems: 'stretch' }}>
             <div
               style={{
                 width: 220,
                 height: 165,
                 overflow: 'hidden',
-                background: '#f1f1f1',
+                background: '#f3f4f6',
+                borderRadius: 8,
                 flex: '0 0 auto',
               }}
             >
@@ -121,7 +125,7 @@ export default function EstablishmentCardModal({
                     placeItems: 'center',
                     fontSize: 56,
                     fontWeight: 800,
-                    color: '#2b2b2b',
+                    color: '#374151',
                   }}
                 >
                   {(establishment.name || 'E').trim().charAt(0).toUpperCase()}
@@ -132,7 +136,8 @@ export default function EstablishmentCardModal({
             <div
               style={{
                 flex: 1,
-                background: '#efefef',
+                background: '#f9fafb',
+                borderRadius: 8,
                 position: 'relative',
                 height: 165,
                 paddingRight: 64,
@@ -156,7 +161,8 @@ export default function EstablishmentCardModal({
                   style={{
                     height: 40,
                     padding: '0 16px',
-                    border: '1px solid #e0e0e0',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: 8,
                     background: '#fff',
                     cursor: 'pointer',
                     display: 'inline-flex',
@@ -164,12 +170,14 @@ export default function EstablishmentCardModal({
                     justifyContent: 'space-between',
                     gap: 20,
                     fontWeight: 600,
-                    color: '#1d2a3a',
+                    fontSize: 14,
+                    color: '#111827',
                     minWidth: 200,
+                    transition: 'border-color 0.15s, background 0.15s',
                   }}
                 >
                   <span>Edit account</span>
-                  <span style={{ fontSize: 20, lineHeight: 1 }}>→</span>
+                  <span style={{ fontSize: 18, lineHeight: 1, color: '#6b7280' }}>→</span>
                 </button>
 
                 <button
@@ -177,7 +185,8 @@ export default function EstablishmentCardModal({
                   style={{
                     height: 40,
                     padding: '0 16px',
-                    border: '1px solid #e0e0e0',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: 8,
                     background: '#fff',
                     cursor: 'pointer',
                     display: 'inline-flex',
@@ -185,41 +194,43 @@ export default function EstablishmentCardModal({
                     justifyContent: 'space-between',
                     gap: 20,
                     fontWeight: 600,
-                    color: '#1d2a3a',
+                    fontSize: 14,
+                    color: '#111827',
                     minWidth: 200,
+                    transition: 'border-color 0.15s, background 0.15s',
                   }}
                 >
                   <span>Menu</span>
-                  <span style={{ fontSize: 20, lineHeight: 1 }}>→</span>
+                  <span style={{ fontSize: 18, lineHeight: 1, color: '#6b7280' }}>→</span>
                 </button>
               </div>
             </div>
           </div>
 
-          <div style={{ display: 'flex', marginTop: 20, gap: 26 }}>
+          <div style={{ display: 'flex', marginTop: 24, gap: 26 }}>
             <div style={{ width: 360 }}>
-              <div style={{ fontSize: 18, fontWeight: 800, color: '#1d2a3a' }}>
+              <div style={{ fontSize: 18, fontWeight: 800, color: '#111827' }}>
                 {establishment.name || 'Establishment Name'}
               </div>
 
               <div style={{ height: 18 }} />
 
-              <div style={{ display: 'grid', gap: 16, color: '#4a4a4a', fontSize: 13 }}>
+              <div style={{ display: 'grid', gap: 16, color: '#4b5563', fontSize: 13 }}>
                 <div>
-                  <div style={{ fontWeight: 800, opacity: 0.75 }}>Description:</div>
-                  <div style={{ marginTop: 4, lineHeight: 1.45 }}>
+                  <div style={{ fontWeight: 700, color: '#6b7280', fontSize: 12, textTransform: 'uppercase', letterSpacing: 0.4 }}>Description</div>
+                  <div style={{ marginTop: 4, lineHeight: 1.55, color: '#374151' }}>
                     {establishment.description || '—'}
                   </div>
                 </div>
 
                 <div>
-                  <div style={{ fontWeight: 800, opacity: 0.75 }}>City:</div>
-                  <div style={{ marginTop: 4, fontWeight: 700 }}>{establishment.city || '—'}</div>
+                  <div style={{ fontWeight: 700, color: '#6b7280', fontSize: 12, textTransform: 'uppercase', letterSpacing: 0.4 }}>City</div>
+                  <div style={{ marginTop: 4, fontWeight: 600, color: '#111827' }}>{establishment.city || '—'}</div>
                 </div>
 
                 <div>
-                  <div style={{ fontWeight: 800, opacity: 0.75 }}>Delivery Areas:</div>
-                  <div style={{ marginTop: 4, lineHeight: 1.45 }}>{deliveryAreasText || '—'}</div>
+                  <div style={{ fontWeight: 700, color: '#6b7280', fontSize: 12, textTransform: 'uppercase', letterSpacing: 0.4 }}>Delivery Areas</div>
+                  <div style={{ marginTop: 4, lineHeight: 1.55, color: '#374151' }}>{deliveryAreasText || '—'}</div>
                 </div>
               </div>
             </div>
@@ -227,43 +238,45 @@ export default function EstablishmentCardModal({
             <div style={{ flex: 1 }} />
 
             <div style={{ width: 320, marginTop: 2 }}>
-              <div style={{ display: 'grid', gap: 18, color: '#4a4a4a' }}>
+              <div style={{ display: 'grid', gap: 16, color: '#4b5563' }}>
                 <div>
-                  <div style={{ fontSize: 14, fontWeight: 700, opacity: 0.75 }}>Phone:</div>
-                  <div style={{ fontSize: 14, fontWeight: 700 }}>{establishment.phone || '—'}</div>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: 0.4 }}>Phone</div>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: '#111827', marginTop: 4 }}>{establishment.phone || '—'}</div>
                 </div>
 
                 <div>
-                  <div style={{ fontSize: 14, fontWeight: 700, opacity: 0.75 }}>
-                    Establishment Category:
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: 0.4 }}>
+                    Establishment Category
                   </div>
-                  <div style={{ fontSize: 14, fontWeight: 700 }}>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: '#111827', marginTop: 4 }}>
                     {establishment.category || '—'}
                   </div>
                 </div>
 
                 <div>
-                  <div style={{ fontSize: 14, fontWeight: 700, opacity: 0.75 }}>Min. order:</div>
-                  <div style={{ fontSize: 14, fontWeight: 700 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: 0.4 }}>Min. order</div>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: '#111827', marginTop: 4 }}>
                     {establishment.minOrder ?? '—'}
                   </div>
                 </div>
 
                 <div>
-                  <div style={{ fontSize: 14, fontWeight: 700, opacity: 0.75 }}>Orders:</div>
-                  <div style={{ fontSize: 14, fontWeight: 700 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: 0.4 }}>Orders</div>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: '#111827', marginTop: 4 }}>
                     {String(establishment.ordersCount ?? '') || '—'}
                   </div>
                 </div>
 
                 <div>
-                  <div style={{ fontSize: 14, fontWeight: 700, opacity: 0.75 }}>Opening hours:</div>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: 0.4 }}>Opening hours</div>
                   <div
                     style={{
                       fontSize: 13,
                       fontWeight: 600,
                       whiteSpace: 'pre-line',
-                      lineHeight: 1.45,
+                      lineHeight: 1.55,
+                      color: '#374151',
+                      marginTop: 4,
                     }}
                   >
                     {openingHoursText || '—'}

@@ -54,14 +54,15 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 10px;
-  min-width: 390px;
+  min-width: 420px;
 }
 
 .searchBox {
   width: 390px;
   height: 40px;
   background: #ffffff;
-  border: 1px solid #bfc8d8;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   padding: 0 14px;
@@ -70,7 +71,7 @@
 }
 
 .searchIcon {
-  color: #8b95a7;
+  color: #9ca3af;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -98,14 +99,16 @@
 
 .selectReal {
   height: 40px;
-  min-width: 190px;
+  min-width: 160px;
   background: #ffffff;
-  border: 1px solid #bfc8d8;
-  padding: 0 34px 0 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 0 12px;
   font-size: 14px;
-  color: #6f7a8e;
+  color: #374151;
   outline: none;
   box-sizing: border-box;
+  cursor: pointer;
 }
 
 .addBtn {
@@ -115,14 +118,20 @@
 .applyBtn {
   height: 40px;
   min-width: 78px;
-  padding: 0 18px;
+  padding: 0 20px;
   border: none;
-  background: #4a4a4a;
+  border-radius: 6px;
+  background: #1f1f1f;
   color: #ffffff;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   line-height: 1;
+  transition: background 0.15s;
+
+  &:hover {
+    background: #333333;
+  }
 }
 
 .pageMessage {
@@ -130,6 +139,7 @@
   padding: 12px 14px;
   font-size: 14px;
   font-weight: 600;
+  border-radius: 6px;
 }
 
 .pageMessageError {
@@ -154,6 +164,8 @@
 
 .tableWrap {
   background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
   overflow-x: auto;
   overflow-y: hidden;
 }
@@ -166,12 +178,12 @@
 }
 
 .th {
-  background: #f1f1f1;
-  font-size: 14px;
+  background: #f9fafb;
+  font-size: 13px;
   font-weight: 700;
   text-align: left;
   padding: 14px 18px;
-  color: #111111;
+  color: #374151;
   white-space: nowrap;
   border-bottom: 1px solid #e5e7eb;
 }
@@ -183,16 +195,16 @@
 }
 
 .thCaret {
-  color: #4b5563;
+  color: #9ca3af;
   display: inline-flex;
   transform: translateY(1px);
 }
 
 .td {
   padding: 14px 18px;
-  border-bottom: 1px solid #efefef;
+  border-bottom: 1px solid #f3f4f6;
   font-size: 14px;
-  color: #333333;
+  color: #374151;
   vertical-align: middle;
   background: #ffffff;
 }
@@ -202,11 +214,12 @@
 }
 
 .tr:hover td {
-  background: #fafafa;
+  background: #f9fafb;
 }
 
 .cellStrong {
   font-weight: 600;
+  color: #111827;
 }
 
 .checkboxCol {
@@ -223,26 +236,31 @@
 }
 
 .viewLink {
-  color: #2d2d2d;
+  color: #374151;
   font-weight: 500;
   cursor: pointer;
 }
 
 .chev {
-  color: #9aa3b4;
+  color: #9ca3af;
   display: inline-flex;
-  margin-left: 10px;
+  margin-left: 6px;
   transform: translateY(2px);
 }
 
 .eye {
-  color: #111111;
+  color: #6b7280;
   display: inline-flex;
   cursor: pointer;
+  transition: color 0.15s;
+
+  &:hover {
+    color: #111827;
+  }
 }
 
 .emptyRow {
-  color: #6b7280;
+  color: #9ca3af;
   text-align: center;
 }
 
@@ -250,21 +268,34 @@
   display: flex;
   justify-content: center;
   margin-top: 26px;
+  gap: 4px;
 }
 
 .pagerBtn {
-  border: 1px solid #d7dbe6;
+  border: 1px solid #e5e7eb;
   background: #ffffff;
+  border-radius: 6px;
   height: 36px;
   min-width: 42px;
-  padding: 0 14px;
+  padding: 0 12px;
   font-size: 14px;
   cursor: pointer;
-  color: #555555;
+  color: #374151;
+  transition: background 0.15s, border-color 0.15s;
+
+  &:hover:not(:disabled) {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
 }
 
 .pagerBtn.active {
-  background: #2f2f2f;
+  background: #1f1f1f;
   color: #ffffff;
-  border-color: #2f2f2f;
+  border-color: #1f1f1f;
 }

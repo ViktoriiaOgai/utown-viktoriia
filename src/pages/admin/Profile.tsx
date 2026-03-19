@@ -1,6 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import MainLayout from "../../components/MainLayout";
 
 export default function AdminProfile() {
+  const navigate = useNavigate();
+
   return (
     <MainLayout>
       <div style={{ padding: "32px 20px 40px" }}>
@@ -19,12 +22,23 @@ export default function AdminProfile() {
 
         <div
           style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
             fontSize: 16,
-            color: "#6b7280",
+            color: "#8b8b8b",
             marginBottom: 28,
+            flexWrap: "wrap",
           }}
         >
-          Home / Admin / Profile
+          <span
+            style={{ cursor: "pointer", color: "#7c5cff", fontWeight: 600 }}
+            onClick={() => navigate("/admin/home")}
+          >
+            Home
+          </span>
+          <span>/</span>
+          <span style={{ color: "#8b8b8b", fontWeight: 600 }}>Admin</span>
         </div>
 
         <div
