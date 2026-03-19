@@ -26,11 +26,11 @@ export default function AdminLogin() {
       const response = await login(normalizedPhone, normalizedPassword)
       const data = response.data ?? {}
 
-      const accessToken = data.accessToken ?? ''
+      const accessToken = data.token ?? ''
 
       const refreshToken = data.refreshToken ?? ''
 
-      const rawRole = data.user?.role ?? ''
+      const rawRole = data.user?.roles?.[0] ?? ''
 
       const normalizedRole = String(rawRole).toUpperCase()
       const isAdmin =

@@ -63,7 +63,7 @@ export const getToken = () => {
 export const getRole = () => {
   const user = getStoredUser();
 
-  return user?.role || "";
+  return user?.roles?.[0] || "";
 };
 
 export const isAdminRole = (role?: string) => {
