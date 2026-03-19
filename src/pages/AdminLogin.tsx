@@ -26,30 +26,16 @@ export default function AdminLogin() {
       const response = await login(normalizedPhone, normalizedPassword)
       const data = response.data ?? {}
 
-      const accessToken =
-        data.accessToken ??
-        data.token ??
-        data.access_token ??
-        ''
+      const accessToken = data.accessToken ?? ''
 
-      const refreshToken =
-        data.refreshToken ??
-        data.refresh_token ??
-        ''
+      const refreshToken = data.refreshToken ?? ''
 
-      const rawRole =
-        data.role ??
-        data.user?.role ??
-        data.user?.userRole ??
-        data.user?.roles?.[0] ??
-        data.user?.authorities?.[0] ??
-        ''
+      const rawRole = data.user?.role ?? ''
 
       const normalizedRole = String(rawRole).toUpperCase()
       const isAdmin =
         normalizedRole === 'ADMIN' ||
-        normalizedRole === 'SUPER_ADMIN' ||
-        data.user?.username === 'admin'
+        normalizedRole === 'SUPER_ADMIN'
 
       if (!accessToken) {
         setError('Access token was not returned')
@@ -59,9 +45,7 @@ export default function AdminLogin() {
       if (!isAdmin) {
         localStorage.removeItem('accessToken')
         localStorage.removeItem('refreshToken')
-        localStorage.removeItem('role')
         localStorage.removeItem('user')
-        localStorage.removeItem('isAdminAuthenticated')
         setError('У вас нет доступа к админ-панели')
         return
       }
@@ -71,9 +55,6 @@ export default function AdminLogin() {
       if (refreshToken) {
         localStorage.setItem('refreshToken', refreshToken)
       }
-
-      localStorage.setItem('role', normalizedRole || 'ADMIN')
-      localStorage.setItem('isAdminAuthenticated', 'true')
 
       if (data.user) {
         localStorage.setItem('user', JSON.stringify(data.user))

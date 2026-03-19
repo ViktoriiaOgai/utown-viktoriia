@@ -19,10 +19,8 @@ export function ProtectedRoute({ children }: RouteProps) {
 export function AdminRoute({ children }: RouteProps) {
   const token = getToken()
   const role = getRole()
-  const isAdminAuthenticated =
-    localStorage.getItem('isAdminAuthenticated') === 'true'
 
-  if (!token || token === "" || !isAdminAuthenticated) {
+  if (!token || token === "") {
     return <Navigate to="/admin/login" replace />
   }
 

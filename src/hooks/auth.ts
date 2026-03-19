@@ -63,11 +63,7 @@ export const getToken = () => {
 export const getRole = () => {
   const user = getStoredUser();
 
-  return (
-    localStorage.getItem("role") ||
-    user?.role ||
-    ""
-  );
+  return user?.role || "";
 };
 
 export const isAdminRole = (role?: string) => {
