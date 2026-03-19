@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Input from "@/components/UI/Input";
 import AuthBtn from "@/components/UI/AuthBtn";
@@ -8,29 +8,32 @@ import eye from "@/assets/icons/eye.svg";
 import { resetPassword } from "@/hooks/auth";
 
 export default function NewPassword() {
-
   const navigate = useNavigate();
   const location = useLocation();
 
-  const phone = location.state?.phone;
+  //  получаем из URL
+  const params = new URLSearchParams(location.search);
+  const phone = params.get("phone");
+  const code = params.get("code");
 
-if (!phone) {
-  navigate("/recover");
-}
+  useEffect(() => {
+    if (!phone || !code) {
+      navigate("/recover");
+    }
+  }, [phone, code, navigate]);
 
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
 
   const [errors, setErrors] = useState({
     password: "",
-    repeatPassword: ""
+    repeatPassword: "",
   });
 
   const validate = () => {
-
     const newErrors = {
       password: "",
-      repeatPassword: ""
+      repeatPassword: "",
     };
 
     if (password.length < 6) {
@@ -47,30 +50,21 @@ if (!phone) {
   };
 
   const handleReset = async () => {
-
-
-    console.log("PHONE:", phone);
     if (!validate()) return;
 
     try {
-
-      await resetPassword(phone, password);
-
+      await resetPassword(phone!, code!, password);
       navigate("/login");
-
     } catch {
-
       setErrors({
         password: "Password reset failed",
-        repeatPassword: ""
+        repeatPassword: "",
       });
-
     }
   };
 
   return (
     <>
-
       <BackButton />
 
       <h2 className="auth-title">New password</h2>
@@ -100,9 +94,8 @@ if (!phone) {
       />
 
       <AuthBtn onClick={handleReset}>
-        Log in
+        Reset password
       </AuthBtn>
-
     </>
   );
 }

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import "@/components/UI/AuthBtn.css";
 
 type Props = {
   children: React.ReactNode;
