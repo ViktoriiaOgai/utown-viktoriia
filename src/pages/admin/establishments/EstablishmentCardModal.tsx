@@ -29,7 +29,7 @@ export default function EstablishmentCardModal({
 
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
-  }, [open])
+  }, [open, onClose])
 
   if (!open || !establishment) return null
 
