@@ -48,9 +48,10 @@ export default function EstablishmentsPage() {
       .then((r) => {
         const data = r.data
         const detailsSource =
-          asArray(data).find((x: any) => Number(x?.id ?? x?.restaurantId) === Number(e.id)) ??
-          data?.data ??
-          data
+          asArray(data).find((x: unknown) => {
+  const item = x as { id?: number; restaurantId?: number }
+  return Number(item.id ?? item.restaurantId) === Number(e.id)
+})
 
         if (detailsSource) {
           setSelected((prev) => normalizeEstablishment({ ...(prev ?? e), ...detailsSource }))
@@ -68,36 +69,43 @@ export default function EstablishmentsPage() {
   }
 
   useEffect(() => {
-    const controller = new AbortController()
+  const controller = new AbortController()
 
+  const fetchData = async () => {
     setIsLoading(true)
     setPageError('')
 
-    api
-      .get(`/admin/restaurants?page=${page - 1}&size=${pageSize}`, {
-        signal: controller.signal,
-      })
-      .then((r) => {
-        const data = r.data as PageResponse<Establishment>
-        setRows(asArray(data).map(normalizeEstablishment))
-        setTotalPages(getPageTotalPages(data))
-      })
-      .catch((error) => {
-        setRows([])
-        setTotalPages(1)
-        setPageError(getErrorMessage(error, 'Failed to load establishments'))
-      })
-      .finally(() => {
-        setIsLoading(false)
-      })
+    try {
+      const r = await api.get(
+        `/admin/restaurants?page=${page - 1}&size=${pageSize}`,
+        { signal: controller.signal }
+      )
 
-    return () => controller.abort()
-  }, [page, pageSize])
+      const data = r.data as PageResponse<Establishment>
 
-  useEffect(() => {
-    if (page > totalPages) setPage(totalPages)
-    if (page < 1) setPage(1)
-  }, [page, totalPages])
+      setRows(asArray(data).map(normalizeEstablishment))
+      setTotalPages(getPageTotalPages(data))
+    } catch (error) {
+      setRows([])
+      setTotalPages(1)
+      setPageError(getErrorMessage(error, 'Failed to load establishments'))
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  fetchData()
+
+  return () => controller.abort()
+}, [page, pageSize])
+
+ useEffect(() => {
+  if (page > totalPages) {
+    setPage(totalPages)
+  } else if (page < 1) {
+    setPage(1)
+  }
+}, [page, totalPages])
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase()
