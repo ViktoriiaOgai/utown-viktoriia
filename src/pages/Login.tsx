@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "@/components/UI/Input";
-import "@/App.css";
+import "@/pages/Login.css";
 import AuthBtn from "@/components/UI/AuthBtn";
 import Vector from "@/assets/icons/Vector.svg";
 import BackButton from "@/components/UI/BackButton";
@@ -31,7 +31,17 @@ const handleLogin = async () => {
 
         localStorage.setItem("accessToken", token);
         localStorage.setItem("refreshToken", refreshToken);
-        localStorage.setItem("fullName", user.fullName);
+        const oldUser = JSON.parse(localStorage.getItem("user") || "{}");
+
+            const newUser = {
+              ...user,
+              ...oldUser,
+              fullName: oldUser.fullName || user.fullName,
+  phone: phone,
+            };
+
+        localStorage.setItem("user", JSON.stringify(newUser));
+        
 
 navigate("/home");
 } catch (error) {

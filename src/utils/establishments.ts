@@ -1,55 +1,92 @@
 import type { Establishment } from '../types/establishment'
 
-export function asArray<T = any>(value: any): T[] {
-  if (Array.isArray(value)) return value
-  if (Array.isArray(value?.content)) return value.content
-  if (Array.isArray(value?.data?.content)) return value.data.content
-  if (Array.isArray(value?.data)) return value.data
-  if (Array.isArray(value?.items)) return value.items
-  if (Array.isArray(value?.result)) return value.result
-  return []
+export function asArray<T = unknown>(value: unknown): T[] {
+  if (Array.isArray(value)) return value as T[];
+  
+  if (value && typeof value === 'object') {
+    const obj = value as Record<string, unknown>;
+    
+    if (Array.isArray(obj.content)) return obj.content as T[];
+    if (obj.data && typeof obj.data === 'object') {
+      const dataObj = obj.data as Record<string, unknown>;
+      if (Array.isArray(dataObj.content)) return dataObj.content as T[];
+      if (Array.isArray(obj.data)) return obj.data as T[];
+    }
+    if (Array.isArray(obj.items)) return obj.items as T[];
+    if (Array.isArray(obj.result)) return obj.result as T[];
+  }
+
+  return [];
 }
 
-export function getPageTotalPages(value: any) {
-  return Math.max(
-    1,
-    Number(
-      value?.totalPages ??
-        value?.data?.totalPages ??
-        value?.pages ??
-        value?.data?.pages ??
-        1
-    )
-  )
+export function getPageTotalPages(value: unknown): number {
+  if (!value || typeof value !== 'object') return 1;
+  const obj = value as Record<string, unknown>;
+  const totalPages =
+    obj.totalPages ??
+    (obj.data && typeof obj.data === 'object' ? (obj.data as Record<string, unknown>).totalPages : undefined) ??
+    obj.pages ??
+    (obj.data && typeof obj.data === 'object' ? (obj.data as Record<string, unknown>).pages : undefined) ??
+    1;
+
+  return Math.max(1, Number(totalPages));
 }
 
-export function normalizeEstablishment(item: any): Establishment {
+export function normalizeEstablishment(item: unknown): Establishment {
+  if (!item || typeof item !== "object") item = {}
+  const obj = item as Record<string, unknown>
+
+  const getValue = (keys: string[]): unknown => {
+    for (const key of keys) {
+      if (obj[key] != null) return obj[key]
+    }
+    return undefined
+  }
+
+  const getString = (value: unknown, fallback = ''): string =>
+    typeof value === 'string' || typeof value === 'number' ? String(value) : fallback
+
+  const getNumber = (value: unknown, fallback = 0): number =>
+    typeof value === 'number' || typeof value === 'string' ? Number(value) : fallback
+
+  const getStringOrNumber = (value: unknown): string | number | undefined => {
+    if (typeof value === 'string' || typeof value === 'number') return value
+    return undefined
+  }
+
+  const location = getValue(['location'])
+  const city =
+    location && typeof location === 'object'
+      ? getString((location as Record<string, unknown>).city, '—')
+      : getString(getValue(['city', 'addressCity']), '—')
+
+  // deliveryAreas может быть массивом строк или одной строкой
+  const deliveryRaw = getValue(['deliveryAreas', 'deliveryZone', 'deliveryAddress'])
+  const deliveryAreas = Array.isArray(deliveryRaw)
+    ? deliveryRaw.map(v => getString(v))
+    : getString(deliveryRaw, '')
+
+  const openingRaw = getValue(['openingHours', 'workingHours', 'hours'])
+  const openingHours =
+    typeof openingRaw === 'string' || typeof openingRaw === 'number'
+      ? getString(openingRaw)
+      : typeof openingRaw === 'object' && openingRaw !== null
+      ? (openingRaw as Record<string, string>)
+      : ''
+
   return {
-    id: Number(item?.id ?? item?.restaurantId ?? item?.restaurant_id ?? 0),
-    name: String(item?.name ?? item?.restaurantName ?? item?.title ?? '—'),
-    phone: String(item?.phone ?? item?.phoneNumber ?? item?.number ?? '—'),
-    city: String(item?.city ?? item?.addressCity ?? item?.location?.city ?? '—'),
-    ordersCount: Number(
-      item?.ordersCount ??
-        item?.numberOfOrders ??
-        item?.orders ??
-        item?.orders_count ??
-        0
-    ),
-    description: item?.description ?? item?.about ?? '',
-    category:
-      item?.category ??
-      item?.restaurantCategory ??
-      item?.categoryName ??
-      item?.type ??
-      '',
-    minOrder: item?.minOrder ?? item?.minimumOrder ?? item?.min_order ?? '',
-    deliveryAreas:
-      item?.deliveryAreas ?? item?.deliveryZone ?? item?.deliveryAddress ?? '',
-    openingHours: item?.openingHours ?? item?.workingHours ?? item?.hours ?? '',
+    id: getNumber(getValue(['id', 'restaurantId', 'restaurant_id']), 0),
+    name: getString(getValue(['name', 'restaurantName', 'title']), '—'),
+    phone: getString(getValue(['phone', 'phoneNumber', 'number']), '—'),
+    city,
+    ordersCount: getNumber(getValue(['ordersCount', 'numberOfOrders', 'orders', 'orders_count']), 0),
+    description: getString(getValue(['description', 'about']), ''),
+    category: getString(getValue(['category', 'restaurantCategory', 'categoryName', 'type']), ''),
+    minOrder: getStringOrNumber(getValue(['minOrder', 'minimumOrder', 'min_order'])),
+    deliveryAreas,
+    openingHours,
   }
 }
-
 export function getErrorMessage(error: unknown, fallback = 'Something went wrong') {
   if (error instanceof Error) {
     return error.message || fallback

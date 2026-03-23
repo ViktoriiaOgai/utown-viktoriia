@@ -7,21 +7,19 @@ import RestaurantCards from "@/components/UI/RestaurantCards";
 import Pic from "@/assets/images/Pic.svg";
 import "@/pages/Home.css";
 import MobileHeader from "@/components/UI/Header";
+import { getUserName } from "@/hooks/auth";
 
 export default function Home() {
  
   const userProfile = { city: "Ansan", lat: 37.3349584, lon: 126.7918849 };
   const [firstName, setFirstName] = useState("");
 
-  useEffect(() => {
-     const name = localStorage.getItem("fullName");
-
-    if (name) {
-       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setFirstName(name);
-    }
-    
-  }, []);
+ useEffect(() => {
+  const name = getUserName()
+  if (name) {
+    setFirstName(name)
+  }
+}, [])
 
   return (
     <div className="home">

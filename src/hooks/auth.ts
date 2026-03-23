@@ -76,6 +76,88 @@ export const logout = () => {
   localStorage.removeItem("refreshToken");
   localStorage.removeItem("token");
   localStorage.removeItem("role");
-  localStorage.removeItem("user");
-  localStorage.removeItem("fullName");
+  };
+export const getUserName = () => {
+  try {
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    return user.fullName || "";
+  } catch {
+    return "";
+  }
 };
+
+ export const getUserData = () => {
+  try {
+    return JSON.parse(localStorage.getItem("user") || "{}");
+  } catch {
+    return {};
+  }
+};
+
+export const updateUserProfile = async (data: {
+  fullName?: string;
+  username?: string;
+  address?: string;
+}) => {
+  const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+
+  const updatedUser = {
+    ...currentUser,
+    ...(data.fullName !== undefined && { fullName: data.fullName }),
+    ...(data.username !== undefined && { phone: data.username }),
+  };
+
+  localStorage.setItem("user", JSON.stringify(updatedUser));
+
+  // адрес (API)
+if (data.address && data.address.trim()) {
+  localStorage.setItem("address", data.address);
+  let addressId = null;
+
+  try {
+    // пробуем default
+    const res = await api.get("/addresses/default");
+    addressId = res.data.id;
+  } catch {
+    try {
+      // fallback — берём первый адрес
+      const res = await api.get("/addresses");
+      if (res.data.length > 0) {
+        addressId = res.data[0].id;
+      }
+    } catch {
+      console.log("No addresses at all");
+    }
+  }
+
+  const [city, ...rest] = data.address.trim().split(" ");
+
+if (!city || rest.length === 0) {
+  throw new Error("Please enter address like: City Street");
+}
+
+  const payload = {
+    city,
+    street: rest.join(" "),
+    fullAddress: data.address,
+    area: "Default",
+    state: "Default",
+    postcode: "00000",
+    details: "",
+    typeAddress: 0,
+    latitude: 0,
+    longitude: 0,
+    intercomCode: "",
+  };
+
+  if (addressId) {
+    await api.put(`/addresses/${addressId}`, payload);
+  } else {
+    await api.post("/addresses", payload);
+  }
+}
+};
+export const getAddresses = () => {
+  return api.get("/addresses");
+};
+

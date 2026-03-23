@@ -10,7 +10,9 @@ type Props = {
   icon?: string;
   iconRight?: string;
   isPassword?: boolean;
-  
+  readOnly?: boolean  
+  disabled?: boolean  
+  style?: React.CSSProperties
   
 };
 
@@ -23,6 +25,9 @@ export default function Input({
   icon,
   iconRight,
   isPassword,
+  readOnly,
+  disabled,
+  style,
  }: Props) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -42,9 +47,12 @@ export default function Input({
         <input
           className={`input ${error ? "input--error" : ""}`}
           type={inputType}
-          value={value}
+          value={value || ""}
           placeholder={placeholder}
           onChange={onChange}
+          readOnly={readOnly}   
+          disabled={disabled}   
+          style={style}
         />
       {iconRight && isPassword && (
           <img

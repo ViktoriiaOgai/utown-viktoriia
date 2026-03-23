@@ -11,7 +11,6 @@ export default function AdminLogin() {
 
   const handleSubmit = async () => {
     setError('')
-
     const normalizedPhone = phone.trim()
     const normalizedPassword = password.trim()
 
@@ -27,15 +26,10 @@ export default function AdminLogin() {
       const data = response.data ?? {}
 
       const accessToken = data.token ?? ''
-
       const refreshToken = data.refreshToken ?? ''
-
       const rawRole = data.user?.roles?.[0] ?? ''
-
       const normalizedRole = String(rawRole).toUpperCase()
-      const isAdmin =
-        normalizedRole === 'ADMIN' ||
-        normalizedRole === 'SUPER_ADMIN'
+      const isAdmin = normalizedRole === 'ADMIN' || normalizedRole === 'SUPER_ADMIN'
 
       if (!accessToken) {
         setError('Access token was not returned')
@@ -51,27 +45,28 @@ export default function AdminLogin() {
       }
 
       localStorage.setItem('accessToken', accessToken)
-
-      if (refreshToken) {
-        localStorage.setItem('refreshToken', refreshToken)
-      }
-
-      if (data.user) {
-        localStorage.setItem('user', JSON.stringify(data.user))
-      }
+      if (refreshToken) localStorage.setItem('refreshToken', refreshToken)
+      if (data.user) localStorage.setItem('user', JSON.stringify(data.user))
 
       navigate('/admin/home', { replace: true })
-    } catch (err: any) {
-      setError(
-        err?.response?.data?.message ||
-          err?.message ||
-          'Failed to login'
-      )
-    } finally {
-      setIsLoading(false)
+   } catch (err: unknown) {
+  let message = 'Failed to login';
+
+  if (err && typeof err === 'object') {
+    if ('response' in err && err.response && typeof (err.response as any).data === 'object') {
+      message = ((err.response as any).data?.message as string) ?? message;
+    } else if ('message' in err) {
+      message = (err as { message?: string }).message ?? message;
     }
   }
 
+  setError(message);
+} finally {
+  setIsLoading(false);
+}
+  }
+
+  // Компонент возвращает JSX здесь
   return (
     <div
       style={{
@@ -93,24 +88,10 @@ export default function AdminLogin() {
           boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
         }}
       >
-        <div
-          style={{
-            fontSize: 28,
-            fontWeight: 800,
-            color: '#111827',
-            marginBottom: 8,
-          }}
-        >
+        <div style={{ fontSize: 28, fontWeight: 800, color: '#111827', marginBottom: 8 }}>
           Admin login
         </div>
-
-        <div
-          style={{
-            fontSize: 14,
-            color: '#6b7280',
-            marginBottom: 20,
-          }}
-        >
+        <div style={{ fontSize: 14, color: '#6b7280', marginBottom: 20 }}>
           Sign in to access admin pages
         </div>
 
@@ -133,14 +114,7 @@ export default function AdminLogin() {
 
         <div style={{ display: 'grid', gap: 14 }}>
           <div>
-            <div
-              style={{
-                fontSize: 13,
-                fontWeight: 700,
-                marginBottom: 6,
-                color: '#111827',
-              }}
-            >
+            <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 6, color: '#111827' }}>
               Phone
             </div>
             <input
@@ -160,14 +134,7 @@ export default function AdminLogin() {
           </div>
 
           <div>
-            <div
-              style={{
-                fontSize: 13,
-                fontWeight: 700,
-                marginBottom: 6,
-                color: '#111827',
-              }}
-            >
+            <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 6, color: '#111827' }}>
               Password
             </div>
             <input

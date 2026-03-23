@@ -10,6 +10,7 @@ import "@/components/UI/Footer.css";
 export default function Footer () {
     const navigate = useNavigate();
     const location = useLocation();
+    const isProfile = location.pathname.startsWith("/profile");
     return (
     <div className="footer">
         <button
@@ -30,12 +31,13 @@ export default function Footer () {
     </div>
     </button>
     <button
-  className={location.pathname === "/profile" ? "icon-btn active" : "icon-btn"}
+  className={isProfile ? "icon-btn active" : "icon-btn"}
   onClick={() => navigate("/profile")}>
     <div className="footer-btn">
       <ProfileIcon className="footer-icon" />
       <h3 className="label">Profile</h3>
     </div>
     </button>
+    
   </div>
   )}

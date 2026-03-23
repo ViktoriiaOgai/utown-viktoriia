@@ -65,3 +65,9 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+export const deleteAccount = (password: string) => {
+  return api.delete('/users/me', {
+    data: { password }, 
+  })
+}

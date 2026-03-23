@@ -24,7 +24,7 @@
   flex-direction: column;
   gap: 15px;
 
-  margin-top: 160px;
+  margin-top: 10px;
 }
 
 .profile .mainContInner {
@@ -35,7 +35,7 @@
 }
 
 /* --- Заголовок --- */
-.Hello {
+.profile .Hello {
   font-size: 22px;
   font-weight: 600;
   color: white;
@@ -80,36 +80,36 @@
 }
 
 /* Контейнер для кнопок под сервисами */
-.buttons-container {
+.profile .buttons-container {
   display: flex;
   justify-content: flex-start; /* слева */
   margin-top: 10px; /* отступ сверху от карточек */
   flex-direction: column;
   gap: 20px;
 }
-.profile-btn {
+.profile .profile-btn {
     display: flex;
     flex-direction:row;
     align-items: center;
     gap: 4px;
     
      }
-.prof-button {
+.profile .prof-button {
         background: rgba(50, 50, 50, 1);
         border: none;
     
      }
-.profile-icon {
+.profile .profile-icon {
     width: 26px;
     height: 26px;
     color: rgba(50, 50, 50, 1);
      }
-     .profile-icon-out {
+     .profile .profile-icon-out {
     width: 26px;
     height: 26px;
     color: rgb(150, 4, 4);
      }
-.label {
+.profile .label {
     top: 36px;
     font-weight: 500;
     font-size: 14px;
@@ -117,7 +117,7 @@
     color: rgb(252, 250, 250);
 
 }
-.label-out {
+.profile .label-out {
     top: 36px;
     font-weight: 500;
     font-size: 14px;
@@ -125,7 +125,7 @@
     color: rgb(150, 4, 4);
 
 }
-.icon-btn {
+.profile .icon-btn {
     width: 40px;
     height: 40px;
     background:  none;

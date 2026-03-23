@@ -18,16 +18,21 @@ export default function EstablishmentCardModal({
   const [imgBroken, setImgBroken] = useState(false)
 
   useEffect(() => {
-    if (!open) return
-    setImgBroken(false)
+  if (!open) return
 
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-    }
+  const timer = setTimeout(() => setImgBroken(false), 0)
 
-    window.addEventListener('keydown', onKeyDown)
-    return () => window.removeEventListener('keydown', onKeyDown)
-  }, [open, onClose])
+  const onKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') onClose()
+  }
+
+  window.addEventListener('keydown', onKeyDown)
+
+  return () => {
+    clearTimeout(timer)
+    window.removeEventListener('keydown', onKeyDown)
+  }
+}, [open, onClose])
 
   if (!open || !establishment) return null
 
