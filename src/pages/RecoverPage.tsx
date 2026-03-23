@@ -4,14 +4,12 @@ import "@/App.css";
 import BackButton from "@/components/UI/BackButton";
 import AuthBtn from "@/components/UI/AuthBtn";
 import Tel from "@/assets/icons/Tel.svg";
-import Modal from "@/components/UI/Modal";
 import { useNavigate} from "react-router-dom";
 import { requestPasswordReset } from "@/hooks/auth";
 import { getErrorMessage } from "@/services/getErrorMessage";
 
 export default function Recover() {
   const navigate = useNavigate();
-  const [showModal, setShowModal] = useState(false);
    const [phone, setPhone] = useState("");
    const [errors, setErrors] = useState({
   phone: "",
@@ -22,15 +20,18 @@ const handleRecover = async () => {
   if (!validate()) return;
 
   try {
-  await requestPasswordReset(phone);
-  setShowModal(true);
-} catch (error) {
-  const message = getErrorMessage(error);
+    await requestPasswordReset(phone);
 
-  setErrors({
-    phone: message || "User with this phone not found",
-  });
-}
+    // сразу переход
+    navigate(`/reset-code?phone=${phone}`);
+
+  } catch (error) {
+    const message = getErrorMessage(error);
+
+    setErrors({
+      phone: message || "User with this phone not found",
+    });
+  }
 };
   const validate = () => {
     const newErrors = {
@@ -69,13 +70,7 @@ const handleRecover = async () => {
   <AuthBtn onClick={handleRecover}>
   Reset password
 </AuthBtn>
-{showModal && (<Modal
-            title="Password reset request sent"
-            message="Proceed to create new password"
-            buttonText="Ok"
-            onClose={() => navigate("/new", { state: { phone } })}
-/>
-)}
+
   </>
   );
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"; 
+import { useState } from "react"; 
 import Weather from "@/components/UI/Weather";
 import ShoppingCart from "@/assets/icons/shopping-cart.svg";
 import ServicesCards from "@/components/UI/ServicesCards";
@@ -12,14 +12,7 @@ import { getUserName } from "@/hooks/auth";
 export default function Home() {
  
   const userProfile = { city: "Ansan", lat: 37.3349584, lon: 126.7918849 };
-  const [firstName, setFirstName] = useState("");
-
- useEffect(() => {
-  const name = getUserName()
-  if (name) {
-    setFirstName(name)
-  }
-}, [])
+ const [firstName] = useState(() => getUserName() || "")
 
   return (
     <div className="home">

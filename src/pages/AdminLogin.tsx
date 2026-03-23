@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { login } from '../hooks/auth'
 
+
 export default function AdminLogin() {
   const navigate = useNavigate()
   const [phone, setPhone] = useState('')
@@ -50,21 +51,16 @@ export default function AdminLogin() {
 
       navigate('/admin/home', { replace: true })
    } catch (err: unknown) {
-  let message = 'Failed to login';
+    const e = err as {
+      response?: { data?: { message?: string } };
+      message?: string;
+    };
 
-  if (err && typeof err === 'object') {
-    if ('response' in err && err.response && typeof (err.response as any).data === 'object') {
-      message = ((err.response as any).data?.message as string) ?? message;
-    } else if ('message' in err) {
-      message = (err as { message?: string }).message ?? message;
-    }
+    setError(e.response?.data?.message ?? e.message ?? 'Failed to login');
+  } finally {
+    setIsLoading(false);
   }
-
-  setError(message);
-} finally {
-  setIsLoading(false);
-}
-  }
+};
 
   // Компонент возвращает JSX здесь
   return (

@@ -1,8 +1,4 @@
-import axios, {
-  AxiosError,
-  AxiosResponse,
-  InternalAxiosRequestConfig,
-} from "axios";
+import axios, { InternalAxiosRequestConfig } from "axios";
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -19,20 +15,18 @@ api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 });
 
 api.interceptors.response.use(
-  (response: AxiosResponse) => response,
-  async (error: AxiosError) => {
-    const originalRequest =
-      error.config as InternalAxiosRequestConfig | undefined;
+  (response) => response,
 
-    if (error.response?.status === 401 && originalRequest) {
-      const requestUrl = originalRequest.url || "";
+  async (error) => {
+    const originalRequest = error.config;
 
-      if (requestUrl.includes("/auth/login")) {
-        return Promise.reject(error);
-      }
-
+    if (error.response?.status === 401) {
       try {
         const refreshToken = localStorage.getItem("refreshToken");
+
+        if (!refreshToken) {
+          throw new Error("No refresh token");
+        }
 
         const res = await axios.post(
           `${import.meta.env.VITE_API_URL}/auth/refresh`,

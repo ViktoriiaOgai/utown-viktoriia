@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "@/components/UI/Input";
 import "@/App.css";
@@ -11,27 +11,18 @@ import { updateUserProfile } from "@/hooks/auth";
 
 export default function PersonalInformation() {
   const navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-  const [errors, setErrors] = useState({
+   const [errors, setErrors] = useState({
   name: "",
   phone: "",
   address: "",
 });
-useEffect(() => {
-  const user = getUserData();
+const user = getUserData();
 
-  setName(user.fullName || "");
-  setPhone(user.phone || "");
-
-  // ТОЛЬКО localStorage
-  const savedAddress = localStorage.getItem("address");
-
-  if (savedAddress) {
-    setAddress(savedAddress);
-  }
-}, []);
+const [name, setName] = useState(user.fullName || "");
+const [phone] = useState(user.phone || "");
+const [address, setAddress] = useState(
+  () => localStorage.getItem("address") || ""
+);
 const handleSave = async () => {
   const isValid = validate();
   if (!isValid) return;

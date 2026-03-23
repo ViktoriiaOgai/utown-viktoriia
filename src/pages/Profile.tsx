@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"; 
+import { useState } from "react"; 
 import ServicesCards from "@/components/UI/ServicesCards";
 import "@/pages/Profile.css";
 import { useNavigate} from "react-router-dom";
@@ -11,17 +11,13 @@ import { logout } from "@/hooks/auth";
 import { getUserData } from "@/hooks/auth";
 import MobileHeader from "@/components/UI/Header";
 
-import { useLocation } from "react-router-dom";
-
 export default function Profile() {
    const navigate = useNavigate();
-  const [firstName, setFirstName] = useState("");
-   const location = useLocation();
-
- useEffect(() => {
+  
+const [firstName] = useState(() => {
   const user = getUserData();
-setFirstName(user.fullName);
-}, []);
+  return user.fullName || "";
+});
   const handleLogout = () => {
   logout();
 navigate("/login");

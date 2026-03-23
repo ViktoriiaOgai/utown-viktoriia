@@ -1,3 +1,4 @@
+
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 
 import AuthLayout from "../layout/AuthLayout";
@@ -7,7 +8,8 @@ import Welcome from "../pages/Welcome";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Recover from "../pages/RecoverPage";
-import NewPassword from "../components/UI/NewPassword";
+import NewPassword from "@/pages/NewPassword";
+import PasswordResetCode from "@/pages/PasswordResetCode";
 import Home from "../pages/Home";
 import Favourites from "../pages/Favourites";
 import Profile from "../pages/Profile";
@@ -87,7 +89,8 @@ export const router = createBrowserRouter([
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
       { path: "/recover", element: <Recover /> },
-      { path: "/new", element: <NewPassword /> },
+      { path: "/reset-password", element: <NewPassword /> },
+      { path: "/reset-code", element: <PasswordResetCode /> },
     ],
   },
   

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"; 
+import {useState } from "react"; 
 import "@/pages/AccountSettings.css";
 import { useNavigate} from "react-router-dom";
 import User from "@/assets/icons/user.svg";
@@ -7,17 +7,13 @@ import { logout } from "@/hooks/auth";
 import { getUserData } from "@/hooks/auth";
 import { Outlet } from "react-router-dom";
 import MobileHeader from "@/components/UI/Header";
-import { useLocation } from 'react-router-dom';
 
 export default function AccountSettings() {
    const navigate = useNavigate();
-  const [firstName, setFirstName] = useState("");
-  const location = useLocation();
+  
 
-  useEffect(() => {
   const user = getUserData();
-  setFirstName(prev => (prev !== user.fullName ? user.fullName : prev));
-}, [location.pathname]);
+const [firstName] = useState(user.fullName || "");
 
     const handleLogout = () => {
   logout();
