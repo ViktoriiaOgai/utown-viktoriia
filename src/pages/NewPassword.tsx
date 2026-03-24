@@ -21,7 +21,7 @@ const code = location.state?.code;
   if (!phone || !code) {
     navigate("/recover");
   }
-}, [location.state]);
+}, [location.state, phone, code, navigate]);
 
 
   const [password, setPassword] = useState("");

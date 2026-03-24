@@ -20,7 +20,7 @@ export default function PasswordResetCode() {
   if (!phone) {
     navigate('/recover');
   }
-}, [phone]);
+}, [phone,  navigate]);
   const handleContinue = () => {
   if (code.length !== 6) {
     setError("Enter full code");
