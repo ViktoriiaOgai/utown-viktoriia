@@ -19,7 +19,7 @@ export default function Home() {
       {/* Фоновая картинка */}
       <img  className="splash-img2" src={Pic} alt="Pic" />
 
-      <MobileHeader logoVariant="white" bellColor= "white" />
+      <MobileHeader logoVariant="white" bellColor= "white" showBell />
 
       {/* Основной контейнер */}
       <div className="mainCont">
