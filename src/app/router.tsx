@@ -20,25 +20,25 @@ import AddEstablishmentPage from "../pages/admin/establishments/add";
 import EditEstablishmentPage from "../pages/admin/establishments/[id]/edit";
 import { AdminRoute, ProtectedRoute } from "../components/ProtectedRoute";
 
-function AdminClientsPage() {
-  return <div style={{ padding: 32, fontSize: 24, fontWeight: 700 }}>Clients</div>;
-}
+const adminClientsPage = (
+  <div style={{ padding: 32, fontSize: 24, fontWeight: 700 }}>Clients</div>
+);
 
-function AdminRidersPage() {
-  return <div style={{ padding: 32, fontSize: 24, fontWeight: 700 }}>Riders</div>;
-}
+const adminRidersPage = (
+  <div style={{ padding: 32, fontSize: 24, fontWeight: 700 }}>Riders</div>
+);
 
-function AdminOrdersPage() {
-  return <div style={{ padding: 32, fontSize: 24, fontWeight: 700 }}>Orders</div>;
-}
+const adminOrdersPage = (
+  <div style={{ padding: 32, fontSize: 24, fontWeight: 700 }}>Orders</div>
+);
 
-function AdminServicesPage() {
-  return <div style={{ padding: 32, fontSize: 24, fontWeight: 700 }}>Services</div>;
-}
+const adminServicesPage = (
+  <div style={{ padding: 32, fontSize: 24, fontWeight: 700 }}>Services</div>
+);
 
-function AdminVacanciesPage() {
-  return <div style={{ padding: 32, fontSize: 24, fontWeight: 700 }}>Vacancies</div>;
-}
+const adminVacanciesPage = (
+  <div style={{ padding: 32, fontSize: 24, fontWeight: 700 }}>Vacancies</div>
+);
 
 export const router = createBrowserRouter([
   {
@@ -87,7 +87,7 @@ export const router = createBrowserRouter([
       { path: "/new", element: <NewPassword /> },
     ],
   },
-  
+
   {
     path: "/admin/login",
     element: <AdminLogin />,
@@ -102,11 +102,11 @@ export const router = createBrowserRouter([
     children: [
       { path: "home", element: <AdminHome /> },
       { path: "profile", element: <AdminProfile /> },
-      { path: "clients", element: <AdminClientsPage /> },
-      { path: "riders", element: <AdminRidersPage /> },
-      { path: "orders", element: <AdminOrdersPage /> },
-      { path: "services", element: <AdminServicesPage /> },
-      { path: "vacancies", element: <AdminVacanciesPage /> },
+      { path: "clients", element: adminClientsPage },
+      { path: "riders", element: adminRidersPage },
+      { path: "orders", element: adminOrdersPage },
+      { path: "services", element: adminServicesPage },
+      { path: "vacancies", element: adminVacanciesPage },
       { path: "establishments", element: <EstablishmentsPage /> },
       { path: "establishments/add", element: <AddEstablishmentPage /> },
       { path: "establishments/:id/edit", element: <EditEstablishmentPage /> },
