@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation} from "react-router-dom";
 import AuthBtn from "@/components/UI/AuthBtn";
 import BackButton from "@/components/UI/BackButton";
-import Modal from "@/components/UI/Modal";
+
 import CodeInput from "@/components/UI/CodeInput";
 import "@/pages/PasswordResetCode.css";
 import { requestPasswordReset } from "@/hooks/auth";
@@ -11,20 +11,25 @@ import { requestPasswordReset } from "@/hooks/auth";
 export default function PasswordResetCode() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [showModal, setShowModal] = useState(false);
-  const params = new URLSearchParams(location.search);
-  const phone = params.get("phone");
+  const phone = location.state?.phone;
 
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
 
+  useEffect(() => {
+  if (!phone) {
+    navigate('/recover');
+  }
+}, [phone]);
   const handleContinue = () => {
   if (code.length !== 6) {
     setError("Enter full code");
     return;
   }
 
-    setShowModal(true);
+    navigate('/reset-password', {
+  state: { phone, code }
+})
   };
   const [timeLeft, setTimeLeft] = useState(60);
 
@@ -77,13 +82,7 @@ const handleResend = async () => {
       <AuthBtn onClick={handleContinue}>
         Confirm
       </AuthBtn>
-      {showModal && (<Modal
-            title="Password successfully reset"
-            message="You can now log in with your new password"
-            buttonText="Ok"
-            onClose={() => navigate(`/reset-password?phone=${phone}&code=${code}`)}
-/>
-)}
+     
     </>
   );
 }
