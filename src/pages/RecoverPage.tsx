@@ -23,7 +23,8 @@ const handleRecover = async () => {
     await requestPasswordReset(phone);
 
     // сразу переход
-    navigate(`/reset-code?phone=${phone}`);
+    navigate('/reset-code', {  state: { phone }
+});
 
   } catch (error) {
     const message = getErrorMessage(error);

@@ -6,21 +6,23 @@ import BackButton from "@/components/UI/BackButton";
 import lock from "@/assets/icons/lock.svg";
 import eye from "@/assets/icons/eye.svg";
 import { resetPassword } from "@/hooks/auth";
+import Modal from "@/components/UI/Modal";
 
 export default function NewPassword() {
   const navigate = useNavigate();
   const location = useLocation();
-
-  //  получаем из URL
-  const params = new URLSearchParams(location.search);
-  const phone = params.get("phone");
-  const code = params.get("code");
+const [showModal, setShowModal] = useState(false);
+  const phone = location.state?.phone;
+const code = location.state?.code;
 
   useEffect(() => {
-    if (!phone || !code) {
-      navigate("/recover");
-    }
-  }, [phone, code, navigate]);
+  if (!location.state) return;
+
+  if (!phone || !code) {
+    navigate("/recover");
+  }
+}, [location.state, phone, code, navigate]);
+
 
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
@@ -54,13 +56,15 @@ export default function NewPassword() {
 
     try {
       await resetPassword(phone!, code!, password);
-      navigate("/login");
-    } catch {
-      setErrors({
-        password: "Password reset failed",
-        repeatPassword: "",
-      });
-    }
+      setShowModal(true);
+    } catch (err) {
+  console.error(err);
+
+  setErrors({
+    password: "Password reset failed",
+    repeatPassword: "",
+  });
+}
   };
 
   return (
@@ -96,6 +100,13 @@ export default function NewPassword() {
       <AuthBtn onClick={handleReset}>
         Reset password
       </AuthBtn>
+       {showModal && (<Modal
+            title="Password successfully reset"
+            message="You can now log in with your new password"
+            buttonText="Ok"
+            onClose={() => navigate('/login')}
+/>
+)}
     </>
   );
 }

@@ -6,8 +6,8 @@ import AuthBtn from "@/components/UI/AuthBtn";
 import { getErrorMessage } from "@/services/getErrorMessage";
 import "@/pages/PersonalInformation.css";
 import MobileHeader from "@/components/UI/Header";
-import { getUserData } from "@/hooks/auth";
-import { updateUserProfile } from "@/hooks/auth";
+import { api } from "@/services/api";
+
 
 export default function PersonalInformation() {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ export default function PersonalInformation() {
   phone: "",
   address: "",
 });
-const user = getUserData();
+const user = JSON.parse(localStorage.getItem("user") || "{}");
 
 const [name, setName] = useState(user.fullName || "");
 const [phone] = useState(user.phone || "");
@@ -28,11 +28,11 @@ const handleSave = async () => {
   if (!isValid) return;
 
   try {
-    await updateUserProfile({
-      fullName: name,
-      username: phone,
-      address: address,
-    });
+    await api.put("/user/profile", {
+  fullName: name,
+  username: phone,
+  address,
+});
 
     // (опционально fallback — чтобы UI не зависел от API)
     const savedAddress = localStorage.getItem("address");
