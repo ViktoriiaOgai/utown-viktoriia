@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { AxiosResponse } from 'axios'
 import MainLayout from '../../components/MainLayout'
 import { api } from '../../services/api'
 import { getErrorMessage } from '../../utils/establishments'
@@ -30,9 +31,13 @@ function normalizeClient(item: unknown): Client {
 
 function asArray(value: unknown): unknown[] {
   const v = value as Record<string, unknown>
+  const responseData = v?.data as Record<string, unknown>
+
   if (Array.isArray(value)) return value
   if (Array.isArray(v?.content)) return v.content as unknown[]
   if (Array.isArray(v?.data)) return v.data as unknown[]
+  if (Array.isArray(responseData?.content)) return responseData.content as unknown[]
+  if (Array.isArray(responseData?.data)) return responseData.data as unknown[]
   return []
 }
 
@@ -61,14 +66,16 @@ export default function ClientsPage() {
       .get(`/admin/clients?page=${page - 1}&size=${pageSize}`, {
         signal: controller.signal,
       })
-      .then((data: unknown) => {
+      .then((response: AxiosResponse) => {
         if (cancelled) return
+
+        const payload = response.data as Record<string, unknown>
+        const nestedData = payload?.data as Record<string, unknown>
+
         setIsLoading(false)
         setPageError('')
-        setRows(asArray(data).map(normalizeClient))
-        const v = data as Record<string, unknown>
-        const d = v?.data as Record<string, unknown>
-        setTotalPages(Math.max(1, Number(v?.totalPages ?? d?.totalPages ?? 1)))
+        setRows(asArray(payload).map(normalizeClient))
+        setTotalPages(Math.max(1, Number(payload?.totalPages ?? nestedData?.totalPages ?? 1)))
       })
       .catch((error: unknown) => {
         if (cancelled) return
