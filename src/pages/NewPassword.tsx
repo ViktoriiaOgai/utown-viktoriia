@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Input from "@/components/UI/Input";
 import AuthBtn from "@/components/UI/AuthBtn";
@@ -6,31 +6,36 @@ import BackButton from "@/components/UI/BackButton";
 import lock from "@/assets/icons/lock.svg";
 import eye from "@/assets/icons/eye.svg";
 import { resetPassword } from "@/hooks/auth";
+import Modal from "@/components/UI/Modal";
 
 export default function NewPassword() {
-
   const navigate = useNavigate();
   const location = useLocation();
-
+const [showModal, setShowModal] = useState(false);
   const phone = location.state?.phone;
+const code = location.state?.code;
 
-if (!phone) {
-  navigate("/recover");
-}
+  useEffect(() => {
+  if (!location.state) return;
+
+  if (!phone || !code) {
+    navigate("/recover");
+  }
+}, [location.state, phone, code, navigate]);
+
 
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
 
   const [errors, setErrors] = useState({
     password: "",
-    repeatPassword: ""
+    repeatPassword: "",
   });
 
   const validate = () => {
-
     const newErrors = {
       password: "",
-      repeatPassword: ""
+      repeatPassword: "",
     };
 
     if (password.length < 6) {
@@ -47,30 +52,23 @@ if (!phone) {
   };
 
   const handleReset = async () => {
-
-
-    console.log("PHONE:", phone);
     if (!validate()) return;
 
     try {
+      await resetPassword(phone!, code!, password);
+      setShowModal(true);
+    } catch (err) {
+  console.error(err);
 
-      await resetPassword(phone, password);
-
-      navigate("/login");
-
-    } catch {
-
-      setErrors({
-        password: "Password reset failed",
-        repeatPassword: ""
-      });
-
-    }
+  setErrors({
+    password: "Password reset failed",
+    repeatPassword: "",
+  });
+}
   };
 
   return (
     <>
-
       <BackButton />
 
       <h2 className="auth-title">New password</h2>
@@ -100,9 +98,15 @@ if (!phone) {
       />
 
       <AuthBtn onClick={handleReset}>
-        Log in
+        Reset password
       </AuthBtn>
-
+       {showModal && (<Modal
+            title="Password successfully reset"
+            message="You can now log in with your new password"
+            buttonText="Ok"
+            onClose={() => navigate('/login')}
+/>
+)}
     </>
   );
 }

@@ -1,52 +1,65 @@
 import type { Establishment } from '../types/establishment'
 
-export function asArray<T = any>(value: any): T[] {
+type AnyObject = Record<string, unknown>
+
+export function asArray<T = unknown>(value: unknown): T[] {
+  const v = value as AnyObject
+
   if (Array.isArray(value)) return value
-  if (Array.isArray(value?.content)) return value.content
-  if (Array.isArray(value?.data?.content)) return value.data.content
-  if (Array.isArray(value?.data)) return value.data
-  if (Array.isArray(value?.items)) return value.items
-  if (Array.isArray(value?.result)) return value.result
+  if (Array.isArray(v?.content)) return v.content as T[]
+  if (Array.isArray((v.data as AnyObject)?.content))
+    return (v.data as AnyObject).content as T[]
+  if (Array.isArray(v?.data)) return v.data as T[]
+  if (Array.isArray(v?.items)) return v.items as T[]
+  if (Array.isArray(v?.result)) return v.result as T[]
+
   return []
 }
 
-export function getPageTotalPages(value: any) {
+export function getPageTotalPages(value: unknown) {
+  const v = value as AnyObject
+  const data = v?.data as AnyObject | undefined
+
   return Math.max(
     1,
     Number(
-      value?.totalPages ??
-        value?.data?.totalPages ??
-        value?.pages ??
-        value?.data?.pages ??
-        1
+      v?.totalPages ??
+      data?.totalPages ??
+      v?.pages ??
+      data?.pages ??
+      1
     )
   )
 }
 
-export function normalizeEstablishment(item: any): Establishment {
+export function normalizeEstablishment(item: unknown): Establishment {
+  const i = item as AnyObject
+  const location = i?.location as AnyObject | undefined
+
   return {
-    id: Number(item?.id ?? item?.restaurantId ?? item?.restaurant_id ?? 0),
-    name: String(item?.name ?? item?.restaurantName ?? item?.title ?? '—'),
-    phone: String(item?.phone ?? item?.phoneNumber ?? item?.number ?? '—'),
-    city: String(item?.city ?? item?.addressCity ?? item?.location?.city ?? '—'),
+    id: Number(i?.id ?? i?.restaurantId ?? i?.restaurant_id ?? 0),
+    name: String(i?.name ?? i?.restaurantName ?? i?.title ?? '—'),
+    phone: String(i?.phone ?? i?.phoneNumber ?? i?.number ?? '—'),
+    city: String(i?.city ?? i?.addressCity ?? location?.city ?? '—'),
     ordersCount: Number(
-      item?.ordersCount ??
-        item?.numberOfOrders ??
-        item?.orders ??
-        item?.orders_count ??
-        0
+      i?.ordersCount ??
+      i?.numberOfOrders ??
+      i?.orders ??
+      i?.orders_count ??
+      0
     ),
-    description: item?.description ?? item?.about ?? '',
+    description: (i?.description ?? i?.about ?? '') as string,
     category:
-      item?.category ??
-      item?.restaurantCategory ??
-      item?.categoryName ??
-      item?.type ??
-      '',
-    minOrder: item?.minOrder ?? item?.minimumOrder ?? item?.min_order ?? '',
+      (i?.category ??
+        i?.restaurantCategory ??
+        i?.categoryName ??
+        i?.type ??
+        '') as string,
+    minOrder: (i?.minOrder ?? i?.minimumOrder ?? i?.min_order ?? '') as string,
     deliveryAreas:
-      item?.deliveryAreas ?? item?.deliveryZone ?? item?.deliveryAddress ?? '',
-    openingHours: item?.openingHours ?? item?.workingHours ?? item?.hours ?? '',
+      (i?.deliveryAreas ?? i?.deliveryZone ?? i?.deliveryAddress ?? '') as string,
+    openingHours:
+      (i?.openingHours ?? i?.workingHours ?? i?.hours ?? '') as string,
   }
 }
 
