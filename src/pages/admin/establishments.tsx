@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import MainLayout from "../../components/MainLayout";
-import EstablishmentCardModal from "./establishments/EstablishmentCardModal";
-import DeleteEstablishmentModal from "./establishments/DeleteEstablishmentModal";
+import { useEffect, useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import MainLayout from '../../components/MainLayout'
+import EstablishmentCardModal from './establishments/EstablishmentCardModal'
+import DeleteEstablishmentModal from './establishments/DeleteEstablishmentModal'
 import {
   IconCaretDown,
   IconChevronRight,
@@ -17,7 +17,7 @@ import {
   getPageTotalPages,
   normalizeEstablishment,
 } from "../../utils/establishments";
-import "../../../styles/establishments.scss";
+import "./establishments.scss"; // ✅ ИСПРАВЛЕНО
 
 export default function EstablishmentsPage() {
   const navigate = useNavigate();
@@ -46,11 +46,12 @@ export default function EstablishmentsPage() {
     api
       .get(`/admin/restaurants/${e.id}`)
       .then((r) => {
-        const data = r.data;
-        const detailsSource = asArray(data).find((x: unknown) => {
-          const item = x as { id?: number; restaurantId?: number };
-          return Number(item.id ?? item.restaurantId) === Number(e.id);
-        });
+        const data = r.data
+        const detailsSource =
+          asArray(data).find((x: unknown) => {
+  const item = x as { id?: number; restaurantId?: number }
+  return Number(item.id ?? item.restaurantId) === Number(e.id)
+})
 
         if (detailsSource) {
           setSelected((prev) => normalizeEstablishment({ ...(prev ?? e), ...detailsSource }));
@@ -68,42 +69,43 @@ export default function EstablishmentsPage() {
   };
 
   useEffect(() => {
-    const controller = new AbortController();
+  const controller = new AbortController()
 
-    const fetchData = async () => {
-      setIsLoading(true);
-      setPageError("");
+  const fetchData = async () => {
+    setIsLoading(true)
+    setPageError('')
 
-      try {
-        const r = await api.get(`/admin/restaurants?page=${page - 1}&size=${pageSize}`, {
-          signal: controller.signal,
-        });
+    try {
+      const r = await api.get(
+        `/admin/restaurants?page=${page - 1}&size=${pageSize}`,
+        { signal: controller.signal }
+      )
 
-        const data = r.data as PageResponse<Establishment>;
+      const data = r.data as PageResponse<Establishment>
 
-        setRows(asArray(data).map(normalizeEstablishment));
-        setTotalPages(getPageTotalPages(data));
-      } catch (error) {
-        setRows([]);
-        setTotalPages(1);
-        setPageError(getErrorMessage(error, "Failed to load establishments"));
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-
-    return () => controller.abort();
-  }, [page, pageSize]);
-
-  useEffect(() => {
-    if (page > totalPages) {
-      setPage(totalPages);
-    } else if (page < 1) {
-      setPage(1);
+      setRows(asArray(data).map(normalizeEstablishment))
+      setTotalPages(getPageTotalPages(data))
+    } catch (error) {
+      setRows([])
+      setTotalPages(1)
+      setPageError(getErrorMessage(error, 'Failed to load establishments'))
+    } finally {
+      setIsLoading(false)
     }
-  }, [page, totalPages]);
+  }
+
+  fetchData()
+
+  return () => controller.abort()
+}, [page, pageSize])
+
+ useEffect(() => {
+  if (page > totalPages) {
+    setPage(totalPages)
+  } else if (page < 1) {
+    setPage(1)
+  }
+}, [page, totalPages])
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -225,9 +227,9 @@ export default function EstablishmentsPage() {
 
             <div className="controlsRow">
               <button
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 className="applyBtn addBtn"
-                onClick={() => navigate("/admin/establishments/add")}
+                onClick={() => navigate('/admin/establishments/add')}
                 type="button"
               >
                 Add establishment
