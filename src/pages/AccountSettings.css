@@ -53,20 +53,14 @@
     color: rgba(255, 255, 255, 1);
     align-content: center;
 }
-/* Контейнер для кнопок под сервисами */
-.buttons-container {
-  display: flex;
-  justify-content: flex-start; /* слева */
-  margin-top: 10px; 
-  flex-direction: column;
-  gap: 20px;
-}
+
 .profile-btn-acc {
     display: flex;
     flex-direction:row;
     align-items: center;
     justify-content: space-between;
   width: 100%;
+  margin-top: 30px;
 }
 .label {
   text-align: left;
@@ -83,9 +77,16 @@
      .delAcc-button {
       background: rgba(50, 50, 50, 1);
         border: none;
-        margin-top: 150px;
-        
-       }
+        display: flex;
+  flex-direction: column;
+   margin-top: auto;
+        }
+  .dellBtn {
+    
+     display: flex;
+    justify-content:center;
+  }
+  
 
 /* --- Анимация появления --- */
 @keyframes fadeIn {

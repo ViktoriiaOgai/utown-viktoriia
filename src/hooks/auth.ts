@@ -23,6 +23,12 @@ export const login = (phone: string, password: string) => {
   });
 };
 
+export const deleteAccount = (password: string) => {
+  return api.delete("/users/profile", {
+    data: { password },
+  });
+};
+
 export const requestPasswordReset = (phone: string) => {
   return api.post("/auth/password/forgot", {
     username: phone,
@@ -39,6 +45,14 @@ export const resetPassword = (
     code,
     newPassword
   });
+};
+
+export const changePassword = (data: {
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}) => {
+  return api.post("/auth/password/change", data);
 };
 
 const getStoredUser = () => {
@@ -77,6 +91,7 @@ export const logout = () => {
   localStorage.removeItem("refreshToken");
   localStorage.removeItem("token");
   localStorage.removeItem("role");
+  localStorage.removeItem("user");
   };
 export const getUserName = () => {
   try {

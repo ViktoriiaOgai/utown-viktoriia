@@ -23,6 +23,7 @@ import EditEstablishmentPage from "../pages/admin/establishments/[id]/edit";
 import { AdminRoute, ProtectedRoute } from "../components/ProtectedRoute";
 import AccountSettings from "@/pages/AccountSettings";
 import PersonalInformation from "@/pages/PersonalInformation";
+import ChangePassword from "@/pages/ChangePassword";
 import {
   AdminClientsPage,
   AdminRidersPage,
@@ -77,6 +78,10 @@ export const router = createBrowserRouter([
     {
   path: "account/personalInf",
   element: <PersonalInformation />,
+},
+{
+  path: "account/password",
+  element: <ChangePassword />,
 },
   ],
 }

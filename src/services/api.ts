@@ -1,4 +1,4 @@
-import axios, {AxiosError, AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import axios, {AxiosError, InternalAxiosRequestConfig } from "axios";
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -16,67 +16,81 @@ api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 
 
 api.interceptors.response.use(
-  (response: AxiosResponse) => response,
+  (response) => response,
+
   async (error: AxiosError) => {
-    // правильно типизированный originalRequest
-    const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
-    const requestUrl = originalRequest?.url || "";
+    const originalRequest = error.config as InternalAxiosRequestConfig & {
+      _retry?: boolean;
+    };
 
-    // guard для /auth/login и /auth/refresh
-    if (requestUrl.includes("/auth/login") || requestUrl.includes("/auth/refresh")) {
+    if (!error.response || !originalRequest) {
       return Promise.reject(error);
     }
 
-    // если ошибка не 401 или нет запроса
-    if (error.response?.status !== 401 || !originalRequest) {
+    const status = error.response.status;
+    const requestUrl = originalRequest.url || "";
+
+    // 1. GUARD — НЕ трогаем auth роуты
+    if (
+      requestUrl.includes("/auth/login") ||
+      requestUrl.includes("/auth/refresh")
+    ) {
       return Promise.reject(error);
     }
 
-    // защита от бесконечного цикла
-    if (originalRequest._retry) {
-      return Promise.reject(error);
-    }
-    originalRequest._retry = true;
-
-    try {
-      const refreshToken = localStorage.getItem("refreshToken");
-
-      if (!refreshToken) {
-        throw new Error("No refresh token");
+    //  2. Только для 401
+    if (status === 401) {
+      // 3. Ограничение retry (только 1 раз)
+      if (originalRequest._retry) {
+        logoutAndRedirect();
+        return Promise.reject(error);
       }
 
-      const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/auth/refresh`,
-        { refreshToken }
-      );
+      originalRequest._retry = true;
 
-      const newToken = res.data.token;
+      try {
+        const refreshToken = localStorage.getItem("refreshToken");
 
-      localStorage.setItem("accessToken", newToken);
+        if (!refreshToken) {
+          throw new Error("No refresh token");
+        }
 
-      if (originalRequest.headers) {
-        originalRequest.headers.Authorization = `Bearer ${newToken}`;
-      }
+        const res = await axios.post(
+          `${import.meta.env.VITE_API_URL}/auth/refresh`,
+          { refreshToken }
+        );
 
-      return api(originalRequest);
-    } catch {
-      // очистка и редирект на логин
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
-      localStorage.removeItem("role");
-      localStorage.removeItem("user");
+        const newToken = res.data.token;
 
-      if (window.location.pathname.startsWith("/admin")) {
-        window.location.href = "/admin/login";
-      } else {
-        window.location.href = "/login";
+        localStorage.setItem("accessToken", newToken);
+
+        // подставляем новый токен
+        if (originalRequest.headers) {
+          originalRequest.headers.Authorization = `Bearer ${newToken}`;
+        }
+
+        // повторяем запрос
+        return api(originalRequest);
+      } catch (err) {
+        logoutAndRedirect();
+        return Promise.reject(err);
       }
     }
+
+    return Promise.reject(error);
   }
 );
 
-export const deleteAccount = (password: string) => {
-  return api.delete('/users/me', {
-    data: { password }, 
-  })
+// выносим отдельно
+function logoutAndRedirect() {
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
+  localStorage.removeItem("role");
+  localStorage.removeItem("user");
+
+  if (window.location.pathname.startsWith("/admin")) {
+    window.location.href = "/admin/login";
+  } else {
+    window.location.href = "/login";
+  }
 }
