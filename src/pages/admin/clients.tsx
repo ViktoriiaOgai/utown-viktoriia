@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { AxiosResponse } from 'axios'
 import MainLayout from '../../components/MainLayout'
 import { api } from '../../services/api'
 import { getErrorMessage } from '../../utils/establishments'
@@ -14,6 +13,12 @@ export type Client = {
   city: string
   address: string
   orders: number
+  avatarUrl?: string
+}
+
+interface ClientsResponse {
+  content: Client[]
+  totalPages: number
 }
 
 function normalizeClient(item: unknown): Client {
@@ -21,24 +26,13 @@ function normalizeClient(item: unknown): Client {
   const address = i?.address as Record<string, unknown>
   return {
     id: Number(i?.id ?? 0),
-    name: String(i?.name ?? i?.username ?? i?.fullName ?? i?.firstName ?? '—'),
-    phone: String(i?.phone ?? i?.phoneNumber ?? i?.username ?? '—'),
-    city: String(i?.city ?? address?.city ?? '—'),
-    address: String(i?.fullAddress ?? address?.fullAddress ?? address?.details ?? '—'),
+    name: String(i?.name ?? i?.username ?? i?.fullName ?? i?.firstName ?? '?'),
+    phone: String(i?.phone ?? i?.phoneNumber ?? i?.username ?? '?'),
+    city: String(i?.city ?? address?.city ?? '?'),
+    address: String(i?.fullAddress ?? address?.fullAddress ?? address?.details ?? '?'),
     orders: Number(i?.ordersCount ?? i?.orders ?? 0),
+    avatarUrl: i?.avatarUrl ? String(i.avatarUrl) : undefined,
   }
-}
-
-function asArray(value: unknown): unknown[] {
-  const v = value as Record<string, unknown>
-  const responseData = v?.data as Record<string, unknown>
-
-  if (Array.isArray(value)) return value
-  if (Array.isArray(v?.content)) return v.content as unknown[]
-  if (Array.isArray(v?.data)) return v.data as unknown[]
-  if (Array.isArray(responseData?.content)) return responseData.content as unknown[]
-  if (Array.isArray(responseData?.data)) return responseData.data as unknown[]
-  return []
 }
 
 export default function ClientsPage() {
@@ -63,19 +57,16 @@ export default function ClientsPage() {
     let cancelled = false
 
     api
-      .get(`/admin/clients?page=${page - 1}&size=${pageSize}`, {
+      .get<ClientsResponse>(`/admin/clients?page=${page - 1}&size=${pageSize}&search=${search}`, {
         signal: controller.signal,
       })
-      .then((response: AxiosResponse) => {
+      .then((response) => {
         if (cancelled) return
-
-        const payload = response.data as Record<string, unknown>
-        const nestedData = payload?.data as Record<string, unknown>
 
         setIsLoading(false)
         setPageError('')
-        setRows(asArray(payload).map(normalizeClient))
-        setTotalPages(Math.max(1, Number(payload?.totalPages ?? nestedData?.totalPages ?? 1)))
+        setRows(response.data.content.map(normalizeClient))
+        setTotalPages(Math.max(1, response.data.totalPages))
       })
       .catch((error: unknown) => {
         if (cancelled) return
@@ -88,15 +79,9 @@ export default function ClientsPage() {
       cancelled = true
       controller.abort()
     }
-  }, [page])
+  }, [page, search])
 
-  const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase()
-    if (!q) return rows
-    return rows.filter((c) => c.name.toLowerCase().includes(q))
-  }, [rows, search])
-
-  const allChecked = filtered.length > 0 && filtered.every((c) => selectedIds.includes(c.id))
+  const allChecked = rows.length > 0 && rows.every((c) => selectedIds.includes(c.id))
 
   const toggleOne = (id: number) => {
     setSelectedIds((prev) =>
@@ -106,11 +91,11 @@ export default function ClientsPage() {
 
   const toggleAll = () => {
     if (allChecked) {
-      setSelectedIds((prev) => prev.filter((id) => !filtered.some((c) => c.id === id)))
+      setSelectedIds((prev) => prev.filter((id) => !rows.some((c) => c.id === id)))
     } else {
       setSelectedIds((prev) => {
         const next = [...prev]
-        filtered.forEach((c) => {
+        rows.forEach((c) => {
           if (!next.includes(c.id)) next.push(c.id)
         })
         return next
@@ -212,17 +197,17 @@ export default function ClientsPage() {
                     <th className="th checkboxCol">
                       <input type="checkbox" checked={allChecked} onChange={toggleAll} />
                     </th>
-                    <th className="th">Name ▾</th>
-                    <th className="th">Number ▾</th>
-                    <th className="th">City ▾</th>
-                    <th className="th">Address ▾</th>
-                    <th className="th">Orders ▾</th>
-                    <th className="th">Order History ▾</th>
+                    <th className="th">Name</th>
+                    <th className="th">Number</th>
+                    <th className="th">City</th>
+                    <th className="th">Address</th>
+                    <th className="th">Orders</th>
+                    <th className="th">Order History</th>
                     <th className="th iconCol" />
                   </tr>
                 </thead>
                 <tbody>
-                  {filtered.map((c) => (
+                  {rows.map((c) => (
                     <tr
                       key={c.id}
                       className="tr"
@@ -260,7 +245,7 @@ export default function ClientsPage() {
                       </td>
                     </tr>
                   ))}
-                  {filtered.length === 0 && (
+                  {rows.length === 0 && (
                     <tr>
                       <td className="td emptyRow" colSpan={8}>
                         No clients found

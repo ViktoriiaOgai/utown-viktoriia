@@ -7,15 +7,10 @@ type Props = {
   onEdit: () => void
 }
 
-type ClientWithOptionalAvatar = Client & {
-  avatar?: string
-}
-
 export default function ClientCardModal({ open, client, onClose, onEdit }: Props) {
   if (!open || !client) return null
 
-  const clientWithAvatar = client as ClientWithOptionalAvatar
-  const avatar = clientWithAvatar.avatar
+  const avatar = client.avatarUrl
 
   return (
     <div
@@ -64,7 +59,7 @@ export default function ClientCardModal({ open, client, onClose, onEdit }: Props
             padding: 0,
           }}
         >
-          ×
+          ✕
         </button>
 
         <div
@@ -148,7 +143,7 @@ export default function ClientCardModal({ open, client, onClose, onEdit }: Props
               }}
             >
               <span>Edit account</span>
-              <span style={{ fontSize: 18, lineHeight: 1 }}>→</span>
+              <span style={{ fontSize: 18, lineHeight: 1 }}>›</span>
             </button>
           </div>
         </div>
@@ -177,60 +172,25 @@ export default function ClientCardModal({ open, client, onClose, onEdit }: Props
 
           <div style={{ display: 'grid', gap: 18 }}>
             <div>
-              <div
-                style={{
-                  fontSize: 12,
-                  fontWeight: 700,
-                  color: '#6b7280',
-                  marginBottom: 4,
-                }}
-              >
+              <div style={{ fontSize: 12, fontWeight: 700, color: '#6b7280', marginBottom: 4 }}>
                 Phone:
               </div>
-              <div
-                style={{
-                  fontSize: 14,
-                  fontWeight: 700,
-                  color: '#6b7280',
-                  lineHeight: 1.45,
-                }}
-              >
+              <div style={{ fontSize: 14, fontWeight: 700, color: '#6b7280', lineHeight: 1.45 }}>
                 {client.phone || '—'}
               </div>
             </div>
 
             <div>
-              <div
-                style={{
-                  fontSize: 12,
-                  fontWeight: 700,
-                  color: '#6b7280',
-                  marginBottom: 4,
-                }}
-              >
+              <div style={{ fontSize: 12, fontWeight: 700, color: '#6b7280', marginBottom: 4 }}>
                 City:
               </div>
-              <div
-                style={{
-                  fontSize: 14,
-                  fontWeight: 700,
-                  color: '#6b7280',
-                  lineHeight: 1.45,
-                }}
-              >
+              <div style={{ fontSize: 14, fontWeight: 700, color: '#6b7280', lineHeight: 1.45 }}>
                 {client.city || '—'}
               </div>
             </div>
 
             <div>
-              <div
-                style={{
-                  fontSize: 12,
-                  fontWeight: 700,
-                  color: '#6b7280',
-                  marginBottom: 4,
-                }}
-              >
+              <div style={{ fontSize: 12, fontWeight: 700, color: '#6b7280', marginBottom: 4 }}>
                 Address:
               </div>
               <div
@@ -248,24 +208,10 @@ export default function ClientCardModal({ open, client, onClose, onEdit }: Props
             </div>
 
             <div>
-              <div
-                style={{
-                  fontSize: 12,
-                  fontWeight: 700,
-                  color: '#6b7280',
-                  marginBottom: 4,
-                }}
-              >
+              <div style={{ fontSize: 12, fontWeight: 700, color: '#6b7280', marginBottom: 4 }}>
                 Orders:
               </div>
-              <div
-                style={{
-                  fontSize: 14,
-                  fontWeight: 700,
-                  color: '#6b7280',
-                  lineHeight: 1.45,
-                }}
-              >
+              <div style={{ fontSize: 14, fontWeight: 700, color: '#6b7280', lineHeight: 1.45 }}>
                 {client.orders} orders
               </div>
             </div>
