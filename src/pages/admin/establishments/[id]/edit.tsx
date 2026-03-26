@@ -8,21 +8,21 @@ import { getErrorMessage } from "../../../../utils/establishments";
 import { getRole, isAdminRole } from "../../../../hooks/auth";
 
 const initialValues: EstablishmentFormValues = {
-  name: "",
-  description: "",
-  minimumOrder: "",
-  phone: "",
-  category: "",
-  city: "",
-  deliveryAreas: "",
-  mon: "9:00 — 22:00",
-  tue: "Day off",
-  wed: "9:00 — 22:00",
-  thu: "9:00 — 22:00",
-  fri: "9:00 — 22:00",
-  sat: "9:00 — 22:00",
-  sun: "9:00 — 22:00",
-};
+  name: '',
+  description: '',
+  minimumOrder: '',
+  phone: '',
+  category: '',
+  city: '',
+  deliveryAreas: '',
+  mon: '9:00 — 22:00',
+  tue: 'Day off',
+  wed: '9:00 — 22:00',
+  thu: '9:00 — 22:00',
+  fri: '9:00 — 22:00',
+  sat: '9:00 — 22:00',
+  sun: '9:00 — 22:00',
+}
 
 export default function EditEstablishmentPage() {
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ export default function EditEstablishmentPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const role = getRole();
+    const role = getRole()
 
     if (!isAdminRole(role)) {
       navigate("/home", { replace: true });
@@ -57,31 +57,29 @@ export default function EditEstablishmentPage() {
     api
       .get(`/admin/restaurants/${id}`)
       .then((r) => {
-        const data = r.data;
-        const details = data?.data ?? data;
-        const address = details?.address ?? {};
+        const data = r.data
+        const details = data?.data ?? data
+        const address = details?.address ?? {}
 
         setValues({
-          name: String(details?.title ?? details?.name ?? ""),
-          description: String(details?.description ?? ""),
-          minimumOrder: String(
-            details?.minOrderAmount ?? details?.minOrder ?? details?.minimumOrder ?? ""
-          ),
-          phone: String(details?.phone ?? ""),
-          category: String(details?.category ?? ""),
-          city: String(address?.city ?? details?.city ?? ""),
-          deliveryAreas: String(address?.details ?? ""),
-          mon: String(details?.deliveryTime ?? "9:00 — 22:00"),
-          tue: "Day off",
-          wed: "9:00 — 22:00",
-          thu: "9:00 — 22:00",
-          fri: "9:00 — 22:00",
-          sat: "9:00 — 22:00",
-          sun: "9:00 — 22:00",
-        });
+          name: String(details?.title ?? details?.name ?? ''),
+          description: String(details?.description ?? ''),
+          minimumOrder: String(details?.minOrderAmount ?? details?.minOrder ?? details?.minimumOrder ?? ''),
+          phone: String(details?.phone ?? ''),
+          category: String(details?.category ?? ''),
+          city: String(address?.city ?? details?.city ?? ''),
+          deliveryAreas: String(address?.details ?? ''),
+          mon: String(details?.deliveryTime ?? '9:00 — 22:00'),
+          tue: 'Day off',
+          wed: '9:00 — 22:00',
+          thu: '9:00 — 22:00',
+          fri: '9:00 — 22:00',
+          sat: '9:00 — 22:00',
+          sun: '9:00 — 22:00',
+        })
       })
       .catch((err) => {
-        setError(getErrorMessage(err, "Failed to load establishment"));
+        setError(getErrorMessage(err, 'Failed to load establishment'))
       })
       .finally(() => {
         setIsLoading(false);
@@ -130,9 +128,9 @@ export default function EditEstablishmentPage() {
         ownerId: 0,
       });
 
-      navigate("/admin/establishments");
+      navigate('/admin/establishments')
     } catch (err) {
-      setError(getErrorMessage(err, "Failed to save establishment"));
+      setError(getErrorMessage(err, 'Failed to save establishment'))
     } finally {
       setIsSaving(false);
     }
