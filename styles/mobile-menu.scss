@@ -1,0 +1,135 @@
+.mobile-layout {
+  min-height: 100vh;
+  background: #f5f5f5;
+  position: relative;
+}
+
+.mobile-layout-header {
+  height: 60px;
+  background: #ffffff;
+  border-bottom: 1px solid #e9e9e9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.mobile-layout-burger {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+
+.mobile-layout-burger span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: #1f1f1f;
+  border-radius: 2px;
+}
+
+.mobile-layout-logo {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1f1f1f;
+  letter-spacing: 0.2px;
+}
+
+.mobile-content {
+  padding-bottom: 80px;
+}
+
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  z-index: 19;
+}
+
+.mobile-menu-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-menu-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  max-width: calc(100vw - 54px);
+  height: 100vh;
+  background: #ffffff;
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-menu-drawer.open {
+  transform: translateX(0);
+}
+
+.mobile-menu-topbar {
+  height: 60px;
+  border-bottom: 1px solid #ececec;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+}
+
+.mobile-menu-logo {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1f1f1f;
+}
+
+.mobile-menu-close {
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  line-height: 1;
+  color: #6b6b6b;
+  cursor: pointer;
+  padding: 0;
+}
+
+.mobile-menu-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-menu-item {
+  height: 56px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  color: #222222;
+  font-size: 15px;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.mobile-menu-arrow {
+  font-size: 24px;
+  line-height: 1;
+  color: #444444;
+}
