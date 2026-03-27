@@ -6,11 +6,9 @@ import Welcome from "@/pages/Welcome";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import Recover from "@/pages/RecoverPage";
-import NewPassword from "@/pages/NewPassword";
 import Home from "@/pages/Home";
 import Favourites from "@/pages/Favourites";
 import Profile from "@/pages/Profile";
-import PasswordResetCode from "@/pages/PasswordResetCode";
 import EstablishmentsPage from "../pages/admin/establishments";
 import AddEstablishmentPage from "../pages/admin/establishments/add";
 import EditEstablishmentPage from "../pages/admin/establishments/[id]/edit";
@@ -77,8 +75,6 @@ export const router = createBrowserRouter([
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
       { path: "/recover", element: <Recover /> },
-      { path: "/reset-password", element: <NewPassword /> },
-      { path: "/reset-code", element: <PasswordResetCode /> },
     ],
   },
   {
