@@ -19,7 +19,9 @@ export default function EstablishmentCardModal({
 
   useEffect(() => {
     if (!open) return
-    setImgBroken(false)
+    setTimeout(() => {
+  setImgBroken(false)
+}, 0)
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()

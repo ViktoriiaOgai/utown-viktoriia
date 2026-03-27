@@ -1,5 +1,6 @@
 import Pic from "@/assets/images/Pic 5.svg";
 import AuthBtn from "@/components/UI/AuthBtn";
+import "@/components/UI/Modal.css";
 
 interface ModalProps {
   title: string;

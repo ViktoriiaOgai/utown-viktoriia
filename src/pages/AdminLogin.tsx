@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { login } from '../hooks/auth'
+import axios from "axios";
 
 export default function AdminLogin() {
   const navigate = useNavigate()
@@ -36,6 +37,7 @@ export default function AdminLogin() {
       const isAdmin =
         normalizedRole === 'ADMIN' ||
         normalizedRole === 'SUPER_ADMIN'
+        
 
       if (!accessToken) {
         setError('Access token was not returned')
@@ -61,13 +63,17 @@ export default function AdminLogin() {
       }
 
       navigate('/admin/home', { replace: true })
-    } catch (err: any) {
-      setError(
-        err?.response?.data?.message ||
-          err?.message ||
-          'Failed to login'
-      )
-    } finally {
+    } catch (err: unknown) {
+  if (axios.isAxiosError(err)) {
+    setError(
+      err.response?.data?.message || err.message || "Failed to login"
+    )
+  } else if (err instanceof Error) {
+    setError(err.message)
+  } else {
+    setError("Failed to login")
+  }
+} finally {
       setIsLoading(false)
     }
   }

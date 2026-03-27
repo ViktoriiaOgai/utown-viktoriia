@@ -31,12 +31,13 @@ export const requestPasswordReset = (phone: string) => {
 
 export const resetPassword = (
   username: string,
+  code: string,
   newPassword: string
 ) => {
   return api.post("/auth/password/reset", {
     username,
-    code: "123456",
-    newPassword,
+    code,
+    newPassword
   });
 };
 
