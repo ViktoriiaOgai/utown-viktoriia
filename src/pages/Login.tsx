@@ -31,16 +31,10 @@ const handleLogin = async () => {
 
         localStorage.setItem("accessToken", token);
         localStorage.setItem("refreshToken", refreshToken);
-        const oldUser = JSON.parse(localStorage.getItem("user") || "{}");
-
-            const newUser = {
-              ...user,
-              ...oldUser,
-              fullName: oldUser.fullName || user.fullName,
+        localStorage.setItem("user", JSON.stringify({
+  ...user,
   phone: phone,
-            };
-
-        localStorage.setItem("user", JSON.stringify(newUser));
+}));
         
 
 navigate("/home");

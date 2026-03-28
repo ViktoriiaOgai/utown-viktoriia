@@ -6,7 +6,7 @@ import AuthBtn from "@/components/UI/AuthBtn";
 import { getErrorMessage } from "@/services/getErrorMessage";
 import "@/pages/PersonalInformation.css";
 import MobileHeader from "@/components/UI/Header";
-import { api } from "@/services/api";
+import { updateUserProfile } from "@/hooks/auth";
 
 
 export default function PersonalInformation() {
@@ -28,19 +28,15 @@ const handleSave = async () => {
   if (!isValid) return;
 
   try {
-    await api.put("/user/profile", {
-  fullName: name,
-  username: phone,
-  address,
-});
+    await updateUserProfile({
+      fullName: name,
+      username: phone,
+      address,
+    });
 
-    // (опционально fallback — чтобы UI не зависел от API)
-    const savedAddress = localStorage.getItem("address");
-if (savedAddress) {
-  setAddress(savedAddress);
-}
-
+   
     navigate("/profile/account");
+  
 
   } catch (error) {
     const message = getErrorMessage(error);
@@ -61,12 +57,6 @@ if (savedAddress) {
 
   if (!name.trim()) {
     newErrors.name = "Name is required";
-  }
-
-  if (!phone.trim()) {
-    newErrors.phone = "Phone is required";
-  } else if (!/^\d+$/.test(phone)) {
-    newErrors.phone = "Only numbers allowed";
   }
 
   if (!address.trim()) {

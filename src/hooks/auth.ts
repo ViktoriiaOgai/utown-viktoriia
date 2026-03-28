@@ -115,6 +115,14 @@ export const updateUserProfile = async (data: {
   username?: string;
   address?: string;
 }) => {
+
+  //1. отправляем на сервер
+  await api.put("/users/profile", {
+    fullName: data.fullName,
+    username: data.username,
+  });
+
+  // 2. обновляем localStorage
   const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
 
   const updatedUser = {
@@ -124,6 +132,7 @@ export const updateUserProfile = async (data: {
   };
 
   localStorage.setItem("user", JSON.stringify(updatedUser));
+
 
   // адрес (API)
 if (data.address && data.address.trim()) {
