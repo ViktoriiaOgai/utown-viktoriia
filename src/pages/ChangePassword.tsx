@@ -84,8 +84,7 @@ const handleSave = async () => {
   icon={lock}
   iconRight={eye}
   isPassword
-  error={errors.currentPassword}
-/>
+  />
 
 <label className="label">New Password</label>
 <Input

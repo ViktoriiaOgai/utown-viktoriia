@@ -1,9 +1,7 @@
 
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
-
 import AuthLayout from "../layout/AuthLayout";
 import MobileLayout from "../layout/MobileLayout";
-
 import Welcome from "../pages/Welcome";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
@@ -98,7 +96,6 @@ export const router = createBrowserRouter([
       { path: "/reset-code", element: <PasswordResetCode /> },
     ],
   },
-  
   {
     path: "/admin/login",
     element: <AdminLogin />,
