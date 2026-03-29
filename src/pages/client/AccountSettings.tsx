@@ -1,5 +1,5 @@
 import {useState } from "react"; 
-import "@/pages/AccountSettings.css";
+import "@/pages/client/AccountSettings.css";
 import { useNavigate} from "react-router-dom";
 import User from "@/assets/icons/user.svg";
 import ArrowIcon from "@/assets/icons/Arrow.svg?react";

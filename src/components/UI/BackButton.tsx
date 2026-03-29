@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import BackIcon from "@/assets/icons/Back.svg?react";
 import "@/components/UI/BackButton.css";
 
@@ -14,14 +14,14 @@ export default function BackButton({
   size = 32,
 }: Props) {
   const navigate = useNavigate();
-
+  const location = useLocation();
   const handleBack = () => {
-    if (window.history.length > 1) {
-      navigate(-1);
-    } else {
-      navigate("/");
-    }
-  };
+  if (location.state?.from) {
+    navigate(location.state.from);
+  } else {
+    navigate(-1);
+  }
+};
 
   return (
     <button className={`back-btn ${className}`} onClick={handleBack}>

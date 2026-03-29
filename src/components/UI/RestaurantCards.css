@@ -43,17 +43,7 @@
   align-items: center;
   
 }
-.more-btn {
-  background: rgba(209, 202, 255, 1);
-  width: 75px;
-  height: 37px;
-  opacity: 1;
-  border-radius: 10px;
-  gap: 10px;
-  border: none;
-  color: rgba(137, 125, 211, 1);
 
-}
 .restaurant-card img {
   width: 100%;
   height: 100px;
@@ -70,3 +60,15 @@
   padding-left: 10px
 }
 
+/* GRID режим */
+.restaurant-cards-container.vertical {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  
+}
+
+/* карточки внутри grid */
+.restaurant-cards-container.vertical .restaurant-card {
+  width: 160px;
+}

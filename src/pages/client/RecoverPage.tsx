@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Input from "../components/UI/Input";
+import Input from "../../components/UI/Input";
 import "@/App.css";
 import BackButton from "@/components/UI/BackButton";
 import AuthBtn from "@/components/UI/AuthBtn";

@@ -4,7 +4,7 @@ import Input from "@/components/UI/Input";
 import "@/App.css";
 import AuthBtn from "@/components/UI/AuthBtn";
 import { getErrorMessage } from "@/services/getErrorMessage";
-import "@/pages/PersonalInformation.css";
+import "@/pages/client/PersonalInformation.css";
 import MobileHeader from "@/components/UI/Header";
 import { updateUserProfile } from "@/hooks/auth";
 

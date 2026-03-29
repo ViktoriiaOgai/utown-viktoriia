@@ -1,6 +1,6 @@
 import { useState } from "react"; 
 import ServicesCards from "@/components/UI/ServicesCards";
-import "@/pages/Profile.css";
+import "@/pages/client/Profile.css";
 import { useNavigate} from "react-router-dom";
 import ProfileIcon from "@/assets/icons/profile-circle.svg?react";
 import InformIcon from "@/assets/icons/setting-2.svg?react";
@@ -38,19 +38,19 @@ navigate("/login");
           <h3 className="label">Account</h3>
         </div>
       </button>
-      <button className="prof-button" onClick={() => navigate("/home")}>
+      <button className="prof-button" onClick={() => navigate("/profile/information")}>
         <div className="profile-btn">
           <InformIcon className="profile-icon" />
           <h3 className="label">Information</h3>
         </div>
       </button>
-      <button className="prof-button" onClick={() => navigate("/home")}>
+      <button className="prof-button" onClick={() => navigate("/favourites")}>
         <div className="profile-btn">
           <FavouritesIcon className="profile-icon" />
           <h3 className="label">Favourites</h3>
         </div>
       </button>
-      <button className="prof-button" onClick={() => navigate("/home")}>
+      <button className="prof-button" onClick={() => navigate("/profile/contact")}>
         <div className="profile-btn">
           <SupportIcon className="profile-icon" />
           <h3 className="label">Contact Support</h3>

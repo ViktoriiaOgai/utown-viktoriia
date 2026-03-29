@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "@/components/UI/Input";
-import "@/pages/Login.css";
+import "@/pages/client/Login.css";
 import AuthBtn from "@/components/UI/AuthBtn";
 import Vector from "@/assets/icons/Vector.svg";
 import BackButton from "@/components/UI/BackButton";

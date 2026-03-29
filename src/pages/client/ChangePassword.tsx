@@ -6,7 +6,7 @@ import lock from "@/assets/icons/lock.svg";
 import eye from "@/assets/icons/eye.svg";
 import { changePassword } from "@/hooks/auth";
 import Modal from "@/components/UI/Modal";
-import  "@/pages/ChangePassword.css";
+import  "@/pages/client/ChangePassword.css";
 import MobileHeader from "@/components/UI/Header";
 
 export default function ChangePassword() {

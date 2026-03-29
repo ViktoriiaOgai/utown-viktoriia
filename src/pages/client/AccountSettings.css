@@ -5,8 +5,6 @@
   height:100vh;
 
   background: rgba(50, 50, 50, 1);
-  padding: 20px;
-  margin-top: 10px;
   display: flex;
   flex-direction: column;
 }
@@ -16,6 +14,7 @@
   display: flex;
   flex-direction: column;
   margin: 20px;
+  padding: 20px;
 }
 
 /* --- Заголовок --- */
@@ -26,6 +25,7 @@
   line-height: 130%;
     letter-spacing: 0px;
     margin:0;
+  
 }
 
 .OrderInfoContainer {
@@ -35,15 +35,16 @@
     width: 428px;
     height: 100px;
     top: 204px;
-
+    padding: 20px;
 }
 .userimg {
     background-color: rgba(255, 255, 255, 1);
     border-radius: 50px;
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     top: 10px;
     left: 18px;
+    padding: 15px;
  }
 .user-name {
     font-weight: 500;
@@ -61,6 +62,7 @@
     justify-content: space-between;
   width: 100%;
   margin-top: 30px;
+  padding: 20px;
 }
 .label {
   text-align: left;
@@ -85,12 +87,6 @@
     
      display: flex;
     justify-content:center;
+    padding-bottom: 20px;
   }
   
-
-/* --- Анимация появления --- */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-

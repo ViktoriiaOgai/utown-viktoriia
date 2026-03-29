@@ -4,7 +4,7 @@ import AuthBtn from "@/components/UI/AuthBtn";
 import BackButton from "@/components/UI/BackButton";
 
 import CodeInput from "@/components/UI/CodeInput";
-import "@/pages/PasswordResetCode.css";
+import "@/pages/client/PasswordResetCode.css";
 import { requestPasswordReset } from "@/hooks/auth";
 
 

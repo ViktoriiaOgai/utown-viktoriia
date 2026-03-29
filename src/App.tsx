@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
-import Home from './pages/Home'
-import Profile from './pages/Profile'
+import Home from './pages/client/Home'
+import Profile from './pages/client/Profile'
 import AdminLogin from './pages/AdminLogin'
 
 function AdminHome() {

@@ -6,6 +6,10 @@ import placeholder from "@/assets/images/Ad 1.svg";
 import Deliver from "@/assets/icons/deliver.svg?react"
 import { getErrorMessage } from "@/services/getErrorMessage";
 
+type Props = {
+  variant?: "scroll" | "grid";
+};
+
 type Restaurant = {
   id: number;
   title: string;
@@ -18,7 +22,7 @@ type Restaurant = {
 };
 
 const API_URL = import.meta.env.VITE_API_URL;
-export default function RestaurantCards() {
+export default function RestaurantCards({ variant = "scroll" }: Props) {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
 
   useEffect(() => {
@@ -36,28 +40,34 @@ export default function RestaurantCards() {
 }, []);
 
   return (
-    <div className="restaurants-section">
-  <div className="restaurants-header">
-    <h2>Food Delivery</h2>
-    <button className="more-btn">More</button>
-  </div>
-  
-    <div className="restaurant-cards-container">
+  <div className="restaurants-section">
+    <div className="restaurants-header">
+      <h2>Food Delivery</h2>
+    </div>
+
+    <div
+      className={`restaurant-cards-container ${
+        variant === "grid" ? "vertical" : ""
+      }`}
+    >
       {restaurants.map((r) => (
         <div className="restaurant-card" key={r.id}>
-          <img className="title"
-  src={r.imageUrl || placeholder}
-  alt={r.title}
-  onError={(e) => {
-    e.currentTarget.src = placeholder;
-  }}
-/>
+          <img
+            className="title"
+            src={r.imageUrl || placeholder}
+            alt={r.title}
+            onError={(e) => {
+              e.currentTarget.src = placeholder;
+            }}
+          />
           <h4 className="title">{r.title}</h4>
           <p className="categ">{r.category}</p>
-          <p className="categ"> <Deliver/> {r.minOrderAmount}₩ • {r.deliveryTime}</p>
+          <p className="categ">
+            <Deliver /> {r.minOrderAmount}₩ • {r.deliveryTime}
+          </p>
         </div>
       ))}
     </div>
-    </div>
-  );
+  </div>
+);
 }

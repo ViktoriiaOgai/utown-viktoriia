@@ -1,0 +1,58 @@
+
+.mainAcc-cont {
+  position: relative;
+  width: 100%;
+  height:100vh;
+
+  background: rgba(50, 50, 50, 1);
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mainCont-cont {
+ width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+}
+
+/* --- Заголовок --- */
+.H {
+  font-size: 26px;
+  font-weight: 600;
+  color: white;
+  margin:0;
+  padding: 20px;
+}
+
+.profile-btn-acc {
+    display: flex;
+    flex-direction:row;
+    align-items: center;
+    justify-content: space-between;
+  width: 100%;
+  margin:0;
+}
+.label {
+  text-align: left;
+}
+.prof-button {
+        background: rgba(50, 50, 50, 1);
+        border: none;
+        
+    
+     }
+.profile-icon {
+    flex-shrink: 0;
+     }
+     
+    
+  
+
+/* --- Анимация появления --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
