@@ -49,14 +49,9 @@ const [firstName] = useState(user.fullName || "");
              <ArrowIcon className="profile-icon" />
         </div>
       </button>
-      <button
-  className="delAcc-button"
-  onClick={() => setShowModal(true)}
->
-  
-    <h3>Delete account</h3>
- 
-</button>
+      <button className="delAcc-button"onClick={() => setShowModal(true)}>
+         <h3 className="dell-label">Delete account</h3>
+      </button>
       {showModal && (<ModalDelAcc
                  title="Delete your account?"
                  message="This will permanently delete your account and all your data. 

@@ -80,9 +80,11 @@
     display: flex;
     justify-content:center;
     padding-bottom: 20px;
-    color: rgb(150, 4, 4);
-    font-weight: 500;
-    font-size: 14px;
+    
     }
   
-  
+  .dell-label {
+   color: rgb(150, 4, 4);
+    font-weight: 200;
+    font-size: 14px;
+  }
