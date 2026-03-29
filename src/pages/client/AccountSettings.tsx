@@ -28,7 +28,7 @@ const [firstName] = useState(user.fullName || "");
           <h1 className="H">Account Settings</h1>
         </div>
         
-         <div className="OrderInfoContainer">
+         <div className="InfoContainer">
            <img  src={user?.avatar || User}  onError={(e) => {
                    e.currentTarget.src = User;
             }}
@@ -53,9 +53,9 @@ const [firstName] = useState(user.fullName || "");
   className="delAcc-button"
   onClick={() => setShowModal(true)}
 >
-  <div className="dellBtn">
-    <h3 className="label-out">Delete account</h3>
-  </div>
+  
+    <h3>Delete account</h3>
+ 
 </button>
       {showModal && (<ModalDelAcc
                  title="Delete your account?"

@@ -8,7 +8,7 @@ export default function Favourites() {
   return (
     <div className="favor">
       
-     <MobileHeader showBack logoVariant="gradient" bellColor="#9ca3af" />
+     <MobileHeader showBack logoVariant="gradient" showBell bellColor="rgba(141, 141, 141, 1)" />
 
       {/* Основной контейнер */}
       <div className="mainCont">

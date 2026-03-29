@@ -18,7 +18,7 @@ export default function MobileHeader({
   showBack = false,
   showBell = false,
   backColor = "black",
-  bellColor = "#9ca3af",
+  bellColor = "rgba(141, 141, 141, 1)",
   logoVariant = "gradient",
 }: Props) {
   return (
