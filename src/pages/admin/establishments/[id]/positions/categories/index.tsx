@@ -2,7 +2,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import MainLayout from '../../../../../../components/MainLayout'
 import { useNavigate, useParams } from 'react-router-dom'
-import { apiFetch } from '../../../../../../services/api'
+import { api } from '../../../../../../services/api'
+import '../../../../../../styles/categories.scss'
 
 type CategoryRow = { id: number; name: string; priority: number; establishmentId?: number }
 
@@ -19,7 +20,7 @@ function asArray<T = any>(value: any): T[] {
 function normalizeCategory(item: any): CategoryRow {
   return {
     id: Number(item?.id ?? item?.categoryId ?? item?.category_id ?? 0),
-    name: String(item?.name ?? item?.title ?? '—'),
+    name: String(item?.name ?? item?.title ?? ''),
     priority: Number(item?.priority ?? item?.sortOrder ?? 1),
     establishmentId: Number(item?.restaurantId ?? item?.establishmentId ?? item?.restaurant_id ?? 0),
   }
@@ -40,9 +41,9 @@ export default function EstablishmentCategoriesPage() {
   const [savingId, setSavingId] = useState<number | null>(null)
 
   useEffect(() => {
-    apiFetch('/admin/categories')
-      .then((data: any) => {
-        const list = asArray(data).map(normalizeCategory)
+    api.get('/admin/categories')
+      .then((res) => {
+        const list = asArray(res.data).map(normalizeCategory)
         setAllItems(list.filter((item) => !item.establishmentId || String(item.establishmentId) === String(establishmentId)))
       })
       .catch(() => { setAllItems([]) })
@@ -65,7 +66,6 @@ export default function EstablishmentCategoriesPage() {
   const goTo = (p: number) => setPage(Math.min(Math.max(1, p), totalPages))
   const prevDisabled = page <= 1
   const nextDisabled = page >= totalPages
-  const buttonBase: React.CSSProperties = { padding: '8px 12px', border: 'none', background: '#fff', color: '#111', cursor: 'pointer' }
   const allChecked = pageItems.length > 0 && pageItems.every((item) => selectedIds.includes(item.id))
 
   const toggleOne = (categoryId: number) => setSelectedIds((prev) => prev.includes(categoryId) ? prev.filter((id) => id !== categoryId) : [...prev, categoryId])
@@ -79,7 +79,7 @@ export default function EstablishmentCategoriesPage() {
   const handlePrioritySave = async (item: CategoryRow) => {
     setSavingId(item.id)
     try {
-      await apiFetch(`/admin/categories/${item.id}`, { method: 'PUT', body: JSON.stringify({ id: item.id, name: item.name, priority: item.priority, sortOrder: item.priority, restaurantId: Number(establishmentId) }) })
+      await api.put(`/admin/categories/${item.id}`, { id: item.id, name: item.name, priority: item.priority, sortOrder: item.priority, restaurantId: Number(establishmentId) })
     } catch (err) { console.error(err); alert('Failed to save category priority') } finally { setSavingId(null) }
   }
 
@@ -88,7 +88,7 @@ export default function EstablishmentCategoriesPage() {
     if (nextName === null || !nextName.trim()) return
     setSavingId(item.id)
     try {
-      await apiFetch(`/admin/categories/${item.id}`, { method: 'PUT', body: JSON.stringify({ id: item.id, name: nextName.trim(), priority: item.priority, sortOrder: item.priority, restaurantId: Number(establishmentId) }) })
+      await api.put(`/admin/categories/${item.id}`, { id: item.id, name: nextName.trim(), priority: item.priority, sortOrder: item.priority, restaurantId: Number(establishmentId) })
       setAllItems((prev) => prev.map((category) => category.id === item.id ? { ...category, name: nextName.trim() } : category))
     } catch (err) { console.error(err); alert('Failed to save category') } finally { setSavingId(null) }
   }
@@ -96,7 +96,7 @@ export default function EstablishmentCategoriesPage() {
   const handleApply = async () => {
     if (action !== 'Delete' || selectedIds.length === 0) return
     try {
-      await Promise.all(selectedIds.map((categoryId) => apiFetch(`/admin/categories/${categoryId}`, { method: 'DELETE' }).catch(() => null)))
+      await Promise.all(selectedIds.map((categoryId) => api.delete(`/admin/categories/${categoryId}`).catch(() => null)))
       setAllItems((prev) => prev.filter((item) => !selectedIds.includes(item.id)))
       setSelectedIds([])
     } catch (err) { console.error(err); alert('Failed to delete categories') }
@@ -104,65 +104,70 @@ export default function EstablishmentCategoriesPage() {
 
   return (
     <MainLayout>
-      <div style={{ padding: 34, paddingTop: 28, background: '#fff', minHeight: '100%' }}>
-        <div style={{ maxWidth: 1400, margin: '0 auto' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 26, flexWrap: 'wrap' }}>
-              <div style={{ fontSize: 44, fontWeight: 800, color: '#0f172a', letterSpacing: -0.5 }}>Categories</div>
-              <button type="button" onClick={() => { if (!establishmentId) return; navigate(`/admin/establishments/${String(establishmentId)}/positions/add`) }} onMouseEnter={() => setHoverAddPos(true)} onMouseLeave={() => setHoverAddPos(false)} style={{ border: 'none', background: 'transparent', color: hoverAddPos ? '#3b82f6' : '#9ca3af', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, padding: 0 }}>
-                <span style={{ fontSize: 18, lineHeight: 1 }}>⊕</span> Add position
+      <div className="categories">
+        <div className="categories__inner">
+          <div className="categories__header">
+            <div className="categories__header-left">
+              <div className="categories__title">Categories</div>
+              <button type="button" className={`categories__add-btn${hoverAddPos ? ' categories__add-btn--active' : ''}`} onClick={() => { if (!establishmentId) return; navigate(`/admin/establishments/${establishmentId}/positions/add`) }} onMouseEnter={() => setHoverAddPos(true)} onMouseLeave={() => setHoverAddPos(false)}>
+                <span>+</span> Add position
               </button>
-              <button type="button" onClick={() => { if (!establishmentId) return; navigate(`/admin/establishments/${String(establishmentId)}/positions/categories/add`) }} onMouseEnter={() => setHoverAddCat(true)} onMouseLeave={() => setHoverAddCat(false)} style={{ border: 'none', background: 'transparent', color: hoverAddCat ? '#3b82f6' : '#9ca3af', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, padding: 0 }}>
-                <span style={{ fontSize: 18, lineHeight: 1 }}>⊕</span> Add category
+              <button type="button" className={`categories__add-btn${hoverAddCat ? ' categories__add-btn--active' : ''}`} onClick={() => { if (!establishmentId) return; navigate(`/admin/establishments/${establishmentId}/positions/categories/add`) }} onMouseEnter={() => setHoverAddCat(true)} onMouseLeave={() => setHoverAddCat(false)}>
+                <span>+</span> Add category
               </button>
             </div>
-            <input placeholder="Search" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1) }} style={{ width: 460, maxWidth: '100%', height: 34, borderRadius: 4, border: '1px solid #cbd5e1', padding: '0 12px', fontSize: 13, outline: 'none', background: '#fff' }} />
+            <input className="categories__search" placeholder="Search" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1) }} />
           </div>
-          <div style={{ marginTop: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
-            <div style={{ fontSize: 13, color: '#6b7280' }}>
-              <span style={{ color: '#6d4cff', cursor: 'pointer' }} onClick={() => navigate('/admin/home')}>Home</span>
-              <span style={{ margin: '0 8px' }}>/</span>
-              <span style={{ color: '#6d4cff', cursor: 'pointer' }} onClick={() => navigate('/admin/profile')}>Users</span>
-              <span style={{ margin: '0 8px' }}>/</span>
-              <span style={{ color: '#6d4cff', cursor: 'pointer' }} onClick={() => navigate('/admin/establishments')}>Establishments</span>
-              <span style={{ margin: '0 8px' }}>/</span>
-              <span style={{ color: '#6d4cff', cursor: 'pointer' }} onClick={() => navigate(`/admin/establishments/${String(establishmentId)}/positions`)}>Positions</span>
+
+          <div className="categories__toolbar">
+            <div className="categories__breadcrumb">
+              <span className="categories__breadcrumb-link" onClick={() => navigate('/admin/home')}>Home</span>
+              <span className="categories__breadcrumb-sep">/</span>
+              <span className="categories__breadcrumb-link" onClick={() => navigate('/admin/profile')}>Users</span>
+              <span className="categories__breadcrumb-sep">/</span>
+              <span className="categories__breadcrumb-link" onClick={() => navigate('/admin/establishments')}>Establishments</span>
+              <span className="categories__breadcrumb-sep">/</span>
+              <span className="categories__breadcrumb-link" onClick={() => navigate(`/admin/establishments/${establishmentId}/positions`)}>Positions</span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-              <select style={{ height: 34, borderRadius: 4, border: '1px solid #cbd5e1', padding: '0 12px', fontSize: 13, outline: 'none', background: '#fff', width: 190 }} defaultValue="Filter"><option>Filter</option></select>
-              <select value={action} onChange={(e) => setAction(e.target.value)} style={{ height: 34, borderRadius: 4, border: '1px solid #cbd5e1', padding: '0 12px', fontSize: 13, outline: 'none', background: '#fff', width: 190 }}>
+            <div className="categories__actions">
+              <select className="categories__select" defaultValue="Filter"><option>Filter</option></select>
+              <select className="categories__select" value={action} onChange={(e) => setAction(e.target.value)}>
                 <option>Choose action</option><option>Delete</option>
               </select>
-              <button type="button" onClick={handleApply} style={{ height: 34, borderRadius: 4, border: 'none', background: '#111', color: '#fff', fontWeight: 600, padding: '0 16px', cursor: 'pointer' }}>Apply</button>
+              <button type="button" className="categories__apply-btn" onClick={handleApply}>Apply</button>
             </div>
           </div>
-          <div style={{ marginTop: 18, border: '1px solid #e5e7eb', borderRadius: 8, overflow: 'hidden', background: '#fff' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '44px 1.2fr 160px 120px', gap: 0, background: '#f3f4f6', padding: '10px 12px', fontSize: 13, fontWeight: 700, color: '#111827' }}>
+
+          <div className="categories__table">
+            <div className="categories__table-header">
               <div><input type="checkbox" checked={allChecked} onChange={toggleAll} /></div>
-              <div>Categories</div><div>Priority</div><div>Edit</div>
+              <div>Categories</div>
+              <div>Priority</div>
+              <div>Edit</div>
             </div>
             {pageItems.map((item) => (
-              <div key={item.id} style={{ display: 'grid', gridTemplateColumns: '44px 1.2fr 160px 120px', padding: '14px 12px', borderTop: '1px solid #eef2f7', alignItems: 'center', fontSize: 13, color: '#111827' }}>
+              <div key={item.id} className="categories__table-row">
                 <div><input type="checkbox" checked={selectedIds.includes(item.id)} onChange={() => toggleOne(item.id)} /></div>
                 <div>{item.name}</div>
-                <div><input value={String(item.priority)} onChange={(e) => handlePriorityChange(item.id, e.target.value)} onBlur={() => handlePrioritySave(item)} style={{ width: 56, height: 30, borderRadius: 4, border: '1px solid #cbd5e1', padding: '0 8px' }} /></div>
-                <div style={{ color: savingId === item.id ? '#9ca3af' : '#111827', cursor: savingId === item.id ? 'not-allowed' : 'pointer' }} onClick={() => { if (savingId === item.id) return; handleEdit(item) }}>
+                <div><input className="categories__priority-input" value={String(item.priority)} onChange={(e) => handlePriorityChange(item.id, e.target.value)} onBlur={() => handlePrioritySave(item)} /></div>
+                <div className={`categories__edit-btn${savingId === item.id ? ' categories__edit-btn--saving' : ''}`} onClick={() => { if (savingId === item.id) return; handleEdit(item) }}>
                   {savingId === item.id ? 'Saving...' : 'Edit'}
                 </div>
               </div>
             ))}
-            {pageItems.length === 0 && <div style={{ padding: '14px 12px', color: '#6b7280' }}>No categories found</div>}
+            {pageItems.length === 0 && <div className="categories__empty">No categories found</div>}
           </div>
-          <div style={{ marginTop: 18, display: 'flex', justifyContent: 'center' }}>
-            <div style={{ display: 'flex', border: '1px solid #e5e7eb', borderRadius: 6, overflow: 'hidden' }}>
-              <button type="button" disabled={prevDisabled} onClick={() => goTo(page - 1)} style={{ ...buttonBase, background: '#f3f4f6', color: prevDisabled ? '#9ca3af' : '#111', cursor: prevDisabled ? 'not-allowed' : 'pointer' }}>Prev</button>
+
+          <div className="categories__pagination">
+            <div className="categories__pagination-inner">
+              <button type="button" disabled={prevDisabled} className={`categories__page-btn${prevDisabled ? ' categories__page-btn--disabled' : ''}`} onClick={() => goTo(page - 1)}>Prev</button>
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-                <button key={p} type="button" onClick={() => goTo(p)} style={{ ...buttonBase, background: p === page ? '#111' : '#fff', color: p === page ? '#fff' : '#111' }}>{p}</button>
+                <button key={p} type="button" onClick={() => goTo(p)} className={`categories__page-btn${p === page ? ' categories__page-btn--active' : ''}`}>{p}</button>
               ))}
-              <button type="button" disabled={nextDisabled} onClick={() => goTo(page + 1)} style={{ ...buttonBase, background: '#fff', color: nextDisabled ? '#9ca3af' : '#111', cursor: nextDisabled ? 'not-allowed' : 'pointer' }}>Next</button>
+              <button type="button" disabled={nextDisabled} className={`categories__page-btn${nextDisabled ? ' categories__page-btn--disabled' : ''}`} onClick={() => goTo(page + 1)}>Next</button>
             </div>
           </div>
-          <div style={{ marginTop: 10, fontSize: 12, color: '#9ca3af' }}>Establishment id: {String(establishmentId || '')}</div>
+          <div className="categories__footer">Establishment id: {String(establishmentId || '')}</div>
         </div>
       </div>
     </MainLayout>
