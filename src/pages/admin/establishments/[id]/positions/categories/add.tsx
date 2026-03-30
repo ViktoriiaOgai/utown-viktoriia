@@ -1,7 +1,12 @@
 import MainLayout from '../../../../../../components/MainLayout'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useState } from 'react'
+<<<<<<< HEAD
 import { apiFetch } from '../../../../../../services/api'
+=======
+import { api } from '../../../../../../services/api'
+import '../../../../../../styles/categories.scss'
+>>>>>>> 50d84bf (fix: fix scss import path in add.tsx)
 
 export default function AddCategoryPage() {
   const navigate = useNavigate()
