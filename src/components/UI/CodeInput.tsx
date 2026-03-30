@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import "@/components/UI/CodeInput.css"
+import "@/components/UI/CodeInput.css";
 
 type Props = {
   onComplete: (code: string) => void;
@@ -57,20 +57,19 @@ export default function CodeInput({ onComplete }: Props) {
   };
 
   return (
-    <div className = "handle-p" onPaste={handlePaste}>
+    <div className="handle-p" onPaste={handlePaste}>
       {values.map((val, index) => (
         <input
           key={index}
           type="text"
           maxLength={1}
           value={val}
-         ref={(el) => {
-  inputsRef.current[index] = el;
-}}
+          ref={(el) => {
+            inputsRef.current[index] = el;
+          }}
           onChange={(e) => handleChange(e.target.value, index)}
           onKeyDown={(e) => handleKeyDown(e, index)}
           className="handle-ch"
-          
         />
       ))}
     </div>

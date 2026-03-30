@@ -5,7 +5,7 @@ export const register = (
   password: string,
   firstName: string,
   lastName: string,
-  role: string,
+  role: string
 ) => {
   return api.post("/auth/register", {
     username: phone,
@@ -35,15 +35,11 @@ export const requestPasswordReset = (phone: string) => {
   });
 };
 
-export const resetPassword = (
-  username: string,
-  code: string,
-  newPassword: string
-) => {
+export const resetPassword = (username: string, code: string, newPassword: string) => {
   return api.post("/auth/password/reset", {
     username,
     code,
-    newPassword
+    newPassword,
   });
 };
 
@@ -92,7 +88,7 @@ export const logout = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("role");
   localStorage.removeItem("user");
-  };
+};
 export const getUserName = () => {
   try {
     const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -102,7 +98,7 @@ export const getUserName = () => {
   }
 };
 
- export const getUserData = () => {
+export const getUserData = () => {
   try {
     return JSON.parse(localStorage.getItem("user") || "{}");
   } catch {
@@ -115,7 +111,6 @@ export const updateUserProfile = async (data: {
   username?: string;
   address?: string;
 }) => {
-
   //1. отправляем на сервер
   await api.put("/users/profile", {
     fullName: data.fullName,
@@ -133,56 +128,54 @@ export const updateUserProfile = async (data: {
 
   localStorage.setItem("user", JSON.stringify(updatedUser));
 
-
   // адрес (API)
-if (data.address && data.address.trim()) {
-  localStorage.setItem("address", data.address);
-  let addressId = null;
+  if (data.address && data.address.trim()) {
+    localStorage.setItem("address", data.address);
+    let addressId = null;
 
-  try {
-    // пробуем default
-    const res = await api.get("/addresses/default");
-    addressId = res.data.id;
-  } catch {
     try {
-      // fallback — берём первый адрес
-      const res = await api.get("/addresses");
-      if (res.data.length > 0) {
-        addressId = res.data[0].id;
-      }
+      // пробуем default
+      const res = await api.get("/addresses/default");
+      addressId = res.data.id;
     } catch {
-      console.log("No addresses at all");
+      try {
+        // fallback — берём первый адрес
+        const res = await api.get("/addresses");
+        if (res.data.length > 0) {
+          addressId = res.data[0].id;
+        }
+      } catch {
+        console.log("No addresses at all");
+      }
+    }
+
+    const [city, ...rest] = data.address.trim().split(" ");
+
+    if (!city || rest.length === 0) {
+      throw new Error("Please enter address like: City Street");
+    }
+
+    const payload = {
+      city,
+      street: rest.join(" "),
+      fullAddress: data.address,
+      area: "Default",
+      state: "Default",
+      postcode: "00000",
+      details: "",
+      typeAddress: 0,
+      latitude: 0,
+      longitude: 0,
+      intercomCode: "",
+    };
+
+    if (addressId) {
+      await api.put(`/addresses/${addressId}`, payload);
+    } else {
+      await api.post("/addresses", payload);
     }
   }
-
-  const [city, ...rest] = data.address.trim().split(" ");
-
-if (!city || rest.length === 0) {
-  throw new Error("Please enter address like: City Street");
-}
-
-  const payload = {
-    city,
-    street: rest.join(" "),
-    fullAddress: data.address,
-    area: "Default",
-    state: "Default",
-    postcode: "00000",
-    details: "",
-    typeAddress: 0,
-    latitude: 0,
-    longitude: 0,
-    intercomCode: "",
-  };
-
-  if (addressId) {
-    await api.put(`/addresses/${addressId}`, payload);
-  } else {
-    await api.post("/addresses", payload);
-  }
-}
 };
 export const getAddresses = () => {
   return api.get("/addresses");
 };
-

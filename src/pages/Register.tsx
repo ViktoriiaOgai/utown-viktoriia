@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "@/components/UI/Input";
 import "@/App.css";
 import BackButton from "@/components/UI/BackButton";
@@ -11,7 +11,6 @@ import { register } from "@/hooks/auth";
 import Modal from "@/components/UI/Modal";
 import { getErrorMessage } from "@/services/getErrorMessage";
 
-
 export default function Register() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
@@ -22,28 +21,28 @@ export default function Register() {
   const [repeatPassword, setRepeatPassword] = useState("");
 
   const [errors, setErrors] = useState({
-  firstName: "",
-  lastName: "",
-  phone: "",
-  password: "",
-  repeatPassword: "",
-});
+    firstName: "",
+    lastName: "",
+    phone: "",
+    password: "",
+    repeatPassword: "",
+  });
 
   const validate = () => {
     const newErrors = {
       firstName: "",
-  lastName: "",
-  phone: "",
-  password: "",
-  repeatPassword: "",
+      lastName: "",
+      phone: "",
+      password: "",
+      repeatPassword: "",
     };
-     if (!firstName) {
-    newErrors.firstName = "First name is required";
-  }
+    if (!firstName) {
+      newErrors.firstName = "First name is required";
+    }
 
-  if (!lastName) {
-    newErrors.lastName = "Last name is required";
-  }
+    if (!lastName) {
+      newErrors.lastName = "Last name is required";
+    }
     if (!phone) {
       newErrors.phone = "Phone number is required";
     } else if (!/^\d+$/.test(phone)) {
@@ -64,31 +63,29 @@ export default function Register() {
   };
 
   const handleRegister = async () => {
-  if (!validate()) return;
+    if (!validate()) return;
 
-  try {
-    await register(phone, password, firstName, lastName, "CLIENT");
-    setShowModal(true);
-  } catch (error) {
-  const message = getErrorMessage(error);
+    try {
+      await register(phone, password, firstName, lastName, "CLIENT");
+      setShowModal(true);
+    } catch (error) {
+      const message = getErrorMessage(error);
 
-  if (message.includes("users.username")) {
-    setErrors((prev) => ({
-      ...prev,
-      phone: "User with this phone already exists",
-    }));
-  }
-}
-};
+      if (message.includes("users.username")) {
+        setErrors((prev) => ({
+          ...prev,
+          phone: "User with this phone already exists",
+        }));
+      }
+    }
+  };
 
   return (
     <>
       <BackButton />
 
       <h2 className="auth-title">User Registration</h2>
-      <p className="auth-subtitle">
-        Register to access all the benefits of the app
-      </p>
+      <p className="auth-subtitle">Register to access all the benefits of the app</p>
 
       <label className="label">First Name</label>
       <Input
@@ -141,25 +138,24 @@ export default function Register() {
         error={errors.repeatPassword}
       />
 
-      <AuthBtn onClick={handleRegister}>
-        Register
-      </AuthBtn>
+      <AuthBtn onClick={handleRegister}>Register</AuthBtn>
 
       <div className="auth-links">
         <Link to="/login">Already have an account?</Link>
       </div>
 
       <p className="auth-terms">
-        By registering, you agree to the Terms of Service
-        and Privacy Policy, as well as the Cookie Policy.
+        By registering, you agree to the Terms of Service and Privacy Policy, as well as the Cookie
+        Policy.
       </p>
-      {showModal && (<Modal
-            title="Registration was successful"
-            message="You can now fully enjoy all the features"
-            buttonText="Close"
-            onClose={() => navigate("/login")}
-/>      )}
-          </>
-    
+      {showModal && (
+        <Modal
+          title="Registration was successful"
+          message="You can now fully enjoy all the features"
+          buttonText="Close"
+          onClose={() => navigate("/login")}
+        />
+      )}
+    </>
   );
 }

@@ -16,12 +16,7 @@ interface ModalProps {
   onClose: () => void;
 }
 
-export default function ModalDelAcc({
-  title,
-  message,
-  buttonText,
-  onClose,
-}: ModalProps) {
+export default function ModalDelAcc({ title, message, buttonText, onClose }: ModalProps) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -42,10 +37,9 @@ export default function ModalDelAcc({
     }
   };
 
-
   const handleCancel = () => {
-  onClose();
-};
+    onClose();
+  };
   return createPortal(
     <div className="modalAcc-overlay">
       <div className="modalAcc">
@@ -53,7 +47,7 @@ export default function ModalDelAcc({
 
         <h3>{title}</h3>
         <p>{message}</p>
-        <Input 
+        <Input
           type="password"
           placeholder="Enter your password"
           value={password}
@@ -65,15 +59,11 @@ export default function ModalDelAcc({
 
         {error && <div className="input-error">{error}</div>}
         <div className="AccDelBtn">
-        <AuthBtn onClick={handleDeleteAccount}>
-          {buttonText}
-        </AuthBtn>
-        <AuthBtn onClick={handleCancel}>
-          Cancel
-        </AuthBtn>
+          <AuthBtn onClick={handleDeleteAccount}>{buttonText}</AuthBtn>
+          <AuthBtn onClick={handleCancel}>Cancel</AuthBtn>
         </div>
       </div>
     </div>,
-     document.body
+    document.body
   );
 }

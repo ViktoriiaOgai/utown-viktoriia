@@ -1,4 +1,3 @@
-
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import AuthLayout from "../layout/AuthLayout";
 import MobileLayout from "../layout/MobileLayout";
@@ -28,7 +27,7 @@ import {
   AdminOrdersPage,
   AdminServicesPage,
   AdminVacanciesPage,
-} from "../pages/admin/AdminPlaceholders"
+} from "../pages/admin/AdminPlaceholders";
 
 export const router = createBrowserRouter([
   {
@@ -59,31 +58,29 @@ export const router = createBrowserRouter([
         ),
       },
       {
-  path: "/profile",
-  element: (
-    <ProtectedRoute>
-      <ProfileLayout />
-    </ProtectedRoute>
-  ),
-  children: [
-    { index: true, element: <Profile /> },
+        path: "/profile",
+        element: (
+          <ProtectedRoute>
+            <ProfileLayout />
+          </ProtectedRoute>
+        ),
+        children: [
+          { index: true, element: <Profile /> },
 
-    {
-      path: "account",
-      element: <AccountSettings />,
-      
-    },
-    {
-  path: "account/personalInf",
-  element: <PersonalInformation />,
-},
-{
-  path: "account/password",
-  element: <ChangePassword />,
-},
-  ],
-}
-         
+          {
+            path: "account",
+            element: <AccountSettings />,
+          },
+          {
+            path: "account/personalInf",
+            element: <PersonalInformation />,
+          },
+          {
+            path: "account/password",
+            element: <ChangePassword />,
+          },
+        ],
+      },
     ],
   },
   {

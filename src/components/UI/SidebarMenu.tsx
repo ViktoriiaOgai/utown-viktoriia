@@ -9,10 +9,7 @@ type SidebarMenuProps = {
 export default function SidebarMenu({ isOpen, onClose }: SidebarMenuProps) {
   return (
     <>
-      <div
-        className={`mobile-menu-overlay ${isOpen ? "open" : ""}`}
-        onClick={onClose}
-      />
+      <div className={`mobile-menu-overlay ${isOpen ? "open" : ""}`} onClick={onClose} />
 
       <aside className={`mobile-menu-drawer ${isOpen ? "open" : ""}`}>
         <div className="mobile-menu-topbar">
@@ -33,20 +30,12 @@ export default function SidebarMenu({ isOpen, onClose }: SidebarMenuProps) {
             <span className="mobile-menu-arrow">›</span>
           </Link>
 
-          <Link
-            to="/admin/notifications"
-            className="mobile-menu-item"
-            onClick={onClose}
-          >
+          <Link to="/admin/notifications" className="mobile-menu-item" onClick={onClose}>
             <span>Notifications</span>
             <span className="mobile-menu-arrow">›</span>
           </Link>
 
-          <Link
-            to="/admin/statistics"
-            className="mobile-menu-item"
-            onClick={onClose}
-          >
+          <Link to="/admin/statistics" className="mobile-menu-item" onClick={onClose}>
             <span>Statistics</span>
             <span className="mobile-menu-arrow">›</span>
           </Link>
@@ -56,20 +45,12 @@ export default function SidebarMenu({ isOpen, onClose }: SidebarMenuProps) {
             <span className="mobile-menu-arrow">›</span>
           </Link>
 
-          <Link
-            to="/admin/establishments"
-            className="mobile-menu-item"
-            onClick={onClose}
-          >
+          <Link to="/admin/establishments" className="mobile-menu-item" onClick={onClose}>
             <span>Establishment</span>
             <span className="mobile-menu-arrow">›</span>
           </Link>
 
-          <Link
-            to="/admin/working-hours"
-            className="mobile-menu-item"
-            onClick={onClose}
-          >
+          <Link to="/admin/working-hours" className="mobile-menu-item" onClick={onClose}>
             <span>Working hours</span>
             <span className="mobile-menu-arrow">›</span>
           </Link>

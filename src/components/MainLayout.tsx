@@ -96,33 +96,22 @@ export default function MainLayout({ children }: MainLayoutProps) {
               </div>
 
               <div style={{ paddingLeft: 18 }}>
-                <Link
-                  to="/admin/clients"
-                  style={linkStyle(location.pathname === "/admin/clients")}
-                >
+                <Link to="/admin/clients" style={linkStyle(location.pathname === "/admin/clients")}>
                   Clients
                 </Link>
 
-                <Link
-                  to="/admin/riders"
-                  style={linkStyle(location.pathname === "/admin/riders")}
-                >
+                <Link to="/admin/riders" style={linkStyle(location.pathname === "/admin/riders")}>
                   Riders
                 </Link>
 
                 <Link
                   to="/admin/establishments"
-                  style={linkStyle(
-                    location.pathname.startsWith("/admin/establishments")
-                  )}
+                  style={linkStyle(location.pathname.startsWith("/admin/establishments"))}
                 >
                   Establishments
                 </Link>
 
-                <Link
-                  to="/admin/orders"
-                  style={linkStyle(location.pathname === "/admin/orders")}
-                >
+                <Link to="/admin/orders" style={linkStyle(location.pathname === "/admin/orders")}>
                   Orders
                 </Link>
               </div>
@@ -247,8 +236,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
         <header
           style={{
             height: 86,
-            background:
-              "linear-gradient(90deg, #53b4e8 0%, #4478f4 52%, #c663eb 100%)",
+            background: "linear-gradient(90deg, #53b4e8 0%, #4478f4 52%, #c663eb 100%)",
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",

@@ -21,8 +21,6 @@ function Root() {
   return <RouterProvider router={router} />;
 }
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <Root />
-);
+ReactDOM.createRoot(document.getElementById("root")!).render(<Root />);
 
 export default Root;

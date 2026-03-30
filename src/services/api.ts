@@ -1,4 +1,4 @@
-import axios, {AxiosError, InternalAxiosRequestConfig } from "axios";
+import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -13,7 +13,6 @@ api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 
   return config;
 });
-
 
 api.interceptors.response.use(
   (response) => response,
@@ -31,10 +30,7 @@ api.interceptors.response.use(
     const requestUrl = originalRequest.url || "";
 
     // 1. GUARD — НЕ трогаем auth роуты
-    if (
-      requestUrl.includes("/auth/login") ||
-      requestUrl.includes("/auth/refresh")
-    ) {
+    if (requestUrl.includes("/auth/login") || requestUrl.includes("/auth/refresh")) {
       return Promise.reject(error);
     }
 
@@ -55,10 +51,9 @@ api.interceptors.response.use(
           throw new Error("No refresh token");
         }
 
-        const res = await axios.post(
-          `${import.meta.env.VITE_API_URL}/auth/refresh`,
-          { refreshToken }
-        );
+        const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/refresh`, {
+          refreshToken,
+        });
 
         const newToken = res.data.token;
 

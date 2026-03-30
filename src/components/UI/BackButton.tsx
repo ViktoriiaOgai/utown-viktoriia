@@ -8,11 +8,7 @@ type Props = {
   size?: number;
 };
 
-export default function BackButton({
-  className = "",
-  color = "black",
-  size = 32,
-}: Props) {
+export default function BackButton({ className = "", color = "black", size = 32 }: Props) {
   const navigate = useNavigate();
 
   const handleBack = () => {

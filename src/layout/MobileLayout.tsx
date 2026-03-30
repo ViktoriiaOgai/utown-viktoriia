@@ -7,7 +7,7 @@ export default function MobileLayout() {
       <main className="mobile-content">
         <Outlet />
       </main>
-      <Footer/>
+      <Footer />
     </div>
   );
 }
