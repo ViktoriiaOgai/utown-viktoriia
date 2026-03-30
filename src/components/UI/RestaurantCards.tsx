@@ -43,6 +43,7 @@ export default function RestaurantCards({ variant = "scroll" }: Props) {
     <div className="restaurants-section">
       <div className="restaurants-header">
         <h2>Food Delivery</h2>
+        <button className="more">More</button>
       </div>
 
       <div className={`restaurant-cards-container ${variant === "grid" ? "vertical" : ""}`}>
