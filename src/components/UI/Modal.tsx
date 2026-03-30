@@ -8,20 +8,16 @@ interface ModalProps {
   buttonText: string;
   onClose: () => void;
 }
-export default function Modal ({ title, message, buttonText, onClose }: ModalProps) {
-    return (
+export default function Modal({ title, message, buttonText, onClose }: ModalProps) {
+  return (
     <div className="modal-overlay">
-    <div className="modal">
-      <img src={Pic} alt="Pic" className="Pic" />
-      <h3>{title}</h3>
+      <div className="modal">
+        <img src={Pic} alt="Pic" className="Pic" />
+        <h3>{title}</h3>
         <p>{message}</p>
 
-      <AuthBtn
-        onClick={onClose}
-      
-      >
-        {buttonText}
-      </AuthBtn>
+        <AuthBtn onClick={onClose}>{buttonText}</AuthBtn>
+      </div>
     </div>
-  </div>
-  )}
+  );
+}

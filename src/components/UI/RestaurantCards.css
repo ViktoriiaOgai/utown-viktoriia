@@ -2,15 +2,15 @@
 .restaurant-cards-container {
   display: flex;
   gap: 12px;
-  flex-wrap: nowrap;              
-  overflow-x: auto;               
+  flex-wrap: nowrap;
+  overflow-x: auto;
   overflow-y: hidden;
-  scroll-behavior: smooth;        
+  scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
-  scroll-snap-type: x mandatory;            
-  width: 100%;                     /* ограничиваем ширину экрана */
-  max-width: 100vw;                /* точно в размер видимой области */
-  box-sizing: border-box;          /* учитываем padding */
+  scroll-snap-type: x mandatory;
+  width: 100%; /* ограничиваем ширину экрана */
+  max-width: 100vw; /* точно в размер видимой области */
+  box-sizing: border-box; /* учитываем padding */
 }
 
 /* Scrollbar */
@@ -26,38 +26,36 @@
 }
 /* Карточки ресторана */
 .restaurant-card {
-  flex: 0 0 auto;           
-  width: 160px;             
+  flex: 0 0 auto;
+  width: 160px;
   border-radius: 15px;
   background: rgba(245, 245, 245, 1);
   display: flex;
   flex-direction: column;
-  scroll-snap-align: start; 
+  scroll-snap-align: start;
   box-sizing: border-box;
 }
 .restaurants-header {
   display: flex;
   flex-direction: row;
-  justify-content:space-between;
+  justify-content: space-between;
   padding-right: 15px;
   align-items: center;
-  
 }
-
 .restaurant-card img {
   width: 100%;
   height: 100px;
   object-fit: cover;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  }
+}
 .restaurant-card p {
   font-size: 16px;
   color: rgb(110, 109, 109); /* если фон белый, текст не виден */
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  padding-left: 10px
+  padding-left: 10px;
 }
 
 /* GRID режим */
@@ -65,7 +63,6 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-  
 }
 
 /* карточки внутри grid */

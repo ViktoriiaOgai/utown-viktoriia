@@ -24,22 +24,16 @@ export default function Input({
   iconRight,
   isPassword,
   readOnly,
-  style
- }: Props) {
+  style,
+}: Props) {
   const [showPassword, setShowPassword] = useState(false);
 
-  const inputType = isPassword
-    ? showPassword
-      ? "text"
-      : "password"
-    : type;
+  const inputType = isPassword ? (showPassword ? "text" : "password") : type;
 
   return (
     <div className="input-group">
       <div className="input-wrapper">
-        {icon && (
-          <img src={icon} alt="icon" className="input-icon left" />
-        )}
+        {icon && <img src={icon} alt="icon" className="input-icon left" />}
 
         <input
           className={`input ${error ? "input--error" : ""}`}
@@ -48,9 +42,9 @@ export default function Input({
           readOnly={readOnly}
           placeholder={placeholder}
           onChange={onChange}
-         style={style}
+          style={style}
         />
-      {iconRight && isPassword && (
+        {iconRight && isPassword && (
           <img
             src={iconRight}
             alt="toggle password"
@@ -58,7 +52,7 @@ export default function Input({
             onClick={() => setShowPassword(!showPassword)}
           />
         )}
-        </div>
+      </div>
 
       {error && <div className="input-error">{error}</div>}
     </div>

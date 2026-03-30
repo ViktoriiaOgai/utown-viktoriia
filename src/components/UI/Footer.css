@@ -1,50 +1,45 @@
 .footer {
-    max-width: 428px;
-    height: 95px;
-    border-width: 0.5px;
-    background: rgba(255, 255, 255, 1);
-    border: 0.5px solid rgba(168, 167, 167, 0.2);
-    display: flex;
-    padding: 20px 0 10px 0;
-    flex-direction: row;
-    justify-content: center;
-    align-items: baseline;
-    gap: 50px;
-     position: fixed;
+  max-width: 428px;
+  height: 95px;
+  border-width: 0.5px;
+  background: rgba(255, 255, 255, 1);
+  border: 0.5px solid rgba(168, 167, 167, 0.2);
+  display: flex;
+  padding: 20px 0 10px 0;
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+  gap: 50px;
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
 
   background: white;
   z-index: 1000;
-    z-index: 1000;
-    
-    
-     }
+}
 .footer-btn {
-     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-
-     }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
 .icon-btn .label {
-    top: 36px;
-    font-weight: 500;
-    font-size: 14px;
-    text-align: center;
-    color: rgba(195, 195, 195, 1);
-
+  top: 36px;
+  font-weight: 500;
+  font-size: 14px;
+  text-align: center;
+  color: rgba(195, 195, 195, 1);
 }
 .icon-btn {
-    width: 40px;
-    height: 40px;
-    background:  none;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 .footer-icon {
   width: 26px;

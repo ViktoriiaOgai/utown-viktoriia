@@ -1,9 +1,11 @@
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
-               "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
 }
 
 a {
@@ -19,7 +21,7 @@ body {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-   align-items: center;
+  align-items: center;
   background: linear-gradient(135deg, #dfe9f3, #ffffff);
 }
 

@@ -1,34 +1,34 @@
-import { Navigate } from 'react-router-dom'
-import type { ReactNode } from 'react'
-import { getToken, getRole, isAdminRole } from '../hooks/auth'
+import { Navigate } from "react-router-dom";
+import type { ReactNode } from "react";
+import { getToken, getRole, isAdminRole } from "../hooks/auth";
 
 type RouteProps = {
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
 export function ProtectedRoute({ children }: RouteProps) {
-  const token = getToken()
+  const token = getToken();
 
   if (!token || token === "") {
-    return <Navigate to="/login" replace />
+    return <Navigate to="/login" replace />;
   }
 
-  return <>{children}</>
+  return <>{children}</>;
 }
 
 export function AdminRoute({ children }: RouteProps) {
-  const token = getToken()
-  const role = getRole()
+  const token = getToken();
+  const role = getRole();
 
   if (!token || token === "") {
-    return <Navigate to="/admin/login" replace />
+    return <Navigate to="/admin/login" replace />;
   }
 
   if (!isAdminRole(role)) {
-    return <Navigate to="/home" replace />
+    return <Navigate to="/home" replace />;
   }
 
-  return <>{children}</>
+  return <>{children}</>;
 }
 
-export default ProtectedRoute
+export default ProtectedRoute;

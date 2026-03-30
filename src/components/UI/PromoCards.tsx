@@ -7,7 +7,7 @@ export default function PromoCards() {
   ];
 
   return (
-    <div className="promo-cards-wrapper"> 
+    <div className="promo-cards-wrapper">
       <div className="promo-cards-container">
         {promos.map((p, i) => (
           <div className="promo-card" key={i}>

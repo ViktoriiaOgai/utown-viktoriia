@@ -8,20 +8,16 @@ type Props = {
   size?: number;
 };
 
-export default function BackButton({
-  className = "",
-  color = "black",
-  size = 32,
-}: Props) {
+export default function BackButton({ className = "", color = "black", size = 32 }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
   const handleBack = () => {
-  if (location.state?.from) {
-    navigate(location.state.from);
-  } else {
-    navigate(-1);
-  }
-};
+    if (location.state?.from) {
+      navigate(location.state.from);
+    } else {
+      navigate(-1);
+    }
+  };
 
   return (
     <button className={`back-btn ${className}`} onClick={handleBack}>
