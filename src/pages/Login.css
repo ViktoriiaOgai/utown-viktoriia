@@ -1,0 +1,80 @@
+/* Общие стили для Логин-Регистация */
+
+.auth-links {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  font-size: 14px;
+}
+
+.auth-links a {
+  color: rgba(106, 106, 106, 1);
+
+  text-decoration: none;
+}
+.Button {
+  padding: 12px 20px;
+  border-radius: 8px;
+  background: rgba(55, 118, 246, 1);
+  text-align: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  bottom: 40px;
+  left: 50%;
+  color: white;
+  height: 44px;
+}
+
+.Vector {
+  width: 120px;
+  height: auto;
+  margin-bottom: 50px;
+  display: block;
+}
+.input-group,
+.Button {
+  width: 100%;
+  max-width: 350px;
+}
+
+.auth-title {
+  margin-top: 16px;
+  align-self: flex-start;
+  font-weight: 600;
+  font-size: 22px;
+
+  color: rgba(25, 29, 49, 1);
+}
+.auth-subtitle,
+.auth-terms {
+  font-weight: 400;
+  font-size: 14px;
+  color: rgba(167, 169, 183, 1);
+  margin-bottom: 10px;
+}
+
+.auth-terms {
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 14px;
+  line-height: 160%;
+  letter-spacing: 0%;
+  text-align: center;
+}
+.label {
+  align-self: flex-start; /* прижмёт к левому краю */
+  font-size: 13px;
+  margin-top: 6px;
+  margin-bottom: 3px;
+  display: block;
+  color: rgba(25, 29, 49, 1);
+}
+.input-error {
+  color: #ef4444;
+  font-size: 14px;
+  margin-top: 4px;
+}

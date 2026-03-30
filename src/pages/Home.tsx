@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"; 
+import { useState } from "react";
 import Weather from "@/components/UI/Weather";
 import ShoppingCart from "@/assets/icons/shopping-cart.svg";
 import ServicesCards from "@/components/UI/ServicesCards";
@@ -7,28 +7,18 @@ import RestaurantCards from "@/components/UI/RestaurantCards";
 import Pic from "@/assets/images/Pic.svg";
 import "@/pages/Home.css";
 import MobileHeader from "@/components/UI/Header";
+import { getUserName } from "@/hooks/auth";
 
 export default function Home() {
- 
   const userProfile = { city: "Ansan", lat: 37.3349584, lon: 126.7918849 };
-  const [firstName, setFirstName] = useState("");
-
-  useEffect(() => {
-     const name = localStorage.getItem("fullName");
-
-    if (name) {
-       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setFirstName(name);
-    }
-    
-  }, []);
+  const [firstName] = useState(() => getUserName() || "");
 
   return (
     <div className="home">
       {/* Фоновая картинка */}
-      <img  className="splash-img2" src={Pic} alt="Pic" />
+      <img className="splash-img2" src={Pic} alt="Pic" />
 
-      <MobileHeader logoVariant="white" bellColor= "white" />
+      <MobileHeader logoVariant="white" bellColor="white" showBell />
 
       {/* Основной контейнер */}
       <div className="mainCont">
@@ -36,11 +26,7 @@ export default function Home() {
           <h1 className="Hello">Hello{firstName ? `, ${firstName}` : ""}!</h1>
 
           <div className="main-top-row">
-            <Weather
-              userCity={userProfile.city}
-              lat={userProfile.lat}
-              lon={userProfile.lon}
-            />
+            <Weather userCity={userProfile.city} lat={userProfile.lat} lon={userProfile.lon} />
 
             <div className="active-orders-card">
               <img src={ShoppingCart} alt="Cart" className="shopping" />

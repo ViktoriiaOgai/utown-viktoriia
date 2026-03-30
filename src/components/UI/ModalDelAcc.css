@@ -1,0 +1,48 @@
+.modalAcc-overlay {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.4);
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modalAcc {
+  background: white;
+  padding: 10px;
+  border-radius: 16px;
+  text-align: center;
+  width: 90%;
+  max-width: 320px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+.Pic {
+  width: 80%;
+  height: 80%;
+  display: block;
+  margin: 0 auto;
+}
+.auth-title-mod {
+  margin-top: 5px;
+  align-self: flex-start;
+  font-weight: 600;
+  font-size: 22px;
+  color: rgba(25, 29, 49, 1);
+}
+
+.AccDelBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 15px;
+}

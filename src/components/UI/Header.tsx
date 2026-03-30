@@ -6,22 +6,24 @@ import "@/components/UI/Header.css";
 
 type Props = {
   showBack?: boolean;
+  backColor?: string;
+  showBell?: boolean;
   bellColor?: string;
   logoVariant?: "gradient" | "white";
 };
 
 export default function MobileHeader({
   showBack = false,
+  showBell = false,
+  backColor = "black",
   bellColor = "#9ca3af",
   logoVariant = "gradient",
 }: Props) {
   return (
     <div className="header-icons">
-      <div className="header-left">
-        {showBack && <BackButton />}
-      </div>
+      <div className="header-left">{showBack && <BackButton color={backColor} />}</div>
 
-     <div className="header-center">
+      <div className="header-center">
         {logoVariant === "white" ? (
           <LogoWhite className="logo-icon" />
         ) : (
@@ -29,9 +31,7 @@ export default function MobileHeader({
         )}
       </div>
 
-      <div className="header-right">
-        <BellIcon color={bellColor} />
-      </div>
+      <div className="header-right">{showBell && <BellIcon color={bellColor} />}</div>
     </div>
   );
 }

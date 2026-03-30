@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import AuthLayout from "../layout/AuthLayout";
 import MobileLayout from "../layout/MobileLayout";
@@ -6,32 +5,29 @@ import Welcome from "../pages/Welcome";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Recover from "../pages/RecoverPage";
-import NewPassword from "../pages/NewPassword";
-import PasswordResetCode from "../pages/PasswordResetCode";
+import NewPassword from "@/pages/NewPassword";
+import PasswordResetCode from "@/pages/PasswordResetCode";
 import Home from "../pages/Home";
 import Favourites from "../pages/Favourites";
 import Profile from "../pages/Profile";
 import AdminLogin from "../pages/AdminLogin";
 import AdminHome from "../pages/admin/Home";
 import AdminProfile from "../pages/admin/Profile";
-import AdminClientsPage from "../pages/admin/clients";
+import ProfileLayout from "@/layout/ProfileLayout";
 import EstablishmentsPage from "../pages/admin/establishments";
 import AddEstablishmentPage from "../pages/admin/establishments/add";
 import EditEstablishmentPage from "../pages/admin/establishments/[id]/edit";
 import { AdminRoute, ProtectedRoute } from "../components/ProtectedRoute";
-
-function AdminRidersPage() {
-  return <div style={{ padding: 32, fontSize: 24, fontWeight: 700 }}>Riders</div>;
-}
-function AdminOrdersPage() {
-  return <div style={{ padding: 32, fontSize: 24, fontWeight: 700 }}>Orders</div>;
-}
-function AdminServicesPage() {
-  return <div style={{ padding: 32, fontSize: 24, fontWeight: 700 }}>Services</div>;
-}
-function AdminVacanciesPage() {
-  return <div style={{ padding: 32, fontSize: 24, fontWeight: 700 }}>Vacancies</div>;
-}
+import AccountSettings from "@/pages/AccountSettings";
+import PersonalInformation from "@/pages/PersonalInformation";
+import ChangePassword from "@/pages/ChangePassword";
+import {
+  AdminClientsPage,
+  AdminRidersPage,
+  AdminOrdersPage,
+  AdminServicesPage,
+  AdminVacanciesPage,
+} from "../pages/admin/AdminPlaceholders";
 
 export const router = createBrowserRouter([
   {
@@ -65,9 +61,25 @@ export const router = createBrowserRouter([
         path: "/profile",
         element: (
           <ProtectedRoute>
-            <Profile />
+            <ProfileLayout />
           </ProtectedRoute>
         ),
+        children: [
+          { index: true, element: <Profile /> },
+
+          {
+            path: "account",
+            element: <AccountSettings />,
+          },
+          {
+            path: "account/personalInf",
+            element: <PersonalInformation />,
+          },
+          {
+            path: "account/password",
+            element: <ChangePassword />,
+          },
+        ],
       },
     ],
   },

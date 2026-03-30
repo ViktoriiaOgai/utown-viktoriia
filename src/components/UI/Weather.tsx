@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -12,8 +11,8 @@ interface WeatherData {
 }
 
 interface WeatherProps {
-  userCity: string;      // берем город из профиля
-  lat?: number;          // если есть координаты
+  userCity: string; // берем город из профиля
+  lat?: number; // если есть координаты
   lon?: number;
 }
 
@@ -26,14 +25,14 @@ export default function Weather({ userCity, lat, lon }: WeatherProps) {
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        const params = lat && lon
-          ? { lat, lon, appid: API_KEY, units: "metric", lang: "ru" }
-          : { q: userCity, appid: API_KEY, units: "metric", lang: "ru" };
+        const params =
+          lat && lon
+            ? { lat, lon, appid: API_KEY, units: "metric", lang: "ru" }
+            : { q: userCity, appid: API_KEY, units: "metric", lang: "ru" };
 
-        const response = await axios.get(
-          "https://api.openweathermap.org/data/2.5/weather",
-          { params }
-        );
+        const response = await axios.get("https://api.openweathermap.org/data/2.5/weather", {
+          params,
+        });
 
         const data = response.data;
 
@@ -45,7 +44,7 @@ export default function Weather({ userCity, lat, lon }: WeatherProps) {
           icon: data.weather[0].icon,
           wind: data.wind.speed.toFixed(1),
         });
-      } catch  {
+      } catch {
         setError(" Не удалось получить погоду.");
       }
     };
