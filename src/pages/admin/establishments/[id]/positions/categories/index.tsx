@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import MainLayout from '@/components/MainLayout'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
+import './categories.scss'
 
 type CategoryRow = {
   id: number;
@@ -37,6 +38,7 @@ export default function EstablishmentCategoriesPage() {
   const { id } = useParams();
   const establishmentId = id ?? "";
   const pageSize = 6;
+
   const [allItems, setAllItems] = useState<CategoryRow[]>([]);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [page, setPage] = useState(1);
@@ -233,30 +235,14 @@ export default function EstablishmentCategoriesPage() {
         <div style={{ maxWidth: 1400, margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 26, flexWrap: 'wrap' }}>
-              <div style={{ fontSize: 44, fontWeight: 800, color: '#0f172a', letterSpacing: -0.5 }}>Categories</div>
+              <div style={{ fontSize: 44, fontWeight: 800 }}>Categories</div>
 
-              <button type="button"
-                onClick={() => {
-                  if (!establishmentId) return;
-                  navigate(`/admin/establishments/${String(establishmentId)}/positions/add`)
-                }}
-                onMouseEnter={() => setHoverAddPos(true)}
-                onMouseLeave={() => setHoverAddPos(false)}
-                style={{ border: 'none', background: 'transparent', color: hoverAddPos ? '#3b82f6' : '#9ca3af', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, padding: 0 }}
-              >
-                <span style={{ fontSize: 18 }}>⊕</span> Add position
+              <button type="button" onClick={() => navigate(`/admin/establishments/${establishmentId}/positions/add`)}>
+                Add position
               </button>
 
-              <button type="button"
-                onClick={() => {
-                  if (!establishmentId) return;
-                  navigate(`/admin/establishments/${String(establishmentId)}/positions/categories/add`)
-                }}
-                onMouseEnter={() => setHoverAddCat(true)}
-                onMouseLeave={() => setHoverAddCat(false)}
-                style={{ border: 'none', background: 'transparent', color: hoverAddCat ? '#3b82f6' : '#9ca3af', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, padding: 0 }}
-              >
-                <span style={{ fontSize: 18 }}>⊕</span> Add category
+              <button type="button" onClick={() => navigate(`/admin/establishments/${establishmentId}/positions/categories/add`)}>
+                Add category
               </button>
             </div>
 
@@ -267,7 +253,6 @@ export default function EstablishmentCategoriesPage() {
                 setSearch(e.target.value);
                 setPage(1);
               }}
-              style={{ width: 460, height: 34, borderRadius: 4, border: '1px solid #cbd5e1', padding: '0 12px' }}
             />
           </div>
         </div>
