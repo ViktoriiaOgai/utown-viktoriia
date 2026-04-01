@@ -1,7 +1,13 @@
 import { ReactNode } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import Header from "./Header";
+import Sidebar from "./Sidebar";
 
 type MainLayoutProps = {
+  children: ReactNode;
+};
+
+type Props = {
   children: ReactNode;
 };
 
@@ -19,7 +25,7 @@ const linkStyle = (active: boolean): React.CSSProperties => ({
   boxSizing: "border-box",
 });
 
-export default function MainLayout({ children }: MainLayoutProps) {
+export default function MainLayout({ children }: MainLayoutProps & Props) {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -33,6 +39,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
         fontFamily: "Arial, sans-serif",
       }}
     >
+      {/* Старый Sidebar */}
       <aside
         style={{
           width: 272,
@@ -158,11 +165,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
         </div>
 
         <div>
-          <div
-            style={{
-              padding: "20px 32px 26px 32px",
-            }}
-          >
+          <div style={{ padding: "20px 32px 26px 32px" }}>
             <button
               type="button"
               onClick={() => navigate("/admin/establishments/add")}
@@ -193,7 +196,6 @@ export default function MainLayout({ children }: MainLayoutProps) {
                   alignItems: "center",
                   justifyContent: "center",
                   fontSize: 16,
-                  lineHeight: 1,
                 }}
               >
                 ⊕
@@ -201,80 +203,15 @@ export default function MainLayout({ children }: MainLayoutProps) {
               <span>Add</span>
             </button>
           </div>
-
-          <div
-            style={{
-              borderTop: "1px solid #d4d4d8",
-              height: 84,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-end",
-              paddingRight: 26,
-            }}
-          >
-            <button
-              type="button"
-              style={{
-                width: 36,
-                height: 36,
-                borderRadius: "50%",
-                border: "none",
-                background: "transparent",
-                color: "#111827",
-                fontSize: 22,
-                cursor: "pointer",
-                lineHeight: 1,
-              }}
-            >
-              ⚙
-            </button>
-          </div>
         </div>
       </aside>
 
-      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-        <header
-          style={{
-            height: 86,
-            background: "linear-gradient(90deg, #53b4e8 0%, #4478f4 52%, #c663eb 100%)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-end",
-            padding: "0 28px",
-          }}
-        >
-          <div
-            onClick={() => navigate("/admin/profile")}
-            style={{
-              minWidth: 170,
-              height: 46,
-              background: "#ffffff",
-              borderRadius: 4,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 10,
-              color: "#374151",
-              fontSize: 14,
-              fontWeight: 500,
-              boxShadow: "0 0 0 1px rgba(0,0,0,0.04)",
-              cursor: "pointer",
-            }}
-          >
-            <span style={{ fontSize: 18 }}>👤</span>
-            <span>Admin</span>
-          </div>
-        </header>
-
-        <main
-          style={{
-            flex: 1,
-            padding: "24px 20px 18px 20px",
-            overflow: "auto",
-          }}
-        >
-          {children}
-        </main>
+      <div className="mainContainer" style={{ flex: 1 }}>
+        <Sidebar />
+        <div className="mainRight">
+          <Header />
+          <main className="pageContent">{children}</main>
+        </div>
       </div>
     </div>
   );
