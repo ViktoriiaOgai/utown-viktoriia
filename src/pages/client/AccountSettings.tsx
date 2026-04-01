@@ -37,13 +37,13 @@ export default function AccountSettings() {
         </div>
         <button className="prof-button" onClick={() => navigate("/profile/account/personalInf")}>
           <div className="profile-btn-acc">
-            <h3 className="label">Edit Personal Information</h3>
+            <h3 className="account-settings__label">Edit Personal Information</h3>
             <ArrowIcon className="profile-icon" />
           </div>
         </button>
         <button className="prof-button" onClick={() => navigate("/profile/account/password")}>
           <div className="profile-btn-acc">
-            <h3 className="label">Password</h3>
+            <h3 className="account-settings__label">Password</h3>
             <ArrowIcon className="profile-icon" />
           </div>
         </button>

@@ -46,18 +46,17 @@
 .more {
   background: rgba(209, 202, 255, 1);
   width: 75px;
-height: 37px;
-left: 317px;
-border-radius: 10px;
-padding-top: 2px;
-padding-right: 20px;
-padding-bottom: 2px;
-padding-left: 20px;
-gap: 10px;
-border: none;
-color: rgba(137, 125, 211, 1);
-cursor: pointer;
-
+  height: 37px;
+  left: 317px;
+  border-radius: 10px;
+  padding-top: 2px;
+  padding-right: 20px;
+  padding-bottom: 2px;
+  padding-left: 20px;
+  gap: 10px;
+  border: none;
+  color: rgba(137, 125, 211, 1);
+  cursor: pointer;
 }
 .restaurant-card img {
   width: 100%;

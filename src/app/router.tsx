@@ -28,8 +28,9 @@ import {
   AdminServicesPage,
   AdminVacanciesPage,
 } from "../pages/admin/AdminPlaceholders";
-import Information from "@/pages/client/information";
+import Information from "@/pages/client/Information";
 import ContactSupport from "@/pages/client/ContactSupport";
+import Notifications from "@/pages/client/Notifications";
 
 export const router = createBrowserRouter([
   {
@@ -56,6 +57,14 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Favourites />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/notifications",
+        element: (
+          <ProtectedRoute>
+            <Notifications />
           </ProtectedRoute>
         ),
       },

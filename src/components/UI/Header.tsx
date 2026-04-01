@@ -3,6 +3,7 @@ import LogoWhite from "@/assets/icons/Vector-1.svg?react";
 import BackButton from "./BackButton";
 import BellIcon from "./BellIcon";
 import "@/components/UI/Header.css";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   showBack?: boolean;
@@ -19,6 +20,7 @@ export default function MobileHeader({
   bellColor = "rgba(141, 141, 141, 1)",
   logoVariant = "gradient",
 }: Props) {
+  const navigate = useNavigate();
   return (
     <div className="header-icons">
       <div className="header-left">{showBack && <BackButton color={backColor} />}</div>
@@ -31,7 +33,13 @@ export default function MobileHeader({
         )}
       </div>
 
-      <div className="header-right">{showBell && <BellIcon color={bellColor} />}</div>
+      <div className="header-right">
+        {showBell && (
+          <div onClick={() => navigate("/notifications")}>
+            <BellIcon count={Notification.length} color={bellColor} />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
