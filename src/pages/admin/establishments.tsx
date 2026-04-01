@@ -19,7 +19,7 @@ import {
   getPageTotalPages,
   normalizeEstablishment,
 } from "@/utils/establishments";
-import "../../../styles/establishments.scss";
+import "@/pages/admin/establishments.scss";
 
 export default function EstablishmentsPage() {
   const navigate = useNavigate();
