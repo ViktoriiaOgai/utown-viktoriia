@@ -35,6 +35,7 @@
 }
 .contact-support__label {
   text-align: left;
+  color: rgba(255, 255, 255, 1);
 }
 .prof-button {
   background: rgba(50, 50, 50, 1);
