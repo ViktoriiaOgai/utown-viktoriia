@@ -29,6 +29,9 @@ import {
   AdminVacanciesPage,
 } from "../pages/admin/AdminPlaceholders";
 
+import EstablishmentCategoriesPage from "../pages/admin/establishments/[id]/positions/categories";
+import AddCategoryPage from "../pages/admin/establishments/[id]/positions/categories/add";
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -115,6 +118,8 @@ export const router = createBrowserRouter([
       { path: "establishments", element: <EstablishmentsPage /> },
       { path: "establishments/add", element: <AddEstablishmentPage /> },
       { path: "establishments/:id/edit", element: <EditEstablishmentPage /> },
+      { path: "establishments/:id/positions/categories", element: <EstablishmentCategoriesPage /> },
+      { path: "establishments/:id/positions/categories/add", element: <AddCategoryPage /> },
     ],
   },
 ]);
