@@ -24,17 +24,12 @@ export default function EstablishmentPositionAddPage() {
   const [putOnHold, setPutOnHold] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("7,000");
-  const [category, setCategory] = useState("Select Category");
-  const [priority, setPriority] = useState("1");
+  const [price, setPrice] = useState("");
+  const [category, setCategory] = useState("");
+  const [priority, setPriority] = useState("");
   const [categories, setCategories] = useState<CategoryItem[]>([]);
   const [isSaving, setIsSaving] = useState(false);
-  const [options, setOptions] = useState<PositionOption[]>(
-    Array.from({ length: 7 }, (_, i) => ({
-      name: `Option ${i + 1}`,
-      price: "3,000",
-    }))
-  );
+  const [options, setOptions] = useState<PositionOption[]>([]);
 
   useEffect(() => {
     api
@@ -53,6 +48,10 @@ export default function EstablishmentPositionAddPage() {
     setOptions((prev) =>
       prev.map((item, itemIndex) => (itemIndex === index ? { ...item, [key]: value } : item))
     );
+  };
+
+  const handleAddOption = () => {
+    setOptions((prev) => [...prev, { name: "", price: "" }]);
   };
 
   const handleSave = async () => {
@@ -168,6 +167,7 @@ export default function EstablishmentPositionAddPage() {
                 <div className="position-form__label">Price</div>
                 <input
                   className="position-form__input"
+                  placeholder="Price"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                 />
@@ -179,7 +179,7 @@ export default function EstablishmentPositionAddPage() {
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                 >
-                  <option>Select Category</option>
+                  <option value="">Select Category</option>
                   {categories.map((item) => (
                     <option key={item.id} value={item.name}>
                       {item.name}
@@ -191,6 +191,7 @@ export default function EstablishmentPositionAddPage() {
                 <div className="position-form__label">Priority</div>
                 <input
                   className="position-form__input"
+                  placeholder="Priority"
                   value={priority}
                   onChange={(e) => setPriority(e.target.value)}
                 />
@@ -208,12 +209,28 @@ export default function EstablishmentPositionAddPage() {
                       />
                       <input
                         className="position-form__options-input"
+                        placeholder="Price"
                         value={option.price}
                         onChange={(e) => handleOptionChange(index, "price", e.target.value)}
                       />
                     </div>
                   ))}
                 </div>
+                <button
+                  type="button"
+                  onClick={handleAddOption}
+                  style={{
+                    marginTop: 8,
+                    fontSize: 13,
+                    cursor: "pointer",
+                    background: "none",
+                    border: "1px solid #cbd5e1",
+                    borderRadius: 4,
+                    padding: "4px 12px",
+                  }}
+                >
+                  + Add option
+                </button>
               </div>
               <div className="position-form__hold">
                 <div className="position-form__hold-title">Put on Hold</div>
