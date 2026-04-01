@@ -18,8 +18,8 @@ import {
   getErrorMessage,
   getPageTotalPages,
   normalizeEstablishment,
-} from '@/utils/establishments'
-import './establishments.scss'
+} from "@/utils/establishments";
+import "../../../styles/establishments.scss";
 
 export default function EstablishmentsPage() {
   const navigate = useNavigate();
