@@ -30,6 +30,7 @@ import {
 } from "../pages/admin/AdminPlaceholders";
 import EstablishmentCategoriesPage from "../pages/admin/establishments/[id]/positions/categories";
 import AddCategoryPage from "../pages/admin/establishments/[id]/positions/categories/add";
+import EstablishmentPositionsPage from "../pages/admin/establishments/[id]/positions";
 import AddPositionPage from "../pages/admin/establishments/[id]/positions/add";
 import EditPositionPage from "../pages/admin/establishments/[id]/positions/edit";
 import AddPositionNewPage from "../pages/admin/establishments/[id]/positions/new/add";
@@ -110,6 +111,7 @@ export const router = createBrowserRouter([
       { path: "establishments", element: <EstablishmentsPage /> },
       { path: "establishments/add", element: <AddEstablishmentPage /> },
       { path: "establishments/:id/edit", element: <EditEstablishmentPage /> },
+      { path: "establishments/:id/positions", element: <EstablishmentPositionsPage /> },
       { path: "establishments/:id/positions/add", element: <AddPositionPage /> },
       { path: "establishments/:id/positions/new/add", element: <AddPositionNewPage /> },
       { path: "establishments/:id/positions/:positionId/edit", element: <EditPositionPage /> },
