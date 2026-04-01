@@ -1,18 +1,18 @@
 /* eslint-disable */
 
-import { useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import MainLayout from '@/components/MainLayout'
-import EstablishmentCardModal from './establishments/EstablishmentCardModal'
-import DeleteEstablishmentModal from './establishments/DeleteEstablishmentModal'
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import MainLayout from "@/components/MainLayout";
+import EstablishmentCardModal from "./establishments/EstablishmentCardModal";
+import DeleteEstablishmentModal from "./establishments/DeleteEstablishmentModal";
 import {
   IconCaretDown,
   IconChevronRight,
   IconEye,
   IconSearch,
-} from '@/assets/icons/EstablishmentsIcons'
-import { api } from '@/services/api'
-import type { Establishment, PageResponse } from '@/types/establishment'
+} from "@/assets/icons/EstablishmentsIcons";
+import { api } from "@/services/api";
+import type { Establishment, PageResponse } from "@/types/establishment";
 import {
   asArray,
   getErrorMessage,
@@ -48,20 +48,20 @@ export default function EstablishmentsPage() {
     api
       .get(`/admin/restaurants/${e.id}`)
       .then((r) => {
-        const data = r.data
+        const data = r.data;
         const detailsSource =
           asArray(data).find((x: any) => Number(x?.id ?? x?.restaurantId) === Number(e.id)) ??
           data?.data ??
-          data
+          data;
 
         if (detailsSource) {
-          setSelected((prev) => normalizeEstablishment({ ...(prev ?? e), ...detailsSource }))
+          setSelected((prev) => normalizeEstablishment({ ...(prev ?? e), ...detailsSource }));
         }
       })
       .catch((error) => {
-        setDetailsError(getErrorMessage(error, 'Failed to load establishment details'))
-      })
-  }
+        setDetailsError(getErrorMessage(error, "Failed to load establishment details"));
+      });
+  };
 
   const closeEstablishment = () => {
     setIsModalOpen(false);
@@ -70,35 +70,35 @@ export default function EstablishmentsPage() {
   };
 
   useEffect(() => {
-    const controller = new AbortController()
+    const controller = new AbortController();
 
-    setIsLoading(true)
-    setPageError('')
+    setIsLoading(true);
+    setPageError("");
 
     api
       .get(`/admin/restaurants?page=${page - 1}&size=${pageSize}`, {
         signal: controller.signal,
       })
       .then((data: any) => {
-        setRows(asArray(data).map(normalizeEstablishment))
-        setTotalPages(getPageTotalPages(data))
+        setRows(asArray(data).map(normalizeEstablishment));
+        setTotalPages(getPageTotalPages(data));
       })
       .catch((error) => {
-        setRows([])
-        setTotalPages(1)
-        setPageError(getErrorMessage(error, 'Failed to load establishments'))
+        setRows([]);
+        setTotalPages(1);
+        setPageError(getErrorMessage(error, "Failed to load establishments"));
       })
       .finally(() => {
-        setIsLoading(false)
-      })
+        setIsLoading(false);
+      });
 
-    return () => controller.abort()
-  }, [page, pageSize])
+    return () => controller.abort();
+  }, [page, pageSize]);
 
   useEffect(() => {
-    if (page > totalPages) setPage(totalPages)
-    if (page < 1) setPage(1)
-  }, [page, totalPages])
+    if (page > totalPages) setPage(totalPages);
+    if (page < 1) setPage(1);
+  }, [page, totalPages]);
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -131,18 +131,18 @@ export default function EstablishmentsPage() {
     return Array.from({ length: maxButtons }, (_, i) => start + i);
   }, [page, totalPages]);
 
-  const allChecked = filtered.length > 0 && filtered.every((item) => selectedIds.includes(item.id))
+  const allChecked = filtered.length > 0 && filtered.every((item) => selectedIds.includes(item.id));
 
   const toggleOne = (id: number) => {
     setSelectedIds((prev) =>
       prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id]
-    )
-  }
+    );
+  };
 
   const toggleAll = () => {
     if (allChecked) {
-      setSelectedIds((prev) => prev.filter((id) => !filtered.some((item) => item.id === id)))
-      return
+      setSelectedIds((prev) => prev.filter((id) => !filtered.some((item) => item.id === id)));
+      return;
     }
 
     setSelectedIds((prev) => {
@@ -166,7 +166,7 @@ export default function EstablishmentsPage() {
     setDeleteError("");
 
     try {
-      await Promise.all(idsToDelete.map((id) => api.delete(`/admin/restaurants/${id}`)))
+      await Promise.all(idsToDelete.map((id) => api.delete(`/admin/restaurants/${id}`)));
 
       setRows((prev) => prev.filter((item) => !idsToDelete.includes(item.id)));
       setSelectedIds([]);
@@ -189,11 +189,11 @@ export default function EstablishmentsPage() {
             <h1 className="establishmentsTitle">Establishments</h1>
 
             <div className="establishmentsCrumbs">
-              <span className="crumbLink" onClick={() => navigate('/admin/home')}>
+              <span className="crumbLink" onClick={() => navigate("/admin/home")}>
                 Home
               </span>
               <span className="crumbSep">/</span>
-              <span className="crumbLink" onClick={() => navigate('/admin/profile')}>
+              <span className="crumbLink" onClick={() => navigate("/admin/profile")}>
                 Users
               </span>
               <span className="crumbSep">/</span>
@@ -220,9 +220,9 @@ export default function EstablishmentsPage() {
 
             <div className="controlsRow">
               <button
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
                 className="applyBtn addBtn"
-                onClick={() => navigate('/admin/establishments/add')}
+                onClick={() => navigate("/admin/establishments/add")}
                 type="button"
               >
                 Add establishment
@@ -260,17 +260,11 @@ export default function EstablishmentsPage() {
           </div>
         </div>
 
-        {pageError && (
-          <div className="pageMessage pageMessageError">{pageError}</div>
-        )}
+        {pageError && <div className="pageMessage pageMessageError">{pageError}</div>}
 
-        {detailsError && (
-          <div className="pageMessage pageMessageWarn">{detailsError}</div>
-        )}
+        {detailsError && <div className="pageMessage pageMessageWarn">{detailsError}</div>}
 
-        {deleteError && (
-          <div className="pageMessage pageMessageError">{deleteError}</div>
-        )}
+        {deleteError && <div className="pageMessage pageMessageError">{deleteError}</div>}
 
         {isLoading ? (
           <div className="loadingState">Loading...</div>
@@ -293,11 +287,7 @@ export default function EstablishmentsPage() {
                 <thead>
                   <tr>
                     <th className="th checkboxCol">
-                      <input
-                        type="checkbox"
-                        checked={allChecked}
-                        onChange={toggleAll}
-                      />
+                      <input type="checkbox" checked={allChecked} onChange={toggleAll} />
                     </th>
 
                     <th className="th">
@@ -369,15 +359,8 @@ export default function EstablishmentsPage() {
 
                 <tbody>
                   {filtered.map((e) => (
-                    <tr
-                      key={e.id}
-                      className="tr"
-                      onClick={() => openEstablishment(e)}
-                    >
-                      <td
-                        className="td checkboxCol"
-                        onClick={(ev) => ev.stopPropagation()}
-                      >
+                    <tr key={e.id} className="tr" onClick={() => openEstablishment(e)}>
+                      <td className="td checkboxCol" onClick={(ev) => ev.stopPropagation()}>
                         <input
                           type="checkbox"
                           checked={selectedIds.includes(e.id)}
@@ -393,8 +376,8 @@ export default function EstablishmentsPage() {
                       <td
                         className="td historyTd"
                         onClick={(ev) => {
-                          ev.stopPropagation()
-                          navigate(`/admin/establishments/${e.id}/positions/categories`)
+                          ev.stopPropagation();
+                          navigate(`/admin/establishments/${e.id}/positions/categories`);
                         }}
                       >
                         <span className="viewLink">View</span>
@@ -416,24 +399,15 @@ export default function EstablishmentsPage() {
                         </span>
                       </td>
 
-                      <td
-                        className="td historyTd"
-                        onClick={(ev) => ev.stopPropagation()}
-                      >
+                      <td className="td historyTd" onClick={(ev) => ev.stopPropagation()}>
                         <span className="viewLink">View</span>
                         <span className="chev">
                           <IconChevronRight />
                         </span>
                       </td>
 
-                      <td
-                        className="td iconCol"
-                        onClick={(ev) => ev.stopPropagation()}
-                      >
-                        <span
-                          className="eye"
-                          onClick={() => openEstablishment(e)}
-                        >
+                      <td className="td iconCol" onClick={(ev) => ev.stopPropagation()}>
+                        <span className="eye" onClick={() => openEstablishment(e)}>
                           <IconEye />
                         </span>
                       </td>
@@ -452,11 +426,7 @@ export default function EstablishmentsPage() {
             </div>
 
             <div className="pager">
-              <button
-                className="pagerBtn"
-                onClick={() => goTo(page - 1)}
-                disabled={page <= 1}
-              >
+              <button className="pagerBtn" onClick={() => goTo(page - 1)} disabled={page <= 1}>
                 Prev
               </button>
 
