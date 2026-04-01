@@ -2,7 +2,7 @@ import MainLayout from "../../../../../../components/MainLayout";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { api } from "../../../../../../services/api";
-import "../../../../../../../styles/categories.scss";
+import "@/pages/admin/categories.scss";
 
 export default function AddCategoryPage() {
   const navigate = useNavigate();
