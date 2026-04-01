@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Header from "@/components/UI/Header";
-import Sidebar from "@/assets/Sidebar";
+import Sidebar from "@/components/Sidebar";
 
 type MainLayoutProps = {
   children: ReactNode;
