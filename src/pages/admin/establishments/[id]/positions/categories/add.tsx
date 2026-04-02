@@ -1,7 +1,7 @@
-import MainLayout from "../../../../../../components/MainLayout";
+import MainLayout from "@/components/MainLayout";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
-import { api } from "../../../../../../services/api";
+import { api } from "@/services/api";
 import "./categories.scss";
 
 export default function AddCategoryPage() {
