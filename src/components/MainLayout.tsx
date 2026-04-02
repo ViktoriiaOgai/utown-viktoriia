@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import Header from "@/components/UI/Header";
+import AdminHeader from "@/components/UI/AdminHeader";
 import Sidebar from "@/components/Sidebar";
 
 type MainLayoutProps = {
@@ -11,7 +11,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
     <div className="adminLayout">
       <Sidebar />
       <div className="mainRight">
-        <Header />
+        <AdminHeader />
         <main className="pageContent">{children}</main>
       </div>
     </div>
