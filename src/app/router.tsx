@@ -1,15 +1,15 @@
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import AuthLayout from "../layout/AuthLayout";
 import MobileLayout from "../layout/MobileLayout";
-import Welcome from "../pages/Welcome";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
-import Recover from "../pages/RecoverPage";
-import NewPassword from "@/pages/NewPassword";
-import PasswordResetCode from "@/pages/PasswordResetCode";
-import Home from "../pages/Home";
-import Favourites from "../pages/Favourites";
-import Profile from "../pages/Profile";
+import Welcome from "../pages/client/Welcome";
+import Login from "../pages/client/Login";
+import Register from "../pages/client/Register";
+import Recover from "../pages/client/RecoverPage";
+import NewPassword from "@/pages/client/NewPassword";
+import PasswordResetCode from "@/pages/client/PasswordResetCode";
+import Home from "../pages/client/Home";
+import Favourites from "../pages/client/Favourites";
+import Profile from "../pages/client/Profile";
 import AdminLogin from "../pages/AdminLogin";
 import AdminHome from "../pages/admin/Home";
 import AdminProfile from "../pages/admin/Profile";
@@ -18,9 +18,9 @@ import EstablishmentsPage from "../pages/admin/establishments";
 import AddEstablishmentPage from "../pages/admin/establishments/add";
 import EditEstablishmentPage from "../pages/admin/establishments/[id]/edit";
 import { AdminRoute, ProtectedRoute } from "../components/ProtectedRoute";
-import AccountSettings from "@/pages/AccountSettings";
-import PersonalInformation from "@/pages/PersonalInformation";
-import ChangePassword from "@/pages/ChangePassword";
+import AccountSettings from "@/pages/client/AccountSettings";
+import PersonalInformation from "@/pages/client/PersonalInformation";
+import ChangePassword from "@/pages/client/ChangePassword";
 import {
   AdminClientsPage,
   AdminRidersPage,
@@ -28,6 +28,10 @@ import {
   AdminServicesPage,
   AdminVacanciesPage,
 } from "../pages/admin/AdminPlaceholders";
+import Information from "@/pages/client/Information";
+import ContactSupport from "@/pages/client/ContactSupport";
+import Notifications from "@/pages/client/Notifications";
+
 import EstablishmentCategoriesPage from "../pages/admin/establishments/[id]/positions/categories";
 import AddCategoryPage from "../pages/admin/establishments/[id]/positions/categories/add";
 import EstablishmentPositionsPage from "../pages/admin/establishments/[id]/positions";
@@ -64,6 +68,14 @@ export const router = createBrowserRouter([
         ),
       },
       {
+        path: "/notifications",
+        element: (
+          <ProtectedRoute>
+            <Notifications />
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: "/profile",
         element: (
           <ProtectedRoute>
@@ -72,9 +84,27 @@ export const router = createBrowserRouter([
         ),
         children: [
           { index: true, element: <Profile /> },
-          { path: "account", element: <AccountSettings /> },
-          { path: "account/personalInf", element: <PersonalInformation /> },
-          { path: "account/password", element: <ChangePassword /> },
+
+          {
+            path: "account",
+            element: <AccountSettings />,
+          },
+          {
+            path: "account/personalInf",
+            element: <PersonalInformation />,
+          },
+          {
+            path: "account/password",
+            element: <ChangePassword />,
+          },
+          {
+            path: "information",
+            element: <Information />,
+          },
+          {
+            path: "contact",
+            element: <ContactSupport />,
+          },
         ],
       },
     ],

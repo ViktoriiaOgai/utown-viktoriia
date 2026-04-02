@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "@/pages/AccountSettings.css";
+import "@/pages/client/AccountSettings.css";
 import { useNavigate } from "react-router-dom";
 import User from "@/assets/icons/user.svg";
 import ArrowIcon from "@/assets/icons/Arrow.svg?react";
@@ -24,7 +24,7 @@ export default function AccountSettings() {
           <h1 className="H">Account Settings</h1>
         </div>
 
-        <div className="OrderInfoContainer">
+        <div className="InfoContainer">
           <img
             src={user?.avatar || User}
             onError={(e) => {
@@ -37,20 +37,18 @@ export default function AccountSettings() {
         </div>
         <button className="prof-button" onClick={() => navigate("/profile/account/personalInf")}>
           <div className="profile-btn-acc">
-            <h3 className="label">Edit Personal Information</h3>
+            <h3 className="account-settings__label">Edit Personal Information</h3>
             <ArrowIcon className="profile-icon" />
           </div>
         </button>
         <button className="prof-button" onClick={() => navigate("/profile/account/password")}>
           <div className="profile-btn-acc">
-            <h3 className="label">Password</h3>
+            <h3 className="account-settings__label">Password</h3>
             <ArrowIcon className="profile-icon" />
           </div>
         </button>
         <button className="delAcc-button" onClick={() => setShowModal(true)}>
-          <div className="dellBtn">
-            <h3 className="label-out">Delete account</h3>
-          </div>
+          <h3 className="dell-label">Delete account</h3>
         </button>
         {showModal && (
           <ModalDelAcc
