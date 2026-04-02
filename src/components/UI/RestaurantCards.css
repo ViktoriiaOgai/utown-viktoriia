@@ -41,16 +41,22 @@
   justify-content: space-between;
   padding-right: 15px;
   align-items: center;
+  flex-direction: row;
 }
-.more-btn {
+.more {
   background: rgba(209, 202, 255, 1);
   width: 75px;
   height: 37px;
-  opacity: 1;
+  left: 317px;
   border-radius: 10px;
+  padding-top: 2px;
+  padding-right: 20px;
+  padding-bottom: 2px;
+  padding-left: 20px;
   gap: 10px;
   border: none;
   color: rgba(137, 125, 211, 1);
+  cursor: pointer;
 }
 .restaurant-card img {
   width: 100%;
@@ -66,4 +72,16 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   padding-left: 10px;
+}
+
+/* GRID режим */
+.restaurant-cards-container.vertical {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+/* карточки внутри grid */
+.restaurant-cards-container.vertical .restaurant-card {
+  width: 160px;
 }
