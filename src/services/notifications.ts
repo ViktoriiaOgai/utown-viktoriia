@@ -11,11 +11,11 @@ export type Notification = {
   userId: number;
 };
 
-export const fetchNotifications = async (page = 0, size = 10) => {
+export const fetchNotifications = async (): Promise<Notification[]> => {
   const res = await api.get("/notifications/my-notifications", {
     params: {
-      page,
-      size,
+      page: 0,
+      size: 10,
     },
   });
 

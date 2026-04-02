@@ -11,6 +11,7 @@ type Props = {
   showBell?: boolean;
   bellColor?: string;
   logoVariant?: "gradient" | "white";
+  unreadCount?: number;
 };
 
 export default function MobileHeader({
@@ -19,6 +20,7 @@ export default function MobileHeader({
   backColor = "black",
   bellColor = "rgba(141, 141, 141, 1)",
   logoVariant = "gradient",
+  unreadCount = 0,
 }: Props) {
   const navigate = useNavigate();
   return (
@@ -36,7 +38,7 @@ export default function MobileHeader({
       <div className="header-right">
         {showBell && (
           <div onClick={() => navigate("/notifications")}>
-            <BellIcon count={Notification.length} color={bellColor} />
+            <BellIcon count={unreadCount} color={bellColor} />
           </div>
         )}
       </div>

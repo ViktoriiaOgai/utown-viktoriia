@@ -20,9 +20,7 @@ export default function AccountSettings() {
       <MobileHeader logoVariant="white" showBack backColor="white" showBell bellColor="white" />
       {/* Основной контейнер */}
       <div className="mainAcc">
-        <div className="mainCont-acc">
-          <h1 className="H">Account Settings</h1>
-        </div>
+        <h1 className="account_label">Account Settings</h1>
 
         <div className="InfoContainer">
           <img

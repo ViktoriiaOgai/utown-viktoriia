@@ -3,12 +3,24 @@ import { fetchNotifications } from "@/services/notifications";
 import { socket, connectSocket } from "@/services/socket";
 import NotificationGroup from "@/components/notifications/NotificationGroup";
 import type { Notification } from "@/services/notifications";
+import "@/components/notifications/NotificationList.css";
+import { markAsRead } from "@/services/notifications";
 
 export default function NotificationList() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   useEffect(() => {
-    fetchNotifications().then(setNotifications);
+    const loadNotifications = async () => {
+      const data = await fetchNotifications();
+
+      if (notifications.length === 0) {
+        return <div className="empty">No notifications yet</div>;
+      }
+      setNotifications(data);
+      await Promise.all(data.filter((n) => !n.isSuccessful).map((n) => markAsRead(n.id)));
+    };
+
+    loadNotifications();
 
     const token = localStorage.getItem("token");
     if (token) {
@@ -16,7 +28,9 @@ export default function NotificationList() {
     }
 
     socket.on("notification", (data: Notification) => {
-      setNotifications((prev) => [data, ...prev]);
+      console.log("SOCKET:", data);
+      markAsRead(data.id);
+      setNotifications((prev) => [{ ...data, isSuccessful: true }, ...prev]);
     });
 
     return () => {
@@ -37,11 +51,14 @@ export default function NotificationList() {
 
   const todayItems = notifications.filter((n) => isToday(n.date));
   const otherItems = notifications.filter((n) => !isToday(n.date));
-
+  if (notifications.length === 0) {
+    return <div className="empty">No notifications yet</div>;
+  }
   return (
     <div>
-      <NotificationGroup title="Yesterday" items={otherItems} />
-      <NotificationGroup title="Today" items={todayItems} />
+      {otherItems.length > 0 && <NotificationGroup title="Yesterday" items={otherItems} />}
+
+      {todayItems.length > 0 && <NotificationGroup title="Today" items={todayItems} />}
     </div>
   );
 }
