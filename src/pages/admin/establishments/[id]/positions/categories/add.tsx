@@ -67,6 +67,7 @@ export default function AddCategoryPage() {
             <span className="add-category__breadcrumb-sep">/</span>
             <span>Add Category</span>
           </div>
+
           <div className="add-category__card">
             <div className="add-category__preview">
               <div className="add-category__preview-icon">🖼</div>
@@ -92,6 +93,7 @@ export default function AddCategoryPage() {
               </div>
             </div>
           </div>
+
           <div className="add-category__actions">
             <button
               type="button"
