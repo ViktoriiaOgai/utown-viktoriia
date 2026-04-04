@@ -1,31 +1,27 @@
-import { useEffect, useState } from "react";
-import { fetchNotifications, markAsRead } from "@/services/notifications";
+import { useEffect } from "react";
+import { useOutletContext } from "react-router-dom";
+import { markAsRead } from "@/services/notifications";
 import { socket, connectSocket } from "@/services/socket";
 import NotificationGroup from "@/components/notifications/NotificationGroup";
 import type { Notification } from "@/services/notifications";
 import "@/components/notifications/NotificationList.css";
 
+type ContextType = {
+  notifications: Notification[];
+  setNotifications: React.Dispatch<React.SetStateAction<Notification[]>>;
+};
+
 export default function NotificationList() {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const { notifications, setNotifications } = useOutletContext<ContextType>();
 
-  // Загрузка уведомлений и подключение сокета
   useEffect(() => {
-    const loadNotifications = async () => {
-      const data = await fetchNotifications();
-      setNotifications(data);
-      await Promise.all(data.filter((n) => !n.isSuccessful).map((n) => markAsRead(n.id)));
-    };
-
-    loadNotifications();
-
     const token = localStorage.getItem("token");
     if (token) {
       connectSocket(token);
     }
 
     const handleSocket = (data: Notification) => {
-      markAsRead(data.id);
-      setNotifications((prev) => [{ ...data, isSuccessful: true }, ...prev]);
+      setNotifications((prev) => [data, ...prev]);
     };
 
     socket.on("notification", handleSocket);
@@ -33,7 +29,17 @@ export default function NotificationList() {
     return () => {
       socket.off("notification", handleSocket);
     };
-  }, []); // Оставляем пустой массив, потому что setNotifications уже обновляет стейт
+  }, [setNotifications]);
+
+  useEffect(() => {
+    if (notifications.length === 0) return;
+
+    notifications.forEach((n) => {
+      if (!n.isSuccessful) {
+        markAsRead(n.id);
+      }
+    });
+  }, [notifications]);
 
   const isToday = (dateStr: string): boolean => {
     const today = new Date();
