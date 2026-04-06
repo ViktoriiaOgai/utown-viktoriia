@@ -12,7 +12,8 @@
   gap: 50px;
   position: fixed;
   bottom: 0;
-  left: 0;
+  left: 50%; /* центрируем по горизонтали */
+  transform: translateX(-50%);
   width: 100%;
 
   background: white;

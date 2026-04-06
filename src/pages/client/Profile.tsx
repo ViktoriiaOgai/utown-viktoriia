@@ -10,9 +10,11 @@ import LogOutIcon from "@/assets/icons/logout.svg?react";
 import { logout } from "@/hooks/auth";
 import { getUserData } from "@/hooks/auth";
 import MobileHeader from "@/components/UI/Header";
+import { useNotifications } from "@/services/useNotification";
 
 export default function Profile() {
   const navigate = useNavigate();
+  const { unreadCount } = useNotifications();
 
   const [firstName] = useState(() => {
     const user = getUserData();
@@ -27,7 +29,7 @@ export default function Profile() {
     <>
       {/* Основной контейнер */}
       <div className="mainCont">
-        <MobileHeader logoVariant="white" showBell bellColor="white" />
+        <MobileHeader logoVariant="white" showBell bellColor="white" unreadCount={unreadCount} />
         <div className="mainContInner">
           <h1 className="Hello">Hello{firstName ? `, ${firstName}` : ""}!</h1>
         </div>

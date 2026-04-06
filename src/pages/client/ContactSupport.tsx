@@ -1,11 +1,20 @@
 import "@/pages/client/ContactSupport.css";
 import ArrowIcon from "@/assets/icons/Arrow.svg?react";
 import MobileHeader from "@/components/UI/Header";
+import { useNotifications } from "@/services/useNotification";
 
 export default function ContactSupport() {
+  const { unreadCount } = useNotifications();
   return (
     <>
-      <MobileHeader logoVariant="white" showBack backColor="white" showBell bellColor="white" />
+      <MobileHeader
+        logoVariant="white"
+        showBack
+        backColor="white"
+        showBell
+        bellColor="white"
+        unreadCount={unreadCount}
+      />
       {/* TODO: add navigation to each contact support page */}
       <div className="mainAcc-cont">
         <div className="mainCont-cont">

@@ -1,19 +1,28 @@
 import HomeIcon from "@/assets/icons/Home.svg?react";
 import StarIcon from "@/assets/icons/Star.svg?react";
 import ProfileIcon from "@/assets/icons/Profile.svg?react";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import "@/components/UI/Footer.css";
 
 export default function Footer() {
   const navigate = useNavigate();
   const location = useLocation();
-  const isProfile = location.pathname.startsWith("/profile");
+
+  // фикс для notifications
+  const getActivePath = () => {
+    if (location.pathname === "/notifications") return "/home";
+    return location.pathname;
+  };
+
+  const isActive = (path: string) => {
+    return getActivePath().startsWith(path);
+  };
+
   return (
     <div className="footer">
       <button
-        className={location.pathname === "/home" ? "icon-btn active" : "icon-btn"}
+        className={isActive("/home") ? "icon-btn active" : "icon-btn"}
         onClick={() => navigate("/home")}
       >
         <div className="footer-btn">
@@ -21,8 +30,9 @@ export default function Footer() {
           <h3 className="label">Home</h3>
         </div>
       </button>
+
       <button
-        className={location.pathname === "/favourites" ? "icon-btn active" : "icon-btn"}
+        className={isActive("/favourites") ? "icon-btn active" : "icon-btn"}
         onClick={() => navigate("/favourites")}
       >
         <div className="footer-btn">
@@ -30,8 +40,9 @@ export default function Footer() {
           <h3 className="label">Favourites</h3>
         </div>
       </button>
+
       <button
-        className={isProfile ? "icon-btn active" : "icon-btn"}
+        className={isActive("/profile") ? "icon-btn active" : "icon-btn"}
         onClick={() => navigate("/profile")}
       >
         <div className="footer-btn">
