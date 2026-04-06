@@ -67,10 +67,7 @@ export default function OrdersPage() {
           riderName: item?.courierName ?? "",
           riderTransport: "Transport: Motorcycle",
           orderNumber: `No. ${item?.number ?? item?.id ?? ""}`,
-          amount:
-            typeof item?.totalSum === "number"
-              ? item.totalSum.toLocaleString()
-              : "",
+          amount: typeof item?.totalSum === "number" ? item.totalSum.toLocaleString() : "",
           orderTime: item?.time ?? "",
           pickupTime: "",
           deliveryTime: "",
@@ -105,24 +102,16 @@ export default function OrdersPage() {
     });
 
     if (selectedFilter === "client-asc")
-      result = [...result].sort((a, b) =>
-        a.clientName.localeCompare(b.clientName),
-      );
+      result = [...result].sort((a, b) => a.clientName.localeCompare(b.clientName));
     if (selectedFilter === "client-desc")
-      result = [...result].sort((a, b) =>
-        b.clientName.localeCompare(a.clientName),
-      );
+      result = [...result].sort((a, b) => b.clientName.localeCompare(a.clientName));
     if (selectedFilter === "amount-asc")
       result = [...result].sort(
-        (a, b) =>
-          Number(a.amount.replaceAll(",", "")) -
-          Number(b.amount.replaceAll(",", "")),
+        (a, b) => Number(a.amount.replaceAll(",", "")) - Number(b.amount.replaceAll(",", ""))
       );
     if (selectedFilter === "amount-desc")
       result = [...result].sort(
-        (a, b) =>
-          Number(b.amount.replaceAll(",", "")) -
-          Number(a.amount.replaceAll(",", "")),
+        (a, b) => Number(b.amount.replaceAll(",", "")) - Number(a.amount.replaceAll(",", ""))
       );
 
     return result;
@@ -132,12 +121,11 @@ export default function OrdersPage() {
   const paginated = filtered.slice((page - 1) * pageSize, page * pageSize);
 
   const allCurrentSelected =
-    paginated.length > 0 &&
-    paginated.every((item) => selectedRows.includes(item.id));
+    paginated.length > 0 && paginated.every((item) => selectedRows.includes(item.id));
 
   function toggleRow(id: number | string) {
     setSelectedRows((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
   }
 
@@ -154,9 +142,7 @@ export default function OrdersPage() {
   function handleApply() {
     if (!selectedAction || selectedRows.length === 0) return;
     if (selectedAction === "delete") {
-      setOrders((prev) =>
-        prev.filter((item) => !selectedRows.includes(item.id)),
-      );
+      setOrders((prev) => prev.filter((item) => !selectedRows.includes(item.id)));
       setSelectedRows([]);
     }
     if (selectedAction === "clear") setSelectedRows([]);
@@ -226,11 +212,7 @@ export default function OrdersPage() {
             <thead>
               <tr>
                 <th className="orders-page__checkbox">
-                  <input
-                    type="checkbox"
-                    checked={allCurrentSelected}
-                    onChange={toggleAll}
-                  />
+                  <input type="checkbox" checked={allCurrentSelected} onChange={toggleAll} />
                 </th>
                 <th>Client</th>
                 <th>Establishment</th>
@@ -271,12 +253,8 @@ export default function OrdersPage() {
                       <div className="orders-page__sub">{o.clientAddress}</div>
                     </td>
                     <td className="orders-page__wide">
-                      <div className="orders-page__main">
-                        {o.establishmentName}
-                      </div>
-                      <div className="orders-page__sub">
-                        {o.establishmentAddress}
-                      </div>
+                      <div className="orders-page__main">{o.establishmentName}</div>
+                      <div className="orders-page__sub">{o.establishmentAddress}</div>
                     </td>
                     <td className="orders-page__wide">
                       <div className="orders-page__main">{o.riderName}</div>
@@ -307,9 +285,7 @@ export default function OrdersPage() {
             <button
               key={p}
               className={
-                page === p
-                  ? "orders-page__page orders-page__page--active"
-                  : "orders-page__page"
+                page === p ? "orders-page__page orders-page__page--active" : "orders-page__page"
               }
               onClick={() => setPage(p)}
             >

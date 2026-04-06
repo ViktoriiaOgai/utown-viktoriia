@@ -1,6 +1,8 @@
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import AuthLayout from "../layout/AuthLayout";
 import MobileLayout from "../layout/MobileLayout";
+import AdminMobileLayout from "../layout/AdminMobileLayout";
+
 import Welcome from "../pages/client/Welcome";
 import Login from "../pages/client/Login";
 import Register from "../pages/client/Register";
@@ -10,17 +12,23 @@ import PasswordResetCode from "@/pages/client/PasswordResetCode";
 import Home from "../pages/client/Home";
 import Favourites from "../pages/client/Favourites";
 import Profile from "../pages/client/Profile";
+
 import AdminLogin from "../pages/AdminLogin";
 import AdminHome from "../pages/admin/Home";
 import AdminProfile from "../pages/admin/Profile";
+
 import ProfileLayout from "@/layout/ProfileLayout";
+
 import EstablishmentsPage from "../pages/admin/establishments";
 import AddEstablishmentPage from "../pages/admin/establishments/add";
 import EditEstablishmentPage from "../pages/admin/establishments/[id]/edit";
+
 import { AdminRoute, ProtectedRoute } from "../components/ProtectedRoute";
+
 import AccountSettings from "@/pages/client/AccountSettings";
 import PersonalInformation from "@/pages/client/PersonalInformation";
 import ChangePassword from "@/pages/client/ChangePassword";
+
 import {
   AdminClientsPage,
   AdminRidersPage,
@@ -28,6 +36,7 @@ import {
   AdminServicesPage,
   AdminVacanciesPage,
 } from "../pages/admin/AdminPlaceholders";
+
 import Information from "@/pages/client/Information";
 import ContactSupport from "@/pages/client/ContactSupport";
 import Notifications from "@/pages/client/Notifications";
@@ -48,6 +57,7 @@ export const router = createBrowserRouter([
     path: "/welcome",
     element: <Welcome />,
   },
+
   {
     element: <MobileLayout />,
     children: [
@@ -84,31 +94,16 @@ export const router = createBrowserRouter([
         ),
         children: [
           { index: true, element: <Profile /> },
-
-          {
-            path: "account",
-            element: <AccountSettings />,
-          },
-          {
-            path: "account/personalInf",
-            element: <PersonalInformation />,
-          },
-          {
-            path: "account/password",
-            element: <ChangePassword />,
-          },
-          {
-            path: "information",
-            element: <Information />,
-          },
-          {
-            path: "contact",
-            element: <ContactSupport />,
-          },
+          { path: "account", element: <AccountSettings /> },
+          { path: "account/personalInf", element: <PersonalInformation /> },
+          { path: "account/password", element: <ChangePassword /> },
+          { path: "information", element: <Information /> },
+          { path: "contact", element: <ContactSupport /> },
         ],
       },
     ],
   },
+
   {
     element: <AuthLayout />,
     children: [
@@ -119,10 +114,12 @@ export const router = createBrowserRouter([
       { path: "/reset-code", element: <PasswordResetCode /> },
     ],
   },
+
   {
     path: "/admin/login",
     element: <AdminLogin />,
   },
+
   {
     path: "/admin",
     element: (
@@ -138,15 +135,28 @@ export const router = createBrowserRouter([
       { path: "orders", element: <AdminOrdersPage /> },
       { path: "services", element: <AdminServicesPage /> },
       { path: "vacancies", element: <AdminVacanciesPage /> },
+
       { path: "establishments", element: <EstablishmentsPage /> },
       { path: "establishments/add", element: <AddEstablishmentPage /> },
       { path: "establishments/:id/edit", element: <EditEstablishmentPage /> },
+
       { path: "establishments/:id/positions", element: <EstablishmentPositionsPage /> },
       { path: "establishments/:id/positions/add", element: <AddPositionPage /> },
       { path: "establishments/:id/positions/new/add", element: <AddPositionNewPage /> },
       { path: "establishments/:id/positions/:positionId/edit", element: <EditPositionPage /> },
+
       { path: "establishments/:id/positions/categories", element: <EstablishmentCategoriesPage /> },
       { path: "establishments/:id/positions/categories/add", element: <AddCategoryPage /> },
     ],
+  },
+
+  {
+    path: "/admin-mobile",
+    element: (
+      <AdminRoute>
+        <AdminMobileLayout />
+      </AdminRoute>
+    ),
+    children: [{ path: "home", element: <AdminHome /> }],
   },
 ]);
