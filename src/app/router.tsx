@@ -1,7 +1,6 @@
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import AuthLayout from "../layout/AuthLayout";
 import MobileLayout from "../layout/MobileLayout";
-import AdminMobileLayout from "../layout/AdminMobileLayout";
 
 import Welcome from "../pages/client/Welcome";
 import Login from "../pages/client/Login";
@@ -36,7 +35,6 @@ import {
   AdminVacanciesPage,
 } from "../pages/admin/AdminPlaceholders";
 
-// ✅ ВАЖНО: добавили реальную страницу
 import OrdersPage from "../pages/admin/orders";
 
 import Information from "@/pages/client/Information";
@@ -135,7 +133,7 @@ export const router = createBrowserRouter([
       { path: "clients", element: <AdminClientsPage /> },
       { path: "riders", element: <AdminRidersPage /> },
 
-      // ✅ ВОТ ГЛАВНОЕ ИСПРАВЛЕНИЕ
+      // ✅ твоя страница
       { path: "orders", element: <OrdersPage /> },
 
       { path: "services", element: <AdminServicesPage /> },
@@ -153,15 +151,5 @@ export const router = createBrowserRouter([
       { path: "establishments/:id/positions/categories", element: <EstablishmentCategoriesPage /> },
       { path: "establishments/:id/positions/categories/add", element: <AddCategoryPage /> },
     ],
-  },
-
-  {
-    path: "/admin-mobile",
-    element: (
-      <AdminRoute>
-        <AdminMobileLayout />
-      </AdminRoute>
-    ),
-    children: [{ path: "home", element: <AdminHome /> }],
   },
 ]);
