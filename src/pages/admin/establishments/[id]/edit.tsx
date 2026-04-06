@@ -33,6 +33,12 @@ export default function EditEstablishmentPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // 🔥 добавили состояния для данных с бэка
+  const [facilities, setFacilities] = useState("");
+  const [isRecommended, setIsRecommended] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+  const [fullAddress, setFullAddress] = useState("");
+
   useEffect(() => {
     const role = getRole();
 
@@ -79,6 +85,12 @@ export default function EditEstablishmentPage() {
           sat: "9:00 — 22:00",
           sun: "9:00 — 22:00",
         });
+
+        // 🔥 сохраняем данные с бэка
+        setFacilities(String(details?.facilities ?? ""));
+        setIsRecommended(Boolean(details?.isRecommended ?? false));
+        setImageUrl(String(details?.imageUrl ?? ""));
+        setFullAddress(String(address?.fullAddress ?? ""));
       })
       .catch((err) => {
         setError(getErrorMessage(err, "Failed to load establishment"));
@@ -109,16 +121,16 @@ export default function EditEstablishmentPage() {
         description,
         category,
         deliveryTime: values.mon || "",
-        facilities: "",
-        isRecommended: false,
+        facilities, // ✅ теперь не затирается
+        isRecommended, // ✅ теперь не затирается
         minOrderAmount,
         phone,
-        imageUrl: "",
+        imageUrl, // ✅ теперь не затирается
         address: {
           area: "",
           city,
           details: deliveryAreas,
-          fullAddress: city,
+          fullAddress: fullAddress || city, // ✅ исправлено
           latitude: 0,
           longitude: 0,
           postcode: "",
