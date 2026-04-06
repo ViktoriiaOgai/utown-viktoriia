@@ -32,10 +32,12 @@ import ChangePassword from "@/pages/client/ChangePassword";
 import {
   AdminClientsPage,
   AdminRidersPage,
-  AdminOrdersPage,
   AdminServicesPage,
   AdminVacanciesPage,
 } from "../pages/admin/AdminPlaceholders";
+
+// ✅ ВАЖНО: добавили реальную страницу
+import OrdersPage from "../pages/admin/orders";
 
 import Information from "@/pages/client/Information";
 import ContactSupport from "@/pages/client/ContactSupport";
@@ -132,7 +134,10 @@ export const router = createBrowserRouter([
       { path: "profile", element: <AdminProfile /> },
       { path: "clients", element: <AdminClientsPage /> },
       { path: "riders", element: <AdminRidersPage /> },
-      { path: "orders", element: <AdminOrdersPage /> },
+
+      // ✅ ВОТ ГЛАВНОЕ ИСПРАВЛЕНИЕ
+      { path: "orders", element: <OrdersPage /> },
+
       { path: "services", element: <AdminServicesPage /> },
       { path: "vacancies", element: <AdminVacanciesPage /> },
 
