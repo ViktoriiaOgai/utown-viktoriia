@@ -17,7 +17,6 @@ export default function PromoCards({ variant = "scroll" }: Props) {
 
   return (
     <div className="promo-cards-wrapper">
-
       {/* SCROLL — НЕ ТРОГАЕМ */}
       {variant === "scroll" && (
         <div className="promo-cards-container">

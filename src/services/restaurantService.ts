@@ -1,6 +1,5 @@
 import { api } from "./api";
 
-
 export const searchRestaurants = async (
   query: string,
   filters?: {

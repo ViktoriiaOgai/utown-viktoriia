@@ -57,7 +57,6 @@ export const router = createBrowserRouter([
             <Home />
           </ProtectedRoute>
         ),
-        
       },
       {
         path: "/favourites",
@@ -90,15 +89,15 @@ export const router = createBrowserRouter([
             <SearchPage />
           </ProtectedRoute>
         ),
-        },
-        {
+      },
+      {
         path: "/filters",
         element: (
           <ProtectedRoute>
             <FiltersPage />
           </ProtectedRoute>
         ),
-        },
+      },
       {
         path: "/profile",
         element: (

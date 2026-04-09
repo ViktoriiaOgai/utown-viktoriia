@@ -66,11 +66,7 @@ export default function CategoriesCards({ variant = "scroll" }: Props) {
         <h2>Categories</h2>
       </div>
 
-      <div
-        className={`categories-cards-container ${
-          variant === "grid" ? "vertical" : ""
-        }`}
-      >
+      <div className={`categories-cards-container ${variant === "grid" ? "vertical" : ""}`}>
         {categories.map((c) => (
           <div className="categories-card" key={c.name}>
             <img

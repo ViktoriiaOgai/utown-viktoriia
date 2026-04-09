@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import  Location from "@/assets/icons/Location.svg";
+import Location from "@/assets/icons/Location.svg";
 import "@/pages/client/Home.css";
 import MobileHeader from "@/components/UI/Header";
 import { useNotifications } from "@/services/useNotification";
@@ -24,67 +24,70 @@ type Restaurant = {
 };
 
 export default function SearchPage() {
-    
-   const [results, setResults] = useState<Restaurant[]>([]);
-   const [search, setSearch] = useState("");
-   const { unreadCount } = useNotifications();
-   const [address] = useState(() => localStorage.getItem("address") || "");
-   const location = useLocation();
+  const [results, setResults] = useState<Restaurant[]>([]);
+  const [search, setSearch] = useState("");
+  const { unreadCount } = useNotifications();
+  const [address] = useState(() => localStorage.getItem("address") || "");
+  const location = useLocation();
 
-   useEffect(() => {
-  if (!search.trim()) {
-    setResults([]);
-    return;
-  }
-
-  const fetch = async () => {
-    try {
-      const filters = JSON.parse(localStorage.getItem("filters") || "{}");
-
-      console.log("SEARCH:", search);
-      console.log("FILTERS:", filters);
-
-      const data = await searchRestaurants(search);
-
-      console.log("RESULT:", data);
-
-      setResults(data);
-    } catch (error) {
-      console.error(error);
+  useEffect(() => {
+    if (!search.trim()) {
+      setResults([]);
+      return;
     }
-  };
 
-  fetch();
-}, [search]);
+    const fetch = async () => {
+      try {
+        const filters = JSON.parse(localStorage.getItem("filters") || "{}");
+
+        console.log("SEARCH:", search);
+        console.log("FILTERS:", filters);
+
+        const data = await searchRestaurants(search);
+
+        console.log("RESULT:", data);
+
+        setResults(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetch();
+  }, [search]);
   return (
-   
     <div className="search-main">
-     <MobileHeader logoVariant="white" showBack backColor= "white" bellColor="white" showBell unreadCount={unreadCount} />
-      
+      <MobileHeader
+        logoVariant="white"
+        showBack
+        backColor="white"
+        bellColor="white"
+        showBell
+        unreadCount={unreadCount}
+      />
 
       {/* Основной контейнер */}
       <div className="mainContsearch">
         <div className="mainsearchInner">
-            <p className="p-search">
-            <img className="location" src={Location} alt="icon"/>
-             {address}
-        </p>
+          <p className="p-search">
+            <img className="location" src={Location} alt="icon" />
+            {address}
+          </p>
           <Search
-          value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        isSearchPage
-        placeholder="Search for cafes,restaurants and dishes"
-        icon={SearchIcon}
-        iconRight={Candle}
-        />
-         {results.length === 0 ? (
-  <p className="what">What shall we search for?</p>
-) : (
-  <RestaurantCards variant="row" data={results} title="" showMore={false}/>
-)}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            isSearchPage
+            placeholder="Search for cafes,restaurants and dishes"
+            icon={SearchIcon}
+            iconRight={Candle}
+          />
+          {results.length === 0 ? (
+            <p className="what">What shall we search for?</p>
+          ) : (
+            <RestaurantCards variant="row" data={results} title="" showMore={false} />
+          )}
         </div>
       </div>
     </div>
-
   );
 }

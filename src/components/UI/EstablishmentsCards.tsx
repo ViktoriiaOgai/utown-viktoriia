@@ -38,8 +38,5 @@ export default function EstablishmentsCards({ variant = "scroll" }: Props) {
     fetchRestaurants();
   }, []);
 
-  return (
-   
-<RestaurantCards title="Establishments" showMore/>
-);
+  return <RestaurantCards title="Establishments" showMore />;
 }

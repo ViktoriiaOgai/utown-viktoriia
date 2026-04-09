@@ -21,7 +21,7 @@ export default function Favourites() {
         <div className="mainContInner">
           <h1 className="Hello">Your Favourites</h1>
 
-          <RestaurantCards variant="grid"  title = "" />
+          <RestaurantCards variant="grid" title="" />
         </div>
       </div>
     </div>

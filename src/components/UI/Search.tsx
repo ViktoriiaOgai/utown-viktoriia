@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation  } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "@/components/UI/Search.css";
 
 type Props = {
@@ -32,7 +32,7 @@ export default function Search({
 
   const handleFilterClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation(); // чтобы клик на кнопку не открыл input
-     navigate("/filters");
+    navigate("/filters");
   };
   const isFiltersPage = location.pathname === "/filters";
 
@@ -40,27 +40,26 @@ export default function Search({
     <div className="search-group">
       <div className="search-wrapper">
         {icon && <img src={icon} alt="icon" className="search-icon left" />}
-        
-        <input
-        value={value}
-        placeholder={placeholder}
-        onClick={() => {
-          if (!isSearchPage) navigate("/search");
-        }}
-        onChange={onChange}
-        readOnly={!isSearchPage}
-        className="search"
-      />
 
-      <button
-        className={`filter ${isFiltersPage ? "active" : ""}`}
-        onClick={(e) => {
-          e.stopPropagation();
-          navigate("/filters");
-        }}
-      >
+        <input
+          value={value}
+          placeholder={placeholder}
+          onClick={() => {
+            if (!isSearchPage) navigate("/search");
+          }}
+          onChange={onChange}
+          readOnly={!isSearchPage}
+          className="search"
+        />
+
+        <button
+          className={`filter ${isFiltersPage ? "active" : ""}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate("/filters");
+          }}
+        >
           {iconRight && <img src={iconRight} alt="filter" className="search-icon right" />}
-          
         </button>
       </div>
 

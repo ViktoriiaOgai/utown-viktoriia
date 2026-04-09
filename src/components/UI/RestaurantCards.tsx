@@ -26,8 +26,12 @@ type Restaurant = {
 };
 
 const API_URL = import.meta.env.VITE_API_URL;
-export default function RestaurantCards({ variant = "scroll", 
-  title = "Food Delivery" , data, showMore = false,}: Props) {
+export default function RestaurantCards({
+  variant = "scroll",
+  title = "Food Delivery",
+  data,
+  showMore = false,
+}: Props) {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const navigate = useNavigate();
   useEffect(() => {
@@ -47,27 +51,25 @@ export default function RestaurantCards({ variant = "scroll",
     };
 
     fetchRestaurants();
-  },  [data]);
+  }, [data]);
 
   return (
     <div className="restaurants-section">
       <div className="restaurants-header">
         <h2>{title}</h2>
         {showMore && (
-    <button className="more" onClick={() => navigate("/foodmain")}>
-      More
-    </button>
-  )}
+          <button className="more" onClick={() => navigate("/foodmain")}>
+            More
+          </button>
+        )}
       </div>
-    
-      <div className={`restaurant-cards-container ${variant === "grid" ? "vertical" : ""}
-                                                  ${variant === "row" ? "row" : ""}`}>
-        
+
+      <div
+        className={`restaurant-cards-container ${variant === "grid" ? "vertical" : ""}
+                                                  ${variant === "row" ? "row" : ""}`}
+      >
         {restaurants.map((r) => (
-          <div
-  className={`restaurant-card ${variant === "row" ? "row-card" : ""}`}
-  key={r.id}
->
+          <div className={`restaurant-card ${variant === "row" ? "row-card" : ""}`} key={r.id}>
             <img
               className="title"
               src={r.imageUrl || r.logoUrl || placeholder}
@@ -77,16 +79,15 @@ export default function RestaurantCards({ variant = "scroll",
               }}
             />
             <div className="text-block">
-  <h4>{r.title}</h4>
-  <p>{r.category}</p>
-  <p>
-    <Deliver /> {r.deliveryTime} • {r.minOrderAmount}₩  
-  </p>
-</div>
+              <h4>{r.title}</h4>
+              <p>{r.category}</p>
+              <p>
+                <Deliver /> {r.deliveryTime} • {r.minOrderAmount}₩
+              </p>
+            </div>
           </div>
         ))}
       </div>
-      
     </div>
   );
 }
