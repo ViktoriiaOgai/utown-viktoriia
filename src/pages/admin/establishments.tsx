@@ -17,7 +17,7 @@ import {
   getPageTotalPages,
   normalizeEstablishment,
 } from "../../utils/establishments";
-import "../../../styles/establishments.scss";
+import "./establishments.scss"; // ✅ ИСПРАВЛЕНО
 
 export default function EstablishmentsPage() {
   const navigate = useNavigate();
