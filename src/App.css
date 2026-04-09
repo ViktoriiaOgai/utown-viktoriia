@@ -65,68 +65,7 @@ body {
   box-shadow: 0 0 0 1px #878788; /* focus:ring-1 focus:ring-gray-700 */
 }
 
-/* src/components/UI/Input.css */
-.input-wrapper {
-  position: relative;
-  width: 100%;
-}
 
-.input-icon {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 18px;
-  height: 18px;
-  z-index: 10;
-}
-/* По умолчанию левая иконка серая */
-.input-icon.left {
-  left: 20px;
-  color: rgba(167, 169, 183, 1);
-  transition: color 0.2s ease;
-  opacity: 0.5;
-}
-
-/* Когда именно этот input-wrapper в фокусе */
-.input-wrapper:focus-within > .input-icon.left {
-  color: rgb(10, 10, 10);
-  opacity: 1;
-}
-
-.input-icon.right {
-  position: absolute;
-  right: 20px;
-  left: auto;
-  cursor: pointer;
-  opacity: 0.5;
-  transition: 0.2s;
-  color: rgba(167, 169, 183, 1);
-}
-.input-icon.right.active {
-  opacity: 1;
-  color: rgb(10, 10, 10);
-}
-.input {
-  border: 1px solid rgba(234, 234, 234, 1);
-  border-radius: 8px;
-  font-size: 12px;
-  color: rgb(10, 10, 10);
-  background: rgba(255, 255, 255, 1);
-  width: 100%;
-  padding: 14px 50px 14px 50px; /* место под иконки */
-}
-
-.input::placeholder {
-  color: rgba(167, 169, 183, 1); /* placeholder — серый */
-}
-.input--error {
-  border-color: #ef4444;
-}
-
-.input-error {
-  color: #ef4444;
-  font-size: 14px;
-}
 
 .auth {
   min-height: 100vh;

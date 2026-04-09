@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "@/App.css";
+import "@/components/UI/Input.css";
 
 type Props = {
   value?: string;

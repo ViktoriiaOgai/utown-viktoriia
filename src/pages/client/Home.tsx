@@ -38,7 +38,7 @@ export default function Home() {
 
           <ServicesCards />
           <PromoCards />
-          <RestaurantCards />
+          <RestaurantCards showMore/>
         </div>
       </div>
     </div>

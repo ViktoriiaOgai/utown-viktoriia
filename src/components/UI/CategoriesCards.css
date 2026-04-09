@@ -1,5 +1,5 @@
 /* Контейнер карточек — теперь в размер экрана */
-.restaurant-cards-container {
+.categories-cards-container {
   display: flex;
   gap: 12px;
   flex-wrap: nowrap;
@@ -14,18 +14,18 @@
 }
 
 /* Scrollbar */
-.restaurant-cards-container::-webkit-scrollbar {
+.categories-cards-container::-webkit-scrollbar {
   height: 6px;
 }
-.restaurant-cards-container::-webkit-scrollbar-thumb {
+.categories-cards-container::-webkit-scrollbar-thumb {
   background: rgba(168, 167, 167, 0.2);
   border-radius: 3px;
 }
-.restaurants-section {
+.categories-section {
   padding: auto;
 }
 /* Карточки ресторана */
-.restaurant-card {
+.categories-card {
   flex: 0 0 auto;
   width: 160px;
   background: rgba(245, 245, 245, 1);
@@ -33,11 +33,10 @@
   flex-direction: column;
   scroll-snap-align: start;
   box-sizing: border-box;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  border-radius: 15px;
   overflow: hidden;
 }
-.restaurants-header {
+.categories-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -60,17 +59,16 @@
   color: rgba(137, 125, 211, 1);
   cursor: pointer;
 }
-
-/* только для scroll и grid */
-.restaurant-cards-container:not(.row) .restaurant-card img {
+.categories-card img {
   width: 100%;
-  height: 100px;
+   height: 100px;
   object-fit: cover;
   border-radius: 0 !important;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
 }
-.restaurant-card p {
+.text-block .categ,
+.text-block .description {
   font-size: 16px;
   color: rgb(110, 109, 109); /* если фон белый, текст не виден */
   overflow: hidden;
@@ -78,59 +76,30 @@
   text-overflow: ellipsis;
   padding-left: 10px;
 }
-
-/* GRID режим */
-.restaurant-cards-container.vertical {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 50px;
-  padding: 0 30px;
+.text-block .title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
-
-/* карточки внутри grid */
-.restaurant-cards-container.vertical .restaurant-card {
-  width: 100%;
-}
-.restaurant-cards-container.row {
+.categories-card .text-block {
+   padding: 8px 10px;
   display: flex;
   flex-direction: column;
+  gap: 4px;
+  min-height: 70px;
+  
+}
+/* GRID режим */
+.categories-cards-container.vertical {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
 }
 
-.row-card {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center;
-  width: 100%;
-  height: 100px;
-  gap: 10px;
-  
-}
-
-.row-card img {
-  width: 100px !important;
-  height: 90px !important;
-  object-fit: cover;
-  border-radius: 10px;
-  margin-right: 30px;
-}
-
-.row-card .text-block {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  flex: 1;
-  gap: 2px;
-}
-restaurant-card.row-card h4 {
-  font-size: 14px;
-  margin: 0;
-  line-height: 1.2;
-}
-
-.restaurant-card.row-card p {
-  font-size: 12px;
-  margin: 0;
-  margin-top: 2px;
-  line-height: 1.2;
+/* карточки внутри grid */
+.categories-cards-container.vertical .restaurant-card {
+  width: 160px;
 }

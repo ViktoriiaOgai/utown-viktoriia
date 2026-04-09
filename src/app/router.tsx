@@ -34,6 +34,9 @@ import Notifications from "@/pages/client/Notifications";
 
 import EstablishmentCategoriesPage from "../pages/admin/establishments/[id]/positions/categories";
 import AddCategoryPage from "../pages/admin/establishments/[id]/positions/categories/add";
+import FoodMain from "@/pages/client/FoodMain";
+import SearchPage from "@/pages/client/SearchPage";
+import FiltersPage from "@/pages/client/FilterPage";
 
 export const router = createBrowserRouter([
   {
@@ -54,6 +57,7 @@ export const router = createBrowserRouter([
             <Home />
           </ProtectedRoute>
         ),
+        
       },
       {
         path: "/favourites",
@@ -71,6 +75,30 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+      {
+        path: "/foodmain",
+        element: (
+          <ProtectedRoute>
+            <FoodMain />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/search",
+        element: (
+          <ProtectedRoute>
+            <SearchPage />
+          </ProtectedRoute>
+        ),
+        },
+        {
+        path: "/filters",
+        element: (
+          <ProtectedRoute>
+            <FiltersPage />
+          </ProtectedRoute>
+        ),
+        },
       {
         path: "/profile",
         element: (

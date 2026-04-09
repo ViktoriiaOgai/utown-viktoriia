@@ -1,5 +1,6 @@
 // components/UI/RestaurantCards.tsx
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { api } from "@/services/api";
 import "@/components/UI/RestaurantCards.css";
 import placeholder from "@/assets/images/Ad 1.svg";
@@ -7,25 +8,34 @@ import Deliver from "@/assets/icons/deliver.svg?react";
 import { getErrorMessage } from "@/services/getErrorMessage";
 
 type Props = {
-  variant?: "scroll" | "grid";
+  variant?: "scroll" | "grid" | "row";
+  title?: string;
+  data?: Restaurant[];
+  showMore?: boolean;
 };
 
 type Restaurant = {
   id: number;
   title: string;
   description: string;
-  logoUrl: string;
+  logoUrl?: string;
+  imageUrl?: string;
   category: string;
   minOrderAmount: number;
   deliveryTime: string;
-  imageUrl: string;
 };
 
 const API_URL = import.meta.env.VITE_API_URL;
-export default function RestaurantCards({ variant = "scroll" }: Props) {
+export default function RestaurantCards({ variant = "scroll", 
+  title = "Food Delivery" , data, showMore = false,}: Props) {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
+    // если пришли данные — НЕ делаем запрос
+    if (data) {
+      setRestaurants(data);
+      return;
+    }
     const fetchRestaurants = async () => {
       try {
         const res = await api.get(`${API_URL}/public/restaurants`);
@@ -37,34 +47,46 @@ export default function RestaurantCards({ variant = "scroll" }: Props) {
     };
 
     fetchRestaurants();
-  }, []);
+  },  [data]);
 
   return (
     <div className="restaurants-section">
       <div className="restaurants-header">
-        <h2>Food Delivery</h2>
-        <button className="more">More</button>
+        <h2>{title}</h2>
+        {showMore && (
+    <button className="more" onClick={() => navigate("/foodmain")}>
+      More
+    </button>
+  )}
       </div>
-
-      <div className={`restaurant-cards-container ${variant === "grid" ? "vertical" : ""}`}>
+    
+      <div className={`restaurant-cards-container ${variant === "grid" ? "vertical" : ""}
+                                                  ${variant === "row" ? "row" : ""}`}>
+        
         {restaurants.map((r) => (
-          <div className="restaurant-card" key={r.id}>
+          <div
+  className={`restaurant-card ${variant === "row" ? "row-card" : ""}`}
+  key={r.id}
+>
             <img
               className="title"
-              src={r.imageUrl || placeholder}
+              src={r.imageUrl || r.logoUrl || placeholder}
               alt={r.title}
               onError={(e) => {
                 e.currentTarget.src = placeholder;
               }}
             />
-            <h4 className="title">{r.title}</h4>
-            <p className="categ">{r.category}</p>
-            <p className="categ">
-              <Deliver /> {r.minOrderAmount}₩ • {r.deliveryTime}
-            </p>
+            <div className="text-block">
+  <h4>{r.title}</h4>
+  <p>{r.category}</p>
+  <p>
+    <Deliver /> {r.deliveryTime} • {r.minOrderAmount}₩  
+  </p>
+</div>
           </div>
         ))}
       </div>
+      
     </div>
   );
 }

@@ -1,0 +1,84 @@
+/* src/components/UI/Input.css */
+.search-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  z-index: 10;
+}
+/* По умолчанию левая иконка серая */
+.search-icon.left {
+  left: 20px;
+  color: rgba(167, 169, 183, 1);
+  transition: color 0.2s ease;
+  opacity: 0.5;
+}
+
+/* Когда именно этот input-wrapper в фокусе */
+.search-wrapper:focus-within > .input-icon.left {
+  color: rgb(10, 10, 10);
+  opacity: 1;
+}
+.filter {
+  position: absolute;
+  top: 5px;
+  width: 35px;
+  height: 35px;
+  right: 10px;
+  left: auto;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: 0.2s;
+  color: rgba(167, 169, 183, 1);
+  border: none;
+  background: white;
+}
+
+.filter.active {
+  background: rgba(138, 126, 214, 1); /* фиолетовый */
+  color: rgb(255, 255, 255);
+  transform: scale(0.9);
+}
+ .search-icon.right {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  
+  right: 5px;
+  left: auto;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: 0.2s;
+  color: rgba(138, 126, 214, 1);
+}
+.search-icon.right.active {
+  opacity: 1;
+  color: rgb(10, 10, 10);
+}
+.search {
+  border: 1px solid rgba(234, 234, 234, 1);
+  border-radius: 8px;
+  font-size: 12px;
+  color: rgb(10, 10, 10);
+  background: rgba(255, 255, 255, 1);
+  width: 100%;
+  padding: 14px 50px 14px 50px; /* место под иконки */
+}
+
+.search::placeholder {
+  color: rgba(167, 169, 183, 1); /* placeholder — серый */
+}
+.search--error {
+  border-color: #ef4444;
+}
+
+.search-error {
+  color: #ef4444;
+  font-size: 14px;
+}
