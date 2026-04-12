@@ -11,7 +11,6 @@
   overflow-x: hidden;
 }
 
-
 /* --- Основной белый блок --- */
 .mainContFilter {
   width: 100%;
@@ -35,33 +34,28 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  
 }
 .p-Filter {
-   font-family: SF Pro Display;
-font-weight: 400;
-font-size: 14px;
-line-height: 22px;
-letter-spacing: 0px;
-width: 273;
-height: 22;
-top: 8px;
-left: 53px;
+  font-family: SF Pro Display;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0px;
+  width: 273;
+  height: 22;
+  top: 8px;
+  left: 53px;
   color: #000;
   display: flex;
   flex-direction: row;
   gap: 15px;
 }
 .location-Filter {
-    width: 24px;
-    height: 24px;
-    top: 7px;
-    left: 16px;
-    opacity: 1;
-
-}
-.filters-page {
-  padding: 20px;
+  width: 24px;
+  height: 24px;
+  top: 7px;
+  left: 16px;
+  opacity: 1;
 }
 
 .filter-title {
@@ -72,21 +66,28 @@ left: 53px;
 
 .chips {
   display: flex;
-  gap: 25px;
+  gap: 10px;
   flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .chip {
   padding: 8px 14px;
   border-radius: 20px;
-  border: none;
+  border: 1px solid #e0e0e0;
   background: #f1f1f1;
   cursor: pointer;
   font-size: 14px;
+  transition: all 0.2s ease;
 }
 
 .chip.active {
   background: rgba(138, 126, 214, 1); /* фиолетовый */
   color: white;
+  border-color: rgba(138, 126, 214, 1);
+  transform: scale(0.97);
 }
 
+.chip:hover {
+  border-color: rgba(138, 126, 214, 1);
+}

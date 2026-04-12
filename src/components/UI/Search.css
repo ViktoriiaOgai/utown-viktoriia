@@ -38,18 +38,26 @@
   color: rgba(167, 169, 183, 1);
   border: none;
   background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter.active .search-icon.right {
+  opacity: 1;
+  filter: brightness(0) invert(1);
 }
 
 .filter.active {
-  background: rgba(138, 126, 214, 1); /* фиолетовый */
+  background: rgba(138, 126, 214, 1);
   color: rgb(255, 255, 255);
   transform: scale(0.9);
 }
- .search-icon.right {
+.search-icon.right {
   position: absolute;
   width: 25px;
   height: 25px;
-  
+  pointer-events: none;
   right: 5px;
   left: auto;
   cursor: pointer;

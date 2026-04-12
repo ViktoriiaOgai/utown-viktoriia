@@ -1,6 +1,5 @@
 // components/UI/RestaurantCards.tsx
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { api } from "@/services/api";
 import "@/components/UI/RestaurantCards.css";
 import placeholder from "@/assets/images/Ad 1.svg";
@@ -8,10 +7,11 @@ import Deliver from "@/assets/icons/deliver.svg?react";
 import { getErrorMessage } from "@/services/getErrorMessage";
 
 type Props = {
-  variant?: "scroll" | "grid" | "row";
+  variant?: "scroll" | "grid" | "row" | "grid1";
   title?: string;
   data?: Restaurant[];
   showMore?: boolean;
+  onMoreClick?: () => void;
 };
 
 type Restaurant = {
@@ -31,13 +31,12 @@ export default function RestaurantCards({
   title = "Food Delivery",
   data,
   showMore = false,
+  onMoreClick,
 }: Props) {
-  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
-  const navigate = useNavigate();
+  const [restaurants, setRestaurants] = useState<Restaurant[]>(data || []);
   useEffect(() => {
     // если пришли данные — НЕ делаем запрос
     if (data) {
-      setRestaurants(data);
       return;
     }
     const fetchRestaurants = async () => {
@@ -58,7 +57,7 @@ export default function RestaurantCards({
       <div className="restaurants-header">
         <h2>{title}</h2>
         {showMore && (
-          <button className="more" onClick={() => navigate("/foodmain")}>
+          <button className="more" onClick={onMoreClick}>
             More
           </button>
         )}
@@ -66,7 +65,8 @@ export default function RestaurantCards({
 
       <div
         className={`restaurant-cards-container ${variant === "grid" ? "vertical" : ""}
-                                                  ${variant === "row" ? "row" : ""}`}
+                                                  ${variant === "row" ? "row" : ""}
+                                                ${variant === "grid1" ? "vertical1" : ""}`}
       >
         {restaurants.map((r) => (
           <div className={`restaurant-card ${variant === "row" ? "row-card" : ""}`} key={r.id}>
@@ -80,10 +80,21 @@ export default function RestaurantCards({
             />
             <div className="text-block">
               <h4>{r.title}</h4>
-              <p>{r.category}</p>
-              <p>
-                <Deliver /> {r.deliveryTime} • {r.minOrderAmount}₩
-              </p>
+              {variant === "grid1" ? (
+                <>
+                  <p className="est-row">
+                    <p>{r.description}</p>
+                    <button className="time">{r.deliveryTime}</button>
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p>{r.category}</p>
+                  <p>
+                    <Deliver /> {r.deliveryTime} • {r.minOrderAmount}₩
+                  </p>
+                </>
+              )}
             </div>
           </div>
         ))}

@@ -1,90 +1,114 @@
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import Location from "@/assets/icons/Location.svg";
-import "@/pages/client/Home.css";
 import MobileHeader from "@/components/UI/Header";
 import { useNotifications } from "@/services/useNotification";
-import "@/pages/client/FoodMain.css";
 import Search from "@/components/UI/Search";
 import SearchIcon from "@/assets/icons/search-normal.svg";
 import Candle from "@/assets/icons/candle.svg";
-import "@/pages/client/SearchPage.css";
-import { getErrorMessage } from "@/services/getErrorMessage";
 import { searchRestaurants } from "@/services/restaurantService";
 import RestaurantCards from "@/components/UI/RestaurantCards";
-import { useLocation } from "react-router-dom";
+import "@/pages/client/SearchPage.css";
 
 type Restaurant = {
   id: number;
   title: string;
-  description: string;
   category: string;
-  deliveryTime: string;
+  description: string;
   minOrderAmount: number;
-  imageUrl: string;
+  deliveryTime: string;
+  ratings?: number;
 };
 
 export default function SearchPage() {
-  const [results, setResults] = useState<Restaurant[]>([]);
-  const [search, setSearch] = useState("");
   const { unreadCount } = useNotifications();
   const [address] = useState(() => localStorage.getItem("address") || "");
-  const location = useLocation();
 
+  const [params, setParams] = useSearchParams();
+
+  const query = params.get("query") || "";
+  const category = params.get("category") || "";
+  const sort = params.get("sort") || "";
+
+  const [results, setResults] = useState<Restaurant[]>([]);
+
+  const [search, setSearch] = useState(query);
+  const [debouncedSearch, setDebouncedSearch] = useState(search);
+
+  // debounce
   useEffect(() => {
-    if (!search.trim()) {
-      setResults([]);
-      return;
-    }
+    const timeout = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 400);
 
-    const fetch = async () => {
+    return () => clearTimeout(timeout);
+  }, [search]);
+
+  //  API
+  useEffect(() => {
+    const fetchData = async () => {
       try {
-        const filters = JSON.parse(localStorage.getItem("filters") || "{}");
-
-        console.log("SEARCH:", search);
-        console.log("FILTERS:", filters);
-
-        const data = await searchRestaurants(search);
-
-        console.log("RESULT:", data);
-
+        const data = await searchRestaurants(debouncedSearch);
         setResults(data);
-      } catch (error) {
-        console.error(error);
+      } catch (e) {
+        console.error(e);
+        setResults([]);
       }
     };
+    if (debouncedSearch.trim() || category) {
+      fetchData();
+    }
+  }, [debouncedSearch, category]);
 
-    fetch();
-  }, [search]);
+  // фильтр + сортировка
+  const filtered = results
+    .filter((r) => (category ? r.category?.toLowerCase().includes(category.toLowerCase()) : true))
+    .sort((a, b) => {
+      if (sort === "minOrderAmount") return a.minOrderAmount - b.minOrderAmount;
+      if (sort === "rating") return (b.ratings || 0) - (a.ratings || 0);
+      return 0;
+    });
+
   return (
     <div className="search-main">
       <MobileHeader
-        logoVariant="white"
         showBack
         backColor="white"
-        bellColor="white"
         showBell
+        bellColor="white"
         unreadCount={unreadCount}
+        logoVariant="white"
       />
 
-      {/* Основной контейнер */}
       <div className="mainContsearch">
         <div className="mainsearchInner">
           <p className="p-search">
-            <img className="location" src={Location} alt="icon" />
+            <img src={Location} />
             {address}
           </p>
+
           <Search
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => {
+              setSearch(e.target.value);
+
+              setParams({
+                query: e.target.value,
+                category,
+                sort,
+              });
+            }}
             isSearchPage
-            placeholder="Search for cafes,restaurants and dishes"
             icon={SearchIcon}
             iconRight={Candle}
           />
-          {results.length === 0 ? (
+
+          {!search.trim() && !category ? (
             <p className="what">What shall we search for?</p>
+          ) : filtered.length === 0 ? (
+            <p className="what">Nothing found</p>
           ) : (
-            <RestaurantCards variant="row" data={results} title="" showMore={false} />
+            <RestaurantCards variant="row" data={filtered} showMore={false} title="" />
           )}
         </div>
       </div>

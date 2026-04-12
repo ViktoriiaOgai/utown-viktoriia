@@ -50,6 +50,7 @@ import AddCategoryPage from "../pages/admin/establishments/[id]/positions/catego
 import FoodMain from "@/pages/client/FoodMain";
 import SearchPage from "@/pages/client/SearchPage";
 import FiltersPage from "@/pages/client/FilterPage";
+import EstablishPage from "@/pages/client/EstablishPage";
 
 export const router = createBrowserRouter([
   {
@@ -93,6 +94,14 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <FoodMain />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/establish",
+        element: (
+          <ProtectedRoute>
+            <EstablishPage />
           </ProtectedRoute>
         ),
       },

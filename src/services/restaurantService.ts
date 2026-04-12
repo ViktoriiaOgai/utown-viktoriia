@@ -1,25 +1,17 @@
 import { api } from "./api";
 
-export const searchRestaurants = async (
-  query: string,
-  filters?: {
-    category?: string;
-  }
-) => {
-  const params: any = {
+export const searchRestaurants = async (query: string, filters?: { category?: string }) => {
+  const params: Record<string, string | number> = {
     title: query,
     page: 0,
-    size: 10,
+    size: 50,
   };
 
-  // добавляем ТОЛЬКО если есть
-  if (filters?.category && filters.category !== "all") {
+  if (filters?.category) {
     params.category = filters.category;
   }
 
-  const res = await api.get(`/public/restaurants/search`, {
-    params,
-  });
+  const res = await api.get(`/public/restaurants/search`, { params });
 
   return res.data.content || [];
 };

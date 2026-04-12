@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "@/components/UI/Search.css";
 
@@ -8,7 +8,6 @@ type Props = {
   error?: string;
   icon?: string;
   iconRight?: string;
-  style?: React.CSSProperties;
   isSearchPage?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
@@ -19,22 +18,19 @@ export default function Search({
   error,
   icon,
   iconRight,
-  style,
   isSearchPage = false,
   onChange,
 }: Props) {
   const navigate = useNavigate();
-  const [filterActive, setFilterActive] = useState(false);
   const location = useLocation();
-  const handleInputClick = () => {
-    navigate("/search"); // переход на страницу поиска
-  };
 
-  const handleFilterClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation(); // чтобы клик на кнопку не открыл input
-    navigate("/filters");
-  };
-  const isFiltersPage = location.pathname === "/filters";
+  // ЧИТАЕМ ПРЯМО ИЗ URL
+  const params = new URLSearchParams(location.search);
+
+  const category = params.get("category");
+  const sort = params.get("sort");
+
+  const isActive = (category && category !== "") || (sort && sort !== "recommended");
 
   return (
     <div className="search-group">
@@ -48,15 +44,14 @@ export default function Search({
             if (!isSearchPage) navigate("/search");
           }}
           onChange={onChange}
-          readOnly={!isSearchPage}
           className="search"
         />
 
         <button
-          className={`filter ${isFiltersPage ? "active" : ""}`}
+          className={`filter ${isActive ? "active" : ""}`}
           onClick={(e) => {
             e.stopPropagation();
-            navigate("/filters");
+            navigate(`/filters${location.search}`); // ПЕРЕДАЕМ параметры
           }}
         >
           {iconRight && <img src={iconRight} alt="filter" className="search-icon right" />}

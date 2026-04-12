@@ -1,7 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import Search from "@/components/UI/Search";
-import SearchIcon from "@/assets/icons/search-normal.svg";
 import Candle from "@/assets/icons/candle.svg";
 import { useNotifications } from "@/services/useNotification";
 import MobileHeader from "@/components/UI/Header";
@@ -11,20 +10,19 @@ import AuthBtn from "@/components/UI/AuthBtn";
 
 export default function FiltersPage() {
   const navigate = useNavigate();
-  const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("");
-  const [sort, setSort] = useState("");
+  const [params] = useSearchParams();
+
   const { unreadCount } = useNotifications();
   const [address] = useState(() => localStorage.getItem("address") || "");
 
-  const applyFilters = () => {
-    if (!category || category === "all") {
-      localStorage.removeItem("filters");
-    } else {
-      localStorage.setItem("filters", JSON.stringify({ category }));
-    }
+  //  берём из URL
+  const [category, setCategory] = useState(params.get("category") || "all");
+  const [sort, setSort] = useState(params.get("sort") || "recommended");
 
-    navigate("/search");
+  const applyFilters = () => {
+    const query = params.get("query") || "";
+
+    navigate(`/search?query=${query}&category=${category === "all" ? "" : category}&sort=${sort}`);
   };
 
   return (
@@ -37,6 +35,7 @@ export default function FiltersPage() {
         showBell
         unreadCount={unreadCount}
       />
+
       <div className="mainContFilter">
         <div className="mainFilterInner">
           <p className="p-Filter">
@@ -44,15 +43,17 @@ export default function FiltersPage() {
             {address}
           </p>
         </div>
+
         <Search iconRight={Candle} />
+
         {/* CATEGORY */}
-        <p className="filter-title">Filter</p>
+        <p className="filter-title">Filter by category</p>
         <div className="chips">
-          {["all", "restaurant", "cafe"].map((item) => (
+          {["all", "Pizza", "Fast Food", "burgers", "Japanese"].map((item) => (
             <button
               key={item}
               className={category === item ? "chip active" : "chip"}
-              onClick={() => setCategory(item === "all" ? "" : item)}
+              onClick={() => setCategory(item)}
             >
               {item}
             </button>
