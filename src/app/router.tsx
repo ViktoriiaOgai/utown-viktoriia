@@ -29,13 +29,14 @@ import PersonalInformation from "@/pages/client/PersonalInformation";
 import ChangePassword from "@/pages/client/ChangePassword";
 
 import {
-  AdminClientsPage,
   AdminRidersPage,
   AdminServicesPage,
   AdminVacanciesPage,
 } from "../pages/admin/AdminPlaceholders";
 
 import OrdersPage from "../pages/admin/orders";
+
+import ClientsPage from "@/pages/admin/clients";
 
 import Information from "@/pages/client/Information";
 import ContactSupport from "@/pages/client/ContactSupport";
@@ -130,10 +131,11 @@ export const router = createBrowserRouter([
     children: [
       { path: "home", element: <AdminHome /> },
       { path: "profile", element: <AdminProfile /> },
-      { path: "clients", element: <AdminClientsPage /> },
+
+      { path: "clients", element: <ClientsPage /> },
+
       { path: "riders", element: <AdminRidersPage /> },
 
-      // ✅ твоя страница
       { path: "orders", element: <OrdersPage /> },
 
       { path: "services", element: <AdminServicesPage /> },
