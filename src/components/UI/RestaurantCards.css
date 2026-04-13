@@ -92,8 +92,7 @@
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: 20px;
-  padding: 0 100px;
-  padding-left: 70px;
+  padding: 0 10px;
 }
 /* карточки внутри grid */
 .restaurant-cards-container.vertical .restaurant-card {
@@ -101,7 +100,7 @@
 }
 /* карточки внутри grid1 */
 .restaurant-cards-container.vertical1 .restaurant-card {
-  width: 200%;
+  width: 320px;
 }
 .restaurant-cards-container.row {
   display: flex;
@@ -133,7 +132,7 @@
   flex: 1;
   gap: 2px;
 }
-restaurant-card.row-card h4 {
+.restaurant-card.row-card h4 {
   font-size: 14px;
   margin: 0;
   line-height: 1.2;
@@ -145,6 +144,7 @@ restaurant-card.row-card h4 {
   margin-top: 2px;
   line-height: 1.2;
 }
+
 .time {
   background: rgba(209, 202, 255, 1);
   width: 75px;
@@ -157,11 +157,17 @@ restaurant-card.row-card h4 {
   border: none;
   color: rgba(137, 125, 211, 1);
   cursor: pointer;
+  flex-shrink: 0;
 }
 .est-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 10px;
-  margin: 0;
+}
+.est-row p {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

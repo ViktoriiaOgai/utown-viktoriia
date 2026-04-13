@@ -33,12 +33,11 @@ export default function RestaurantCards({
   showMore = false,
   onMoreClick,
 }: Props) {
-  const [restaurants, setRestaurants] = useState<Restaurant[]>(data || []);
+  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+
   useEffect(() => {
-    // если пришли данные — НЕ делаем запрос
-    if (data) {
-      return;
-    }
+    if (data) return; // если есть данные — не грузим
+
     const fetchRestaurants = async () => {
       try {
         const res = await api.get(`${API_URL}/public/restaurants`);
@@ -51,6 +50,7 @@ export default function RestaurantCards({
 
     fetchRestaurants();
   }, [data]);
+  const restaurantsToRender = data ?? restaurants;
 
   return (
     <div className="restaurants-section">
@@ -68,7 +68,7 @@ export default function RestaurantCards({
                                                   ${variant === "row" ? "row" : ""}
                                                 ${variant === "grid1" ? "vertical1" : ""}`}
       >
-        {restaurants.map((r) => (
+        {restaurantsToRender.map((r) => (
           <div className={`restaurant-card ${variant === "row" ? "row-card" : ""}`} key={r.id}>
             <img
               className="title"
@@ -82,10 +82,10 @@ export default function RestaurantCards({
               <h4>{r.title}</h4>
               {variant === "grid1" ? (
                 <>
-                  <p className="est-row">
+                  <div className="est-row">
                     <p>{r.description}</p>
                     <button className="time">{r.deliveryTime}</button>
-                  </p>
+                  </div>
                 </>
               ) : (
                 <>

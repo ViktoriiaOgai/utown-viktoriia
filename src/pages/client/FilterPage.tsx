@@ -26,7 +26,7 @@ export default function FiltersPage() {
   };
 
   return (
-    <div className="search-Filter">
+    <div className="page-wrapper">
       <MobileHeader
         logoVariant="white"
         showBack
@@ -36,10 +36,10 @@ export default function FiltersPage() {
         unreadCount={unreadCount}
       />
 
-      <div className="mainContFilter">
-        <div className="mainFilterInner">
-          <p className="p-Filter">
-            <img className="location-Filter" src={Location} alt="icon" />
+      <div className="main-container">
+        <div className="main-inner">
+          <p className="location-row">
+            <img className="location-icon" src={Location} alt="icon" />
             {address}
           </p>
         </div>

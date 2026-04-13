@@ -1,0 +1,64 @@
+/* --- ФИОЛЕТОВЫЙ ФОН (все страницы) --- */
+.page-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(138, 126, 214, 1);
+  overflow-x: hidden;
+}
+
+/* --- БЕЛЫЙ БЛОК --- */
+.main-container {
+  width: 100%;
+  min-height: 100vh;
+  background: white;
+  border-top-left-radius: 45px;
+  border-top-right-radius: 45px;
+
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  margin-top: 20px;
+}
+
+/* --- ВНУТРЕННИЙ КОНТЕНТ --- */
+.main-inner {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* --- АДРЕС --- */
+.location-row {
+  font-family: SF Pro Display;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+
+  color: #000;
+  display: flex;
+  gap: 15px;
+}
+
+/* --- ИКОНКА --- */
+.location-icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* --- ТЕКСТ ПУСТОГО СОСТОЯНИЯ --- */
+.empty-text {
+  font-family: SF Pro Display;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 33px;
+  text-align: center;
+  color: rgba(146, 146, 146, 1);
+}

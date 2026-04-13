@@ -1,17 +1,32 @@
 import { api } from "./api";
 
-export const searchRestaurants = async (query: string, filters?: { category?: string }) => {
-  const params: Record<string, string | number> = {
-    title: query,
+type SearchParams = {
+  page: number;
+  size: number;
+} & Partial<{
+  title: string;
+  category: string;
+  minRating: number;
+  city: string;
+}>;
+
+export const searchRestaurants = async (params: { title?: string; category?: string }) => {
+  const queryParams: SearchParams = {
     page: 0,
     size: 50,
   };
 
-  if (filters?.category) {
-    params.category = filters.category;
+  if (params.title?.trim()) {
+    queryParams.title = params.title;
   }
 
-  const res = await api.get(`/public/restaurants/search`, { params });
+  if (params.category?.trim()) {
+    queryParams.category = params.category;
+  }
+
+  const res = await api.get(`/public/restaurants/search/advanced`, {
+    params: queryParams,
+  });
 
   return res.data.content || [];
 };

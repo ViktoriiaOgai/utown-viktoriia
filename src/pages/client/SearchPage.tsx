@@ -9,6 +9,7 @@ import Candle from "@/assets/icons/candle.svg";
 import { searchRestaurants } from "@/services/restaurantService";
 import RestaurantCards from "@/components/UI/RestaurantCards";
 import "@/pages/client/SearchPage.css";
+import "@/styles/layout.css";
 
 type Restaurant = {
   id: number;
@@ -48,7 +49,10 @@ export default function SearchPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await searchRestaurants(debouncedSearch);
+        const data = await searchRestaurants({
+          title: debouncedSearch,
+          category,
+        });
         setResults(data);
       } catch (e) {
         console.error(e);
@@ -60,17 +64,8 @@ export default function SearchPage() {
     }
   }, [debouncedSearch, category]);
 
-  // фильтр + сортировка
-  const filtered = results
-    .filter((r) => (category ? r.category?.toLowerCase().includes(category.toLowerCase()) : true))
-    .sort((a, b) => {
-      if (sort === "minOrderAmount") return a.minOrderAmount - b.minOrderAmount;
-      if (sort === "rating") return (b.ratings || 0) - (a.ratings || 0);
-      return 0;
-    });
-
   return (
-    <div className="search-main">
+    <div className="page-wrapper">
       <MobileHeader
         showBack
         backColor="white"
@@ -80,9 +75,9 @@ export default function SearchPage() {
         logoVariant="white"
       />
 
-      <div className="mainContsearch">
-        <div className="mainsearchInner">
-          <p className="p-search">
+      <div className="main-container">
+        <div className="main-inner">
+          <p className="location-row">
             <img src={Location} />
             {address}
           </p>
@@ -104,11 +99,11 @@ export default function SearchPage() {
           />
 
           {!search.trim() && !category ? (
-            <p className="what">What shall we search for?</p>
-          ) : filtered.length === 0 ? (
-            <p className="what">Nothing found</p>
+            <p className="empty-text">What shall we search for?</p>
+          ) : results.length === 0 ? (
+            <p className="empty-text">Nothing found</p>
           ) : (
-            <RestaurantCards variant="row" data={filtered} showMore={false} title="" />
+            <RestaurantCards variant="row" data={results} showMore={false} title="" />
           )}
         </div>
       </div>

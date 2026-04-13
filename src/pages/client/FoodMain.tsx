@@ -9,12 +9,13 @@ import Search from "@/components/UI/Search";
 import SearchIcon from "@/assets/icons/search-normal.svg";
 import CategoriesCards from "@/components/UI/CategoriesCards";
 import EstablishmentsCards from "@/components/UI/EstablishmentsCards";
+import "@/styles/layout.css";
 
 export default function FoodMain() {
   const { unreadCount } = useNotifications();
   const [address] = useState(() => localStorage.getItem("address") || "");
   return (
-    <div className="food-main">
+    <div className="page-wrapper">
       <MobileHeader
         logoVariant="white"
         showBack
@@ -25,10 +26,10 @@ export default function FoodMain() {
       />
 
       {/* Основной контейнер */}
-      <div className="mainContFood">
-        <div className="mainFoodInner">
+      <div className="main-container">
+        <div className="main-inner">
           <p className="p">
-            <img className="location" src={Location} alt="icon" />
+            <img className="location-icon" src={Location} alt="icon" />
             {address}
           </p>
           <Search placeholder="Search for cafes,restaurants and dishes" icon={SearchIcon} />
