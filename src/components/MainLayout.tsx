@@ -165,7 +165,17 @@ export default function MainLayout({ children }: MainLayoutProps) {
           >
             <button
               type="button"
-              onClick={() => navigate("/admin/establishments/add")}
+              onClick={() => {
+                if (location.pathname.startsWith("/admin/clients")) {
+                  navigate("/admin/clients/add");
+                } else if (location.pathname.startsWith("/admin/establishments")) {
+                  navigate("/admin/establishments/add");
+                } else if (location.pathname.startsWith("/admin/riders")) {
+                  navigate("/admin/riders/add");
+                } else {
+                  navigate("/admin/establishments/add");
+                }
+              }}
               style={{
                 width: 142,
                 height: 40,
