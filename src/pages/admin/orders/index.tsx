@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import MainLayout from "@/components/MainLayout";
 import { api } from "@/services/api";
@@ -43,6 +43,7 @@ export default function OrdersPage() {
   const [selectedAction, setSelectedAction] = useState("");
   const [selectedRows, setSelectedRows] = useState<Array<number | string>>([]);
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     let ignore = false;
@@ -50,8 +51,20 @@ export default function OrdersPage() {
     async function loadOrders() {
       setLoading(true);
       try {
-        const res = await api.get("/admin/orders?page=0&size=10");
+        const params = new URLSearchParams({
+          page: String(page - 1),
+          size: String(pageSize),
+        });
+
+        if (search) params.set("search", search);
+        if (selectedFilter === "client-asc") params.set("sort", "userName,asc");
+        if (selectedFilter === "client-desc") params.set("sort", "userName,desc");
+        if (selectedFilter === "amount-asc") params.set("sort", "totalSum,asc");
+        if (selectedFilter === "amount-desc") params.set("sort", "totalSum,desc");
+
+        const res = await api.get(`/admin/orders?${params.toString()}`);
         const data = res.data;
+
         const rawOrders = Array.isArray(data)
           ? data
           : Array.isArray(data?.content)
@@ -74,9 +87,15 @@ export default function OrdersPage() {
           itemsText: item?.details ?? "",
         }));
 
-        if (!ignore) setOrders(mapped);
+        if (!ignore) {
+          setOrders(mapped);
+          setTotalPages(typeof data?.totalPages === "number" ? Math.max(1, data.totalPages) : 1);
+        }
       } catch {
-        if (!ignore) setOrders([]);
+        if (!ignore) {
+          setOrders([]);
+          setTotalPages(1);
+        }
       } finally {
         if (!ignore) setLoading(false);
       }
@@ -86,42 +105,10 @@ export default function OrdersPage() {
     return () => {
       ignore = true;
     };
-  }, []);
-
-  const filtered = useMemo(() => {
-    let result = orders.filter((o) => {
-      const q = search.toLowerCase();
-      return (
-        o.clientName.toLowerCase().includes(q) ||
-        o.establishmentName.toLowerCase().includes(q) ||
-        o.riderName.toLowerCase().includes(q) ||
-        o.orderNumber.toLowerCase().includes(q) ||
-        o.amount.toLowerCase().includes(q) ||
-        o.itemsText.toLowerCase().includes(q)
-      );
-    });
-
-    if (selectedFilter === "client-asc")
-      result = [...result].sort((a, b) => a.clientName.localeCompare(b.clientName));
-    if (selectedFilter === "client-desc")
-      result = [...result].sort((a, b) => b.clientName.localeCompare(a.clientName));
-    if (selectedFilter === "amount-asc")
-      result = [...result].sort(
-        (a, b) => Number(a.amount.replaceAll(",", "")) - Number(b.amount.replaceAll(",", ""))
-      );
-    if (selectedFilter === "amount-desc")
-      result = [...result].sort(
-        (a, b) => Number(b.amount.replaceAll(",", "")) - Number(a.amount.replaceAll(",", ""))
-      );
-
-    return result;
-  }, [orders, search, selectedFilter]);
-
-  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
-  const paginated = filtered.slice((page - 1) * pageSize, page * pageSize);
+  }, [page, search, selectedFilter]);
 
   const allCurrentSelected =
-    paginated.length > 0 && paginated.every((item) => selectedRows.includes(item.id));
+    orders.length > 0 && orders.every((item) => selectedRows.includes(item.id));
 
   function toggleRow(id: number | string) {
     setSelectedRows((prev) =>
@@ -130,7 +117,7 @@ export default function OrdersPage() {
   }
 
   function toggleAll() {
-    const currentIds = paginated.map((item) => item.id);
+    const currentIds = orders.map((item) => item.id);
     const allSelected = currentIds.every((id) => selectedRows.includes(id));
     if (allSelected) {
       setSelectedRows((prev) => prev.filter((id) => !currentIds.includes(id)));
@@ -232,14 +219,14 @@ export default function OrdersPage() {
                     Loading...
                   </td>
                 </tr>
-              ) : paginated.length === 0 ? (
+              ) : orders.length === 0 ? (
                 <tr>
                   <td colSpan={10} className="orders-page__state">
                     No orders found
                   </td>
                 </tr>
               ) : (
-                paginated.map((o) => (
+                orders.map((o) => (
                   <tr key={o.id}>
                     <td className="orders-page__checkbox">
                       <input
