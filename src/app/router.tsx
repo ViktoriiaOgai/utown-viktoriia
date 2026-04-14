@@ -41,6 +41,8 @@ import AddPositionNewPage from "../pages/admin/establishments/[id]/positions/new
 import EditPositionPage from "../pages/admin/establishments/[id]/positions/edit";
 
 import ClientsPage from "@/pages/admin/clients";
+import AddClientPage from "@/pages/admin/clients/add";
+import EditClientPage from "@/pages/admin/clients/[id]/edit";
 
 import Information from "@/pages/client/Information";
 import ContactSupport from "@/pages/client/ContactSupport";
@@ -169,6 +171,8 @@ export const router = createBrowserRouter([
       { path: "profile", element: <AdminProfile /> },
 
       { path: "clients", element: <ClientsPage /> },
+      { path: "clients/add", element: <AddClientPage /> },
+      { path: "clients/:id/edit", element: <EditClientPage /> },
 
       { path: "riders", element: <AdminRidersPage /> },
 
