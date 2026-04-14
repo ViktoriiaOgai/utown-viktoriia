@@ -3,6 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import MainLayout from "../../../../components/MainLayout";
 import { api } from "../../../../services/api";
 import { getErrorMessage } from "../../../../utils/establishments";
+import ClientForm from "../ClientForm";
+import "../clients.scss";
+
+type FormErrors = { name?: string; phone?: string; address?: string };
 
 export default function EditClientPage() {
   const navigate = useNavigate();
@@ -13,11 +17,11 @@ export default function EditClientPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState("");
+  const [errors, setErrors] = useState<FormErrors>({});
 
   useEffect(() => {
     if (!id) return;
     setIsLoading(true);
-
     api
       .get(`/admin/clients/${id}`)
       .then((data: unknown) => {
@@ -34,11 +38,21 @@ export default function EditClientPage() {
       .finally(() => setIsLoading(false));
   }, [id]);
 
+  const validate = (): boolean => {
+    const e: FormErrors = {};
+    if (!name.trim()) e.name = "Name is required";
+    if (!phone.trim()) e.phone = "Phone number is required";
+    else if (!/^\+?[\d\s\-()]{7,}$/.test(phone.trim())) e.phone = "Invalid phone number";
+    if (!address.trim()) e.address = "Delivery address is required";
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
   const handleSave = async () => {
+    if (!validate()) return;
     if (!id) return;
     setError("");
     setIsSaving(true);
-
     try {
       await api.put(`/admin/clients/${id}`, {
         name: name.trim(),
@@ -53,291 +67,33 @@ export default function EditClientPage() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <MainLayout>
+        <div className="client-page">
+          <div className="client-page__loading">Loading...</div>
+        </div>
+      </MainLayout>
+    );
+  }
+
   return (
     <MainLayout>
-      <div
-        style={{
-          padding: "40px 20px 56px",
-          minHeight: "100%",
-          background: "#f5f5f5",
-        }}
-      >
-        <div style={{ maxWidth: 1080, margin: "0 auto" }}>
-          <h1
-            style={{
-              fontSize: 38,
-              fontWeight: 700,
-              lineHeight: 1.2,
-              color: "#000000",
-              margin: "0 0 12px",
-            }}
-          >
-            Edit client
-          </h1>
-
-          <div
-            style={{
-              fontSize: 14,
-              color: "#8b5cf6",
-              marginBottom: 30,
-            }}
-          >
-            <span
-              style={{ color: "#8b5cf6", cursor: "pointer", fontWeight: 600 }}
-              onClick={() => navigate("/admin/home")}
-            >
-              Home
-            </span>
-            <span style={{ margin: "0 6px", color: "#9ca3af" }}>/</span>
-            <span
-              style={{ color: "#8b5cf6", cursor: "pointer", fontWeight: 600 }}
-              onClick={() => navigate("/admin/profile")}
-            >
-              Users
-            </span>
-            <span style={{ margin: "0 6px", color: "#9ca3af" }}>/</span>
-            <span
-              style={{ color: "#8b5cf6", cursor: "pointer", fontWeight: 600 }}
-              onClick={() => navigate("/admin/clients")}
-            >
-              Clients
-            </span>
-            <span style={{ margin: "0 6px", color: "#9ca3af" }}>/</span>
-            <span style={{ color: "#6b7280" }}>Edit</span>
-          </div>
-
-          {isLoading ? (
-            <div
-              className="loadingState"
-              style={{
-                width: 670,
-                margin: "0 auto",
-                minHeight: 220,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                background: "#ffffff",
-                border: "1px solid #d1d5db",
-                borderRadius: 12,
-                fontSize: 16,
-                color: "#6b7280",
-              }}
-            >
-              Loading...
-            </div>
-          ) : (
-            <div
-              style={{
-                width: 670,
-                margin: "0 auto",
-                background: "#ffffff",
-                border: "1px solid #d1d5db",
-                borderRadius: 12,
-                padding: "40px 50px 48px",
-                boxSizing: "border-box",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  width: "100%",
-                  height: 160,
-                  marginBottom: 22,
-                  overflow: "hidden",
-                  borderRadius: 2,
-                }}
-              >
-                <div
-                  style={{
-                    width: 160,
-                    background: "#efefef",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    cursor: "pointer",
-                    flexShrink: 0,
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: 38,
-                      color: "#111111",
-                      lineHeight: 1,
-                    }}
-                  >
-                    ↑
-                  </span>
-                </div>
-
-                <div
-                  style={{
-                    flex: 1,
-                    background: "#f5f5f5",
-                  }}
-                />
-              </div>
-
-              {error && (
-                <div
-                  style={{
-                    marginBottom: 16,
-                    padding: "12px 14px",
-                    borderRadius: 8,
-                    background: "#fef2f2",
-                    color: "#b91c1c",
-                    border: "1px solid #fecaca",
-                    fontSize: 14,
-                  }}
-                >
-                  {error}
-                </div>
-              )}
-
-              <div style={{ display: "grid", gap: 18 }}>
-                <div>
-                  <label
-                    style={{
-                      fontSize: 14,
-                      fontWeight: 700,
-                      color: "#3f3f46",
-                      display: "block",
-                      marginBottom: 8,
-                    }}
-                  >
-                    Name
-                  </label>
-                  <input
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="First Last Name"
-                    style={{
-                      width: 315,
-                      height: 32,
-                      borderRadius: 2,
-                      border: "1px solid #bfc4cc",
-                      padding: "0 12px",
-                      fontSize: 14,
-                      color: "#111827",
-                      boxSizing: "border-box",
-                      outline: "none",
-                      background: "#ffffff",
-                    }}
-                  />
-                </div>
-
-                <div>
-                  <label
-                    style={{
-                      fontSize: 14,
-                      fontWeight: 700,
-                      color: "#3f3f46",
-                      display: "block",
-                      marginBottom: 8,
-                    }}
-                  >
-                    Phone number
-                  </label>
-                  <input
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    placeholder="010 1234 56 78"
-                    style={{
-                      width: 315,
-                      height: 32,
-                      borderRadius: 2,
-                      border: "1px solid #bfc4cc",
-                      padding: "0 12px",
-                      fontSize: 14,
-                      color: "#111827",
-                      boxSizing: "border-box",
-                      outline: "none",
-                      background: "#ffffff",
-                    }}
-                  />
-                </div>
-
-                <div>
-                  <label
-                    style={{
-                      fontSize: 14,
-                      fontWeight: 700,
-                      color: "#3f3f46",
-                      display: "block",
-                      marginBottom: 8,
-                    }}
-                  >
-                    Delivery address
-                  </label>
-                  <input
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    placeholder="12 Mugyo-ro, Jung-gu, Seoul, Jeong-o Building"
-                    style={{
-                      width: 315,
-                      height: 32,
-                      borderRadius: 2,
-                      border: "1px solid #bfc4cc",
-                      padding: "0 12px",
-                      fontSize: 14,
-                      color: "#111827",
-                      boxSizing: "border-box",
-                      outline: "none",
-                      background: "#ffffff",
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-          )}
-
-          <div
-            style={{
-              display: "flex",
-              gap: 14,
-              marginTop: 40,
-              justifyContent: "center",
-            }}
-          >
-            <button
-              type="button"
-              onClick={() => navigate("/admin/clients")}
-              style={{
-                width: 166,
-                height: 58,
-                borderRadius: 4,
-                border: "none",
-                background: "#f3f4f6",
-                color: "#4b5563",
-                fontSize: 16,
-                fontWeight: 500,
-                cursor: "pointer",
-              }}
-            >
-              Cancel
-            </button>
-
-            <button
-              type="button"
-              onClick={handleSave}
-              disabled={isSaving}
-              style={{
-                width: 166,
-                height: 58,
-                borderRadius: 4,
-                border: "none",
-                background: "#111111",
-                color: "#ffffff",
-                fontSize: 16,
-                fontWeight: 500,
-                cursor: isSaving ? "not-allowed" : "pointer",
-                opacity: isSaving ? 0.7 : 1,
-              }}
-            >
-              {isSaving ? "Saving..." : "Save"}
-            </button>
-          </div>
-        </div>
-      </div>
+      <ClientForm
+        title="Edit client"
+        crumbLabel="Edit"
+        name={name}
+        phone={phone}
+        address={address}
+        onNameChange={setName}
+        onPhoneChange={setPhone}
+        onAddressChange={setAddress}
+        onSubmit={handleSave}
+        isSaving={isSaving}
+        error={error}
+        errors={errors}
+        submitLabel="Save"
+      />
     </MainLayout>
   );
 }
