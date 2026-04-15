@@ -87,11 +87,14 @@ export default function SearchPage() {
             onChange={(e) => {
               setSearch(e.target.value);
 
-              setParams({
-                query: e.target.value,
-                category,
-                sort,
-              });
+              setParams(
+                {
+                  query: e.target.value,
+                  category,
+                  sort,
+                },
+                { replace: true }
+              );
             }}
             isSearchPage
             icon={SearchIcon}
