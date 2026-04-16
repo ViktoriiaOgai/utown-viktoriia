@@ -1,13 +1,14 @@
 import RestaurantCards from "@/components/UI/RestaurantCards";
 import MobileHeader from "@/components/UI/Header";
 import { useNotifications } from "@/services/useNotification";
+import "@/pages/client/EstablishPage.css";
 
 import "@/pages/client/Favourites.css";
 
-export default function Favourites() {
+export default function EstablishPage() {
   const { unreadCount } = useNotifications();
   return (
-    <div className="favor">
+    <div className="establish">
       <MobileHeader
         showBack
         logoVariant="gradient"
@@ -17,11 +18,11 @@ export default function Favourites() {
       />
 
       {/* Основной контейнер */}
-      <div className="mainCont">
-        <div className="mainContInner">
-          <h1 className="Hello">Your Favourites</h1>
+      <div className="establishCont">
+        <div className="establishContInner">
+          <h1 className="Hello-establish">Establishments</h1>
 
-          <RestaurantCards variant="grid" title="" />
+          <RestaurantCards variant="grid1" title="" />
         </div>
       </div>
     </div>

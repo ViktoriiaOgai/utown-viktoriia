@@ -3,6 +3,7 @@ import reserve from "@/assets/icons/reserve.svg";
 import mobileIcon from "@/assets/icons/mobile.svg";
 import jobsIcon from "@/assets/icons/wallet-check.svg";
 import servicesIcon from "@/assets/icons/keyboard.svg";
+import "@/components/UI/ServicesCards.css";
 
 interface CardProps {
   title: string;

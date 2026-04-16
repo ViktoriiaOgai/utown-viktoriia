@@ -35,6 +35,10 @@ import {
 } from "../pages/admin/AdminPlaceholders";
 
 import OrdersPage from "../pages/admin/orders";
+import EstablishmentPositionsPage from "../pages/admin/establishments/[id]/positions";
+import AddPositionPage from "../pages/admin/establishments/[id]/positions/add";
+import AddPositionNewPage from "../pages/admin/establishments/[id]/positions/new/add";
+import EditPositionPage from "../pages/admin/establishments/[id]/positions/edit";
 
 import ClientsPage from "@/pages/admin/clients";
 
@@ -44,10 +48,10 @@ import Notifications from "@/pages/client/Notifications";
 
 import EstablishmentCategoriesPage from "../pages/admin/establishments/[id]/positions/categories";
 import AddCategoryPage from "../pages/admin/establishments/[id]/positions/categories/add";
-import EstablishmentPositionsPage from "../pages/admin/establishments/[id]/positions";
-import AddPositionPage from "../pages/admin/establishments/[id]/positions/add";
-import EditPositionPage from "../pages/admin/establishments/[id]/positions/edit";
-import AddPositionNewPage from "../pages/admin/establishments/[id]/positions/new/add";
+import FoodMain from "@/pages/client/FoodMain";
+import SearchPage from "@/pages/client/SearchPage";
+import FiltersPage from "@/pages/client/FilterPage";
+import EstablishPage from "@/pages/client/EstablishPage";
 
 export const router = createBrowserRouter([
   {
@@ -83,6 +87,38 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Notifications />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/foodmain",
+        element: (
+          <ProtectedRoute>
+            <FoodMain />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/establish",
+        element: (
+          <ProtectedRoute>
+            <EstablishPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/search",
+        element: (
+          <ProtectedRoute>
+            <SearchPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/filters",
+        element: (
+          <ProtectedRoute>
+            <FiltersPage />
           </ProtectedRoute>
         ),
       },

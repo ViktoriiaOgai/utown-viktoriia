@@ -1,0 +1,105 @@
+/* Контейнер карточек — теперь в размер экрана */
+.categories-cards-container {
+  display: flex;
+  gap: 12px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  width: 100%; /* ограничиваем ширину экрана */
+  max-width: 100vw; /* точно в размер видимой области */
+  box-sizing: border-box; /* учитываем padding */
+}
+
+/* Scrollbar */
+.categories-cards-container::-webkit-scrollbar {
+  height: 6px;
+}
+.categories-cards-container::-webkit-scrollbar-thumb {
+  background: rgba(168, 167, 167, 0.2);
+  border-radius: 3px;
+}
+.categories-section {
+  padding: auto;
+}
+/* Карточки ресторана */
+.categories-card {
+  flex: 0 0 auto;
+  width: 160px;
+  background: rgba(245, 245, 245, 1);
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: start;
+  box-sizing: border-box;
+  border-radius: 15px;
+  overflow: hidden;
+}
+.categories-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-right: 15px;
+  align-items: center;
+  flex-direction: row;
+}
+.more {
+  background: rgba(209, 202, 255, 1);
+  width: 75px;
+  height: 37px;
+  left: 317px;
+  border-radius: 10px;
+  padding-top: 2px;
+  padding-right: 20px;
+  padding-bottom: 2px;
+  padding-left: 20px;
+  gap: 10px;
+  border: none;
+  color: rgba(137, 125, 211, 1);
+  cursor: pointer;
+}
+.categories-card img {
+  width: 100%;
+   height: 100px;
+  object-fit: cover;
+  border-radius: 0 !important;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+.text-block .categ,
+.text-block .description {
+  font-size: 16px;
+  color: rgb(110, 109, 109); /* если фон белый, текст не виден */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-left: 10px;
+}
+.text-block .title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.categories-card .text-block {
+   padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 70px;
+  
+}
+/* GRID режим */
+.categories-cards-container.vertical {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+/* карточки внутри grid */
+.categories-cards-container.vertical .restaurant-card {
+  width: 160px;
+}

@@ -1,0 +1,44 @@
+/* --- Главный контейнер --- */
+.establish {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+  padding-top: 0;
+  overflow-x: hidden;
+}
+
+.establish .header-icons {
+  position: relative;
+  top: 0;
+  margin-top: 20px;
+}
+
+/* --- Основной белый блок --- */
+.establishCont {
+  width: 100%;
+  min-height: 100vh;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 10px;
+}
+
+.establishContInner {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: flex-start;
+}
+.Hello-establish {
+  font-size: 35px;
+  font-weight: 600;
+  color: black;
+  z-index: 20; /* выше хедера, если хедер фиксирован */
+  position: relative;
+}

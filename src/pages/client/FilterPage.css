@@ -1,0 +1,33 @@
+.filter-title {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.chips {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.chip {
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 1px solid #e0e0e0;
+  background: #f1f1f1;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.chip.active {
+  background: rgba(138, 126, 214, 1); /* фиолетовый */
+  color: white;
+  border-color: rgba(138, 126, 214, 1);
+  transform: scale(0.97);
+}
+
+.chip:hover {
+  border-color: rgba(138, 126, 214, 1);
+}

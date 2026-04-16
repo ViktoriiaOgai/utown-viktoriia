@@ -54,8 +54,10 @@
 }
 
 /* --- Погода --- */
-.weather-widget {
-  width: 180px;
+.home .weather-widget {
+  min-width: 150px;
+  max-width: 200px;
+  height: 120px;
   background: rgba(245, 245, 245, 1);
   padding: 12px 15px;
   border-radius: 15px;
@@ -67,19 +69,19 @@
   position: relative;
   animation: fadeIn 0.5s ease;
 }
-.weather-widget h3 {
+.home .weather-widget h3 {
   font-size: 16px;
   font-weight: 600;
   margin: 0 0 6px 0;
 }
-.weather-widget p {
+.home .weather-widget p {
   margin: 2px 0;
   font-weight: 500;
   font-size: 14px;
   color: #333;
 }
-.weather-loading,
-.weather-error {
+.home .weather-loading,
+.home .weather-error {
   width: 150px;
   padding: 12px 15px;
   background: #fff;
@@ -92,14 +94,17 @@
 }
 
 /* --- Активные заказы --- */
-.main-top-row {
+.home .main-top-row {
   display: flex;
   flex-direction: row;
   gap: 15px;
   width: 100%;
+
 }
-.active-orders-card {
-  width: 150px;
+.home  .active-orders-card {
+  min-width: 150px;
+  max-width: 200px;
+  height: 120px;
   background: rgba(0, 22, 78, 1);
   padding: 12px;
   border-radius: 15px;
@@ -107,15 +112,26 @@
   flex-direction: row;
   align-items: flex-start;
   gap: 15px;
+   cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
-.active-orders-card h3 {
+
+.home  .active-orders-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+  
+.home  .active-orders-card h3 {
   font-weight: 500;
   font-size: 16px;
   line-height: 130%;
   color: #fff;
   margin: 0 auto;
+  
 }
-.shopping {
+.home  .shopping {
   width: 24px;
   height: 24px;
 }
@@ -143,6 +159,7 @@
     transform 0.2s ease,
     box-shadow 0.2s ease;
 }
+
 .service-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);

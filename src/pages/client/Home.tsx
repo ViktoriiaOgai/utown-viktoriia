@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Weather from "@/components/UI/Weather";
 import ShoppingCart from "@/assets/icons/shopping-cart.svg";
 import ServicesCards from "@/components/UI/ServicesCards";
@@ -14,6 +15,7 @@ export default function Home() {
   const userProfile = { city: "Ansan", lat: 37.3349584, lon: 126.7918849 };
   const [firstName] = useState(() => getUserName() || "");
   const { unreadCount } = useNotifications();
+  const navigate = useNavigate();
 
   return (
     <div className="home">
@@ -38,7 +40,7 @@ export default function Home() {
 
           <ServicesCards />
           <PromoCards />
-          <RestaurantCards />
+          <RestaurantCards showMore onMoreClick={() => navigate("/foodmain")} />
         </div>
       </div>
     </div>
