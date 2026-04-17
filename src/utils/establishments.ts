@@ -64,7 +64,6 @@ export function normalizeEstablishment(item: unknown): Establishment {
       ? getString((location as Record<string, unknown>).city, "—")
       : getString(getValue(["city", "addressCity"]), "—");
 
-  // deliveryAreas может быть массивом строк или одной строкой
   const deliveryRaw = getValue(["deliveryAreas", "deliveryZone", "deliveryAddress"]);
   const deliveryAreas = Array.isArray(deliveryRaw)
     ? deliveryRaw.map((v) => getString(v))
@@ -94,6 +93,7 @@ export function normalizeEstablishment(item: unknown): Establishment {
     openingHours,
   };
 }
+
 export function getErrorMessage(error: unknown, fallback = "Something went wrong") {
   if (error instanceof Error) {
     return error.message || fallback;
@@ -104,6 +104,31 @@ export function getErrorMessage(error: unknown, fallback = "Something went wrong
   }
 
   return fallback;
+}
+
+/* ✅ ВОТ ЧТО ДОБАВИЛИ — ОБЩАЯ ВАЛИДАЦИЯ */
+export type ClientFormErrors = {
+  name?: string;
+  phone?: string;
+  address?: string;
+};
+
+export function validateClient(name: string, phone: string, address: string): ClientFormErrors {
+  const e: ClientFormErrors = {};
+
+  if (!name.trim()) e.name = "Name is required";
+
+  if (!phone.trim()) {
+    e.phone = "Phone number is required";
+  } else if (!/^\+?[\d\s\-()]{7,}$/.test(phone.trim())) {
+    e.phone = "Invalid phone number";
+  }
+
+  if (!address.trim()) {
+    e.address = "Delivery address is required";
+  }
+
+  return e;
 }
 
 import { api } from "../services/api";
