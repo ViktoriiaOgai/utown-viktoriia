@@ -9,7 +9,7 @@ export type Client = {
   name: string;
   phone: string;
   address: string;
-  city?: string;
+  city: string;
   avatarUrl?: string;
   orders: number;
 };
@@ -37,7 +37,7 @@ export default function ClientsPage() {
             name: String(client.name ?? ""),
             phone: String(client.phone ?? ""),
             address: String(client.address ?? ""),
-            city: client.city as string | undefined,
+            city: String(client.city ?? ""),
             avatarUrl: client.avatarUrl as string | undefined,
             orders: Number(client.orders ?? 0),
           };
