@@ -18,7 +18,7 @@
   margin: 20px;
 }
 
-/* --- Заголовок --- */
+/*Заголовок */
 .H {
   font-size: 26px;
   font-weight: 600;
@@ -59,7 +59,7 @@
   justify-content: center;
 }
 
-/* --- Анимация появления --- */
+/*Анимация появления */
 @keyframes fadeIn {
   from {
     opacity: 0;
