@@ -16,7 +16,7 @@ export default function Modal({ title, message, buttonText, onClose }: ModalProp
         <h3>{title}</h3>
         <p>{message}</p>
 
-        <AuthBtn onClick={onClose}>{buttonText}</AuthBtn>
+        <AuthBtn onClick={onClose}>{buttonText} </AuthBtn>
       </div>
     </div>
   );

@@ -1,0 +1,58 @@
+.dish-card {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  margin-bottom: 12px;
+  align-items: center;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.dish-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+/* блок с текстом */
+.dish-card > div {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* занимает всё доступное место слева */
+  text-align: left;
+}
+.dish-card img {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.dish-card h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+}
+
+.dish-card p {
+  margin: 4px 0;
+  font-size: 12px;
+  color: #777;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.dish-card span {
+  font-size: 14px;
+  font-weight: 600;
+  color: #5a4df3;
+}

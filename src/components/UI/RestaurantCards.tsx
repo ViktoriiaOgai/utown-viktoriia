@@ -5,9 +5,10 @@ import "@/components/UI/RestaurantCards.css";
 import placeholder from "@/assets/images/Ad 1.svg";
 import Deliver from "@/assets/icons/deliver.svg?react";
 import { getErrorMessage } from "@/services/getErrorMessage";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
-  variant?: "scroll" | "grid" | "row" | "grid1";
+  variant?: "scroll" | "grid" | "row" | "grid1" | "header";
   title?: string;
   data?: Restaurant[];
   showMore?: boolean;
@@ -34,6 +35,7 @@ export default function RestaurantCards({
   onMoreClick,
 }: Props) {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (data) return; // если есть данные — не грузим
@@ -69,7 +71,11 @@ export default function RestaurantCards({
                                                 ${variant === "grid1" ? "vertical1" : ""}`}
       >
         {restaurantsToRender.map((r) => (
-          <div className={`restaurant-card ${variant === "row" ? "row-card" : ""}`} key={r.id}>
+          <div
+            className={`restaurant-card ${variant === "row" ? "row-card" : ""}`}
+            key={r.id}
+            onClick={() => navigate(`/establishment/${r.id}`)}
+          >
             <img
               className="title"
               src={r.imageUrl || r.logoUrl || placeholder}
