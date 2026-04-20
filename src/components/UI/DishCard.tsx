@@ -1,5 +1,4 @@
 import "@/components/UI/DishCard.css";
-
 type Dish = {
   id: number;
   title: string;
@@ -12,7 +11,6 @@ type Props = {
   dish: Dish;
   onClick?: () => void;
 };
-
 export default function DishCard({ dish, onClick }: Props) {
   return (
     <div className="dish-card" onClick={onClick}>
