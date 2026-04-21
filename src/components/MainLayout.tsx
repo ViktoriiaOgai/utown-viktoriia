@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+﻿import { ReactNode } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 type MainLayoutProps = {
@@ -56,23 +56,9 @@ export default function MainLayout({ children }: MainLayoutProps) {
               cursor: "pointer",
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                fontSize: 24,
-                lineHeight: 1,
-              }}
-            >
+            <div style={{ display: "flex", alignItems: "center", fontSize: 24, lineHeight: 1 }}>
               <span style={{ fontWeight: 900, color: "#111111" }}>UT</span>
-              <span
-                style={{
-                  marginLeft: 4,
-                  fontWeight: 400,
-                  color: "#111111",
-                  letterSpacing: 1,
-                }}
-              >
+              <span style={{ marginLeft: 4, fontWeight: 400, color: "#111111", letterSpacing: 1 }}>
                 own
               </span>
             </div>
@@ -91,7 +77,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
                   gap: 8,
                 }}
               >
-                <span style={{ fontSize: 10 }}>▼</span>
+                <span>&#9660;</span>
                 <span>Users</span>
               </div>
 
@@ -99,30 +85,22 @@ export default function MainLayout({ children }: MainLayoutProps) {
                 <Link to="/admin/clients" style={linkStyle(location.pathname === "/admin/clients")}>
                   Clients
                 </Link>
-
                 <Link to="/admin/riders" style={linkStyle(location.pathname === "/admin/riders")}>
                   Riders
                 </Link>
-
                 <Link
                   to="/admin/establishments"
                   style={linkStyle(location.pathname.startsWith("/admin/establishments"))}
                 >
                   Establishments
                 </Link>
-
                 <Link to="/admin/orders" style={linkStyle(location.pathname === "/admin/orders")}>
                   Orders
                 </Link>
               </div>
             </div>
 
-            <div
-              style={{
-                borderTop: "1px solid #e4e4e7",
-                paddingTop: 22,
-              }}
-            >
+            <div style={{ borderTop: "1px solid #e4e4e7", paddingTop: 22 }}>
               <div
                 style={{
                   fontSize: 14,
@@ -134,7 +112,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
                   gap: 8,
                 }}
               >
-                <span style={{ fontSize: 10 }}>▼</span>
+                <span>&#9660;</span>
                 <span>App</span>
               </div>
 
@@ -145,7 +123,6 @@ export default function MainLayout({ children }: MainLayoutProps) {
                 >
                   Services
                 </Link>
-
                 <Link
                   to="/admin/vacancies"
                   style={linkStyle(location.pathname === "/admin/vacancies")}
@@ -158,11 +135,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
         </div>
 
         <div>
-          <div
-            style={{
-              padding: "20px 32px 26px 32px",
-            }}
-          >
+          <div style={{ padding: "20px 32px 26px 32px" }}>
             <button
               type="button"
               onClick={() => {
@@ -170,8 +143,6 @@ export default function MainLayout({ children }: MainLayoutProps) {
                   navigate("/admin/clients/add");
                 } else if (location.pathname.startsWith("/admin/establishments")) {
                   navigate("/admin/establishments/add");
-                } else if (location.pathname.startsWith("/admin/riders")) {
-                  navigate("/admin/riders/add");
                 } else {
                   navigate("/admin/establishments/add");
                 }
@@ -206,7 +177,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
                   lineHeight: 1,
                 }}
               >
-                ⊕
+                +
               </span>
               <span>Add</span>
             </button>
@@ -236,7 +207,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
                 lineHeight: 1,
               }}
             >
-              ⚙
+              &#9881;
             </button>
           </div>
         </div>
@@ -271,18 +242,12 @@ export default function MainLayout({ children }: MainLayoutProps) {
               cursor: "pointer",
             }}
           >
-            <span style={{ fontSize: 18 }}>👤</span>
+            <span style={{ fontSize: 18 }}>&#128100;</span>
             <span>Admin</span>
           </div>
         </header>
 
-        <main
-          style={{
-            flex: 1,
-            padding: "24px 20px 18px 20px",
-            overflow: "auto",
-          }}
-        >
+        <main style={{ flex: 1, padding: "24px 20px 18px 20px", overflow: "auto" }}>
           {children}
         </main>
       </div>

@@ -1,3 +1,4 @@
+import { api } from "../services/api";
 import type { Establishment } from "../types/establishment";
 
 export function asArray<T = unknown>(value: unknown): T[] {
@@ -61,8 +62,8 @@ export function normalizeEstablishment(item: unknown): Establishment {
   const location = getValue(["location"]);
   const city =
     location && typeof location === "object"
-      ? getString((location as Record<string, unknown>).city, "—")
-      : getString(getValue(["city", "addressCity"]), "—");
+      ? getString((location as Record<string, unknown>).city, "")
+      : getString(getValue(["city", "addressCity"]), "");
 
   const deliveryRaw = getValue(["deliveryAreas", "deliveryZone", "deliveryAddress"]);
   const deliveryAreas = Array.isArray(deliveryRaw)
@@ -79,8 +80,8 @@ export function normalizeEstablishment(item: unknown): Establishment {
 
   return {
     id: getNumber(getValue(["id", "restaurantId", "restaurant_id"]), 0),
-    name: getString(getValue(["name", "restaurantName", "title"]), "—"),
-    phone: getString(getValue(["phone", "phoneNumber", "number"]), "—"),
+    name: getString(getValue(["name", "restaurantName", "title"]), ""),
+    phone: getString(getValue(["phone", "phoneNumber", "number"]), ""),
     city,
     ordersCount: getNumber(
       getValue(["ordersCount", "numberOfOrders", "orders", "orders_count"]),
@@ -105,33 +106,6 @@ export function getErrorMessage(error: unknown, fallback = "Something went wrong
 
   return fallback;
 }
-
-/* ✅ ВОТ ЧТО ДОБАВИЛИ — ОБЩАЯ ВАЛИДАЦИЯ */
-export type ClientFormErrors = {
-  name?: string;
-  phone?: string;
-  address?: string;
-};
-
-export function validateClient(name: string, phone: string, address: string): ClientFormErrors {
-  const e: ClientFormErrors = {};
-
-  if (!name.trim()) e.name = "Name is required";
-
-  if (!phone.trim()) {
-    e.phone = "Phone number is required";
-  } else if (!/^\+?[\d\s\-()]{7,}$/.test(phone.trim())) {
-    e.phone = "Invalid phone number";
-  }
-
-  if (!address.trim()) {
-    e.address = "Delivery address is required";
-  }
-
-  return e;
-}
-
-import { api } from "../services/api";
 
 export async function getOrders(page = 0, size = 6) {
   const response = await api.get(`/admin/orders?page=${page}&size=${size}`);
