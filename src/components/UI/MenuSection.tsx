@@ -3,29 +3,23 @@ import { getDishesByRestaurant } from "@/services/restaurantService";
 import DishCard from "./DishCard";
 import "@/components/UI/MenuSection.css";
 import { useMemo } from "react";
-import DishModal from "./DishModal";
-
-type Dish = {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  imageUrl?: string | null;
-  restaurantId: number;
-  dishCategoryId: number;
-  categoryName: string;
-  buttonText: string;
-};
+import type { Dish, CartItem } from "@/types/cart";
 
 type Props = {
   restaurantId: number;
   search: string;
   selectedCategory: number | null;
+  onAddToCart: (item: CartItem) => void;
+  onSelectDish: (dish: Dish) => void;
 };
 
-export default function MenuSection({ restaurantId, search, selectedCategory }: Props) {
+export default function MenuSection({
+  restaurantId,
+  search,
+  selectedCategory,
+  onSelectDish,
+}: Props) {
   const [dishes, setDishes] = useState<Dish[]>([]);
-  const [selectedDish, setSelectedDish] = useState<Dish | null>(null);
 
   const grouped = useMemo(() => {
     const q = (search || "").toLowerCase().trim();
@@ -65,20 +59,10 @@ export default function MenuSection({ restaurantId, search, selectedCategory }: 
           <h3 className="menu-title">{category}</h3>
 
           {items.map((dish) => (
-            <DishCard key={dish.id} dish={dish} onClick={() => setSelectedDish(dish)} />
+            <DishCard key={dish.id} dish={dish} onClick={() => onSelectDish(dish)} />
           ))}
         </div>
       ))}
-      {selectedDish && (
-        <DishModal
-          dish={selectedDish}
-          buttonText="Add to order"
-          onClose={() => setSelectedDish(null)}
-          onAddToCart={(dish, qty) => {
-            console.log("ADD:", dish, qty);
-          }}
-        />
-      )}
     </div>
   );
 }

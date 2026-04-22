@@ -11,7 +11,7 @@ type Props = {
   variant?: "scroll" | "grid";
   restaurantId: number;
   selectedCategory: number | null;
-  onSelectCategory: (id: number) => void;
+  onSelectCategory: (id: number | null) => void;
 };
 
 type CategoryFromApi = {
@@ -79,7 +79,7 @@ export default function CategoryTabs({
             <div
               className={`categories-card ${selectedCategory === c.id ? "active" : ""}`}
               key={c.id}
-              onClick={() => onSelectCategory?.(c.id)}
+              onClick={() => onSelectCategory(selectedCategory === c.id ? null : c.id)}
             >
               <img src={placeholder} alt={c.name} />
 

@@ -5,7 +5,7 @@ import Verified from "@/assets/icons/Verified Icon.svg?react";
 import Points from "@/assets/icons/Points.svg?react";
 import Heart from "@/assets/icons/heart.svg?react";
 import { getRestaurantAverageRating } from "@/services/restaurantService";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { isRestaurantFavorite } from "@/services/restaurantService";
 import { removeFromFavorites } from "@/services/restaurantService";
 import { addToFavorites } from "@/services/restaurantService";
@@ -25,6 +25,7 @@ type Restaurant = {
 };
 
 export default function EstablishmentHeader({ restaurant }: Props) {
+  const [openMenu, setOpenMenu] = useState(false);
   const [liked, setLiked] = useState(false);
   useEffect(() => {
     const checkFavorite = async () => {
@@ -36,6 +37,18 @@ export default function EstablishmentHeader({ restaurant }: Props) {
 
     checkFavorite();
   }, [restaurant?.id]);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpenMenu(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleFavorite = async () => {
     if (!restaurant?.id) return;
@@ -84,11 +97,18 @@ export default function EstablishmentHeader({ restaurant }: Props) {
             <Deliver />
             <span>{restaurant.deliveryTime}</span>
           </div>
-
-          <button className="badge clickable">
-            <Points />
-          </button>
-
+          <div className="dots-wrapper" ref={ref}>
+            <button className="badge clickable" onClick={() => setOpenMenu((prev) => !prev)}>
+              <Points />
+            </button>
+          </div>
+          {openMenu && (
+            <div className="dropdown">
+              <div className="item">Call</div>
+              <div className="item">Share</div>
+              <div className="item danger">Report</div>
+            </div>
+          )}
           <button className={`badge clickable ${liked ? "liked" : ""}`} onClick={handleFavorite}>
             <Heart />
           </button>

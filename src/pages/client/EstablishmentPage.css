@@ -18,3 +18,48 @@
   width: 100%;
   align-items: stretch;
 }
+.view-order {
+  position: fixed;
+  bottom: 16px; /* отступ от низа */
+  left: 16px;
+  right: 16px;
+
+  background: #4a6cf7;
+  color: #fff;
+
+  padding: 14px 16px;
+  border-radius: 14px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-weight: 500;
+  font-size: 16px;
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+
+  z-index: 9999;
+}
+.badge-view {
+  background: white;
+  color: #4a6cf7;
+  font-weight: 600;
+
+  width: 22px;
+  height: 22px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  font-size: 12px;
+
+  margin-right: 8px;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+}

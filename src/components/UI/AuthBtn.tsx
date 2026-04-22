@@ -14,7 +14,7 @@ export default function AuthBtn({ children, to, type = "button", onClick, classN
   // Если передан 'to', рендерим Link
   if (to) {
     return (
-      <Link to={to} className="Button">
+      <Link to={to} className={classes}>
         {children}
       </Link>
     );

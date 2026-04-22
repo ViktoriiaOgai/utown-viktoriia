@@ -29,7 +29,6 @@ import PersonalInformation from "@/pages/client/PersonalInformation";
 import ChangePassword from "@/pages/client/ChangePassword";
 
 import {
-  AdminClientsPage,
   AdminRidersPage,
   AdminServicesPage,
   AdminVacanciesPage,
@@ -40,6 +39,8 @@ import EstablishmentPositionsPage from "../pages/admin/establishments/[id]/posit
 import AddPositionPage from "../pages/admin/establishments/[id]/positions/add";
 import AddPositionNewPage from "../pages/admin/establishments/[id]/positions/new/add";
 import EditPositionPage from "../pages/admin/establishments/[id]/positions/edit";
+
+import ClientsPage from "@/pages/admin/clients";
 
 import Information from "@/pages/client/Information";
 import ContactSupport from "@/pages/client/ContactSupport";
@@ -180,10 +181,11 @@ export const router = createBrowserRouter([
     children: [
       { path: "home", element: <AdminHome /> },
       { path: "profile", element: <AdminProfile /> },
-      { path: "clients", element: <AdminClientsPage /> },
+
+      { path: "clients", element: <ClientsPage /> },
+
       { path: "riders", element: <AdminRidersPage /> },
 
-      // ✅ твоя страница
       { path: "orders", element: <OrdersPage /> },
 
       { path: "services", element: <AdminServicesPage /> },

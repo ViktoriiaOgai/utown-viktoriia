@@ -1,37 +1,35 @@
 import "@/components/UI/Modal.css";
-import AuthBtn from "./AuthBtn";
+import AuthBtn from "@/components/UI/AuthBtn";
 import { useState } from "react";
-
-type Dish = {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  imageUrl?: string | null;
-};
+import type { Dish, DishOption, CartItem } from "@/types/cart";
 
 type Props = {
   dish: Dish;
   buttonText: string;
   onClose: () => void;
-  onAddToCart: (dish: Dish, quantity: number) => void;
+  onAddToCart: (item: CartItem) => void;
 };
 
 export default function DishModal({ dish, onClose, buttonText, onAddToCart }: Props) {
-  const [count, setCount] = useState(1);
+  const [quantity, setQuantity] = useState(1);
+  const OPTIONS: DishOption[] = [
+    { id: "none", label: "No options", price: 0 },
+    { id: "large", label: "Large portion", price: 1000 },
+    { id: "small", label: "Small portion", price: 500 },
+  ];
+  const [selectedOption, setSelectedOption] = useState<DishOption>(OPTIONS[0]);
 
-  const handleDecrease = () => {
-    setCount((prev: number) => Math.max(1, prev - 1));
-  };
-
-  const handleIncrease = () => {
-    setCount((prev: number) => prev + 1);
-  };
+  const totalPrice = (dish.price + (selectedOption?.price ?? 0)) * quantity;
 
   const handleAdd = () => {
-    onAddToCart(dish, count);
+    onAddToCart({
+      dish,
+      quantity,
+      option: selectedOption,
+    });
     onClose();
   };
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -44,21 +42,31 @@ export default function DishModal({ dish, onClose, buttonText, onAddToCart }: Pr
           </button>
 
           <h2>{dish.title}</h2>
+          <span className="price">{dish.price} won</span>
           <p>{dish.description}</p>
-
-          <span className="price">{dish.price}won</span>
+          {OPTIONS.map((opt) => (
+            <div
+              key={opt.id}
+              className={`option ${selectedOption?.id === opt.id ? "active" : ""}`}
+              onClick={() => setSelectedOption(opt)}
+            >
+              <div className="radio" />
+              <span>{opt.label}</span>
+              <span>+ {opt.price} won</span>
+            </div>
+          ))}
 
           {/* действия */}
           <div className="modal-actions">
             <div className="counter">
-              <button onClick={handleDecrease}>-</button>
-              <span>{count}</span>
-              <button onClick={handleIncrease}>+</button>
+              <button onClick={() => setQuantity((q) => Math.max(1, q - 1))}>-</button>
+              <span>{quantity}</span>
+              <button onClick={() => setQuantity((q) => q + 1)}>+</button>
             </div>
 
             <div className="modal-footer">
               <AuthBtn onClick={handleAdd} className="add-btn">
-                {buttonText}
+                {buttonText} • {totalPrice} won
               </AuthBtn>
             </div>
           </div>
