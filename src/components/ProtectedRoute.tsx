@@ -24,12 +24,8 @@ export function AdminRoute({ children }: RouteProps) {
     return <Navigate to="/admin/login" replace />;
   }
 
-  if (!role) {
-    return <Navigate to="/admin/login" replace />;
-  }
-
   if (!isAdminRole(role)) {
-    return <Navigate to="/home" replace />;
+    return <Navigate to="/admin/login" replace />;
   }
 
   return <>{children}</>;
