@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import { router } from "@/app/router";
 import SplashScreen from "@/pages/client/SplashScreen";
+import { CartProvider } from "@/context/CartProvider";
 
 function Root() {
   const [isLoading, setIsLoading] = useState(true);
@@ -18,7 +19,11 @@ function Root() {
     return <SplashScreen />;
   }
 
-  return <RouterProvider router={router} />;
+  return (
+    <CartProvider>
+      <RouterProvider router={router} />
+    </CartProvider>
+  );
 }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(<Root />);

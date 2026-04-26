@@ -54,6 +54,7 @@ import FiltersPage from "@/pages/client/FilterPage";
 import EstablishPage from "@/pages/client/EstablishPage";
 import EstablishmentPage from "@/pages/client/EstablishmentPage";
 import DishPage from "@/pages/client/DishPage";
+import CartPage from "@/pages/client/CartPage";
 
 export const router = createBrowserRouter([
   {
@@ -116,6 +117,7 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+
       {
         path: "/search",
         element: (
@@ -134,7 +136,19 @@ export const router = createBrowserRouter([
       },
       {
         path: "/dish/:id",
-        element: <DishPage />,
+        element: (
+          <ProtectedRoute>
+            <DishPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/cart",
+        element: (
+          <ProtectedRoute>
+            <CartPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/profile",

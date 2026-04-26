@@ -28,7 +28,6 @@
   animation: slideUp 0.3s ease;
 }
 
-
 /* анимация снизу */
 @keyframes slideUp {
   from {

@@ -11,6 +11,7 @@ type Props = {
   selectedCategory: number | null;
   onAddToCart: (item: CartItem) => void;
   onSelectDish: (dish: Dish) => void;
+  onAdd?: () => void;
 };
 
 export default function MenuSection({

@@ -32,14 +32,15 @@ export default function MobileHeader({
       <div className="header-center">
         <div className={`header-center-row ${logoVariant === "title" ? "with-title" : ""}`}>
           {logoVariant === "white" && <LogoWhite className="logo-icon" />}
+
           {logoVariant === "gradient" && <LogoGradient className="logo-icon" />}
+
           {logoVariant === "title" && (
             <>
               <LogoWhite className="logo-icon" />
               <div className="title-header">{title}</div>
             </>
           )}
-          <div className="title-header">{title}</div>
         </div>
       </div>
 

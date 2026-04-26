@@ -35,8 +35,6 @@ export const getRestaurantAverageRating = async (restaurantId: number): Promise<
     const res = await api.get(`/ratings/restaurant/${restaurantId}/average`);
     const data = res.data;
 
-    console.log("AVG RATING RAW:", data);
-
     if (typeof data === "number") return data;
 
     if (typeof data === "object" && data !== null) {
@@ -46,8 +44,7 @@ export const getRestaurantAverageRating = async (restaurantId: number): Promise<
     }
 
     return null;
-  } catch (error) {
-    console.error("Ошибка получения рейтинга:", error);
+  } catch {
     return null;
   }
 };

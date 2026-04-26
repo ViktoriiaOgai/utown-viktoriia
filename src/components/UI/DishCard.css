@@ -13,6 +13,7 @@
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
+  position: relative;
 }
 
 .dish-card:hover {
@@ -21,11 +22,12 @@
 }
 
 /* блок с текстом */
-.dish-card > div {
+.dish-card > div:not(.cart-controls) {
   display: flex;
   flex-direction: column;
-  flex: 1; /* занимает всё доступное место слева */
+  flex: 1;
   text-align: left;
+  padding-right: 60px;
 }
 .dish-card img {
   width: 80px;
@@ -55,4 +57,41 @@
   font-size: 14px;
   font-weight: 600;
   color: #5a4df3;
+}
+
+.cart-controls {
+  position: absolute;
+  right: 13px;
+  bottom: 10px;
+
+  display: flex;
+
+  opacity: 1;
+  transition: 0.2s;
+
+  align-items: center;
+
+  background: white;
+  border-radius: 10px;
+  padding: 4px;
+
+  gap: 4px;
+}
+.cart-controls button {
+  width: 28px;
+  height: 28px;
+  border-radius: 20%;
+  border: none;
+  background: white;
+  color: rgb(48, 47, 47);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.cart-controls span {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: rgb(48, 47, 47);
+  background: white;
 }

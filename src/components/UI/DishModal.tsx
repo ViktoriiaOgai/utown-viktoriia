@@ -24,12 +24,12 @@ export default function DishModal({ dish, onClose, buttonText, onAddToCart }: Pr
   const handleAdd = () => {
     onAddToCart({
       dish,
-      quantity,
       option: selectedOption,
+      quantity,
     });
+
     onClose();
   };
-
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>

@@ -99,9 +99,8 @@
   flex-direction: row;
   gap: 15px;
   width: 100%;
-
 }
-.home  .active-orders-card {
+.home .active-orders-card {
   min-width: 150px;
   max-width: 200px;
   height: 120px;
@@ -112,26 +111,25 @@
   flex-direction: row;
   align-items: flex-start;
   gap: 15px;
-   cursor: pointer;
+  cursor: pointer;
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
 }
 
-.home  .active-orders-card:hover {
+.home .active-orders-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
-  
-.home  .active-orders-card h3 {
+
+.home .active-orders-card h3 {
   font-weight: 500;
   font-size: 16px;
   line-height: 130%;
   color: #fff;
   margin: 0 auto;
-  
 }
-.home  .shopping {
+.home .shopping {
   width: 24px;
   height: 24px;
 }
