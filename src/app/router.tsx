@@ -54,6 +54,9 @@ import FoodMain from "@/pages/client/FoodMain";
 import SearchPage from "@/pages/client/SearchPage";
 import FiltersPage from "@/pages/client/FilterPage";
 import EstablishPage from "@/pages/client/EstablishPage";
+import EstablishmentPage from "@/pages/client/EstablishmentPage";
+import DishPage from "@/pages/client/DishPage";
+import CartPage from "@/pages/client/CartPage";
 
 export const router = createBrowserRouter([
   {
@@ -109,6 +112,15 @@ export const router = createBrowserRouter([
         ),
       },
       {
+        path: "/establishment/:id",
+        element: (
+          <ProtectedRoute>
+            <EstablishmentPage />
+          </ProtectedRoute>
+        ),
+      },
+
+      {
         path: "/search",
         element: (
           <ProtectedRoute>
@@ -121,6 +133,22 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <FiltersPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/dish/:id",
+        element: (
+          <ProtectedRoute>
+            <DishPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/cart",
+        element: (
+          <ProtectedRoute>
+            <CartPage />
           </ProtectedRoute>
         ),
       },

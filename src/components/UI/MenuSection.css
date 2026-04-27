@@ -1,0 +1,73 @@
+.dish-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  padding: 10px;
+}
+/* затемнение */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 9999;
+}
+
+/* сама модалка */
+.modal-content {
+  width: 100%;
+  max-width: 430px;
+  background: white;
+  border-radius: 20px 20px 0 0;
+  padding: 16px;
+  animation: slideUp 0.3s ease;
+}
+
+/* анимация снизу */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  text-align: center;
+  width: 280px;
+}
+.Pic {
+  width: 100%;
+  height: 100%;
+}
+.auth-title-mod {
+  margin-top: 5px;
+  align-self: flex-start;
+  font-weight: 600;
+  font-size: 22px;
+  color: rgba(25, 29, 49, 1);
+}

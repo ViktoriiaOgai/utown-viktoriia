@@ -17,15 +17,38 @@
   gap: 12px;
 }
 
-header-center {
+.header-center {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
 }
+.header-center-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+/* когда только логотип */
+.header-center-row:not(.with-title) {
+  justify-content: center;
+}
+
+/* когда логотип + title */
+.header-center-row.with-title {
+  gap: 0px;
+}
 .logo-icon {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
   width: 40px;
   height: 24px;
+}
+.title-header {
+  opacity: 1;
+  font-family: Montserrat;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 22px;
+  letter-spacing: 0px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 1);
 }

@@ -9,6 +9,7 @@ type Props = {
   icon?: string;
   iconRight?: string;
   isSearchPage?: boolean;
+  disableNavigation?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -19,6 +20,7 @@ export default function Search({
   icon,
   iconRight,
   isSearchPage = false,
+  disableNavigation = false,
   onChange,
 }: Props) {
   const navigate = useNavigate();
@@ -41,7 +43,9 @@ export default function Search({
           value={value}
           placeholder={placeholder}
           onClick={() => {
-            if (!isSearchPage) navigate("/search");
+            if (!isSearchPage && !disableNavigation) {
+              navigate("/search");
+            }
           }}
           onChange={onChange}
           className="search"

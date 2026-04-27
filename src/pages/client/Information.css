@@ -17,7 +17,7 @@
   margin: 20px;
 }
 
-/* --- Заголовок --- */
+/*Заголовок */
 .H {
   font-size: 26px;
   font-weight: 600;
@@ -35,9 +35,8 @@
   width: 100%;
   margin-top: 30px;
 }
-.information__label {
+.label {
   text-align: left;
-  color: rgba(255, 255, 255, 1);
 }
 .prof-button {
   background: rgba(50, 50, 50, 1);
@@ -59,7 +58,7 @@
   justify-content: center;
 }
 
-/* --- Анимация появления --- */
+/*Анимация появления */
 @keyframes fadeIn {
   from {
     opacity: 0;

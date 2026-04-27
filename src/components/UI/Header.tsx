@@ -10,8 +10,9 @@ type Props = {
   backColor?: string;
   showBell?: boolean;
   bellColor?: string;
-  logoVariant?: "gradient" | "white";
+  logoVariant?: "gradient" | "white" | "title";
   unreadCount?: number;
+  title?: string;
 };
 
 export default function MobileHeader({
@@ -21,6 +22,7 @@ export default function MobileHeader({
   bellColor = "rgba(141, 141, 141, 1)",
   logoVariant = "gradient",
   unreadCount = 0,
+  title = "",
 }: Props) {
   const navigate = useNavigate();
   return (
@@ -28,11 +30,18 @@ export default function MobileHeader({
       <div className="header-left">{showBack && <BackButton color={backColor} />}</div>
 
       <div className="header-center">
-        {logoVariant === "white" ? (
-          <LogoWhite className="logo-icon" />
-        ) : (
-          <LogoGradient className="logo-icon" />
-        )}
+        <div className={`header-center-row ${logoVariant === "title" ? "with-title" : ""}`}>
+          {logoVariant === "white" && <LogoWhite className="logo-icon" />}
+
+          {logoVariant === "gradient" && <LogoGradient className="logo-icon" />}
+
+          {logoVariant === "title" && (
+            <>
+              <LogoWhite className="logo-icon" />
+              <div className="title-header">{title}</div>
+            </>
+          )}
+        </div>
       </div>
 
       <div className="header-right">

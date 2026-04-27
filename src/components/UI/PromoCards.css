@@ -1,5 +1,3 @@
-
-
 /* точки */
 .dots {
   display: flex;
@@ -18,7 +16,7 @@
 .dot.active {
   background: black;
 }
-/* ===== PAGINATION (НЕ ТРОГАЕТ SCROLL) ===== */
+/* PAGINATION (НЕ ТРОГАЕТ SCROLL)*/
 
 .promo-pagination-viewport {
   width: 100%;

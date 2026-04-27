@@ -6,13 +6,15 @@ type Props = {
   to?: string; // если нужно перейти
   type?: "button" | "submit";
   onClick?: () => void;
+  className?: string;
 };
 
-export default function AuthBtn({ children, to, type = "button", onClick }: Props) {
+export default function AuthBtn({ children, to, type = "button", onClick, className = "" }: Props) {
+  const classes = `Button ${className}`;
   // Если передан 'to', рендерим Link
   if (to) {
     return (
-      <Link to={to} className="Button">
+      <Link to={to} className={classes}>
         {children}
       </Link>
     );
@@ -20,7 +22,7 @@ export default function AuthBtn({ children, to, type = "button", onClick }: Prop
 
   // Иначе обычная кнопка
   return (
-    <button type={type} onClick={onClick} className="Button">
+    <button type={type} onClick={onClick} className={classes}>
       {children}
     </button>
   );

@@ -36,6 +36,7 @@
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   overflow: hidden;
+  cursor: pointer;
 }
 .restaurants-header {
   display: flex;
@@ -69,6 +70,25 @@
   border-radius: 0 !important;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
+}
+
+.more-btn {
+  background: rgba(209, 202, 255, 1);
+  width: 75px;
+  height: 37px;
+  opacity: 1;
+  border-radius: 10px;
+  gap: 10px;
+  border: none;
+  color: rgba(137, 125, 211, 1);
+}
+
+.restaurant-card img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .restaurant-card p {

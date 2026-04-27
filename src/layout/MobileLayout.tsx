@@ -8,7 +8,6 @@ import { fetchNotifications } from "@/services/notifications";
 export default function MobileLayout() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const location = useLocation();
-  const noFooterPaths = ["/foodmain"];
   useEffect(() => {
     fetchNotifications().then((data) => {
       console.log("FETCHED:", data);
@@ -16,12 +15,17 @@ export default function MobileLayout() {
     });
   }, []);
 
+  const hideFooter =
+    location.pathname.startsWith("/foodmain") ||
+    location.pathname.startsWith("/establishment") ||
+    location.pathname.startsWith("/cart");
+
   return (
     <div className="mobile-layout">
       <main className="mobile-content">
         <Outlet context={{ notifications, setNotifications }} />
       </main>
-      {!noFooterPaths.includes(location.pathname) && <Footer />}
+      {!hideFooter && <Footer />}
     </div>
   );
 }

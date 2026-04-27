@@ -16,7 +16,6 @@ export default function Favourites() {
         bellColor="rgba(141, 141, 141, 1)"
       />
 
-      {/* Основной контейнер */}
       <div className="mainCont">
         <div className="mainContInner">
           <h1 className="Hello">Your Favourites</h1>
