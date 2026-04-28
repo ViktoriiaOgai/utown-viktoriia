@@ -22,7 +22,7 @@ import EstablishmentsPage from "../pages/admin/establishments";
 import AddEstablishmentPage from "../pages/admin/establishments/add";
 import EditEstablishmentPage from "../pages/admin/establishments/[id]/edit";
 
-import { AdminRoute, ProtectedRoute } from "../components/ProtectedRoute";
+import { AdminRoute, ProtectedRoute, RestaurateurRoute } from "../components/ProtectedRoute";
 
 import AccountSettings from "@/pages/client/AccountSettings";
 import PersonalInformation from "@/pages/client/PersonalInformation";
@@ -57,6 +57,9 @@ import EstablishPage from "@/pages/client/EstablishPage";
 import EstablishmentPage from "@/pages/client/EstablishmentPage";
 import DishPage from "@/pages/client/DishPage";
 import CartPage from "@/pages/client/CartPage";
+
+import AdminMobileLayout from "@/layout/AdminMobileLayout";
+import AdminMobileHome from "@/pages/admin/mobile/Home";
 
 export const router = createBrowserRouter([
   {
@@ -119,7 +122,6 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-
       {
         path: "/search",
         element: (
@@ -185,6 +187,17 @@ export const router = createBrowserRouter([
   {
     path: "/admin/login",
     element: <AdminLogin />,
+  },
+
+  // MOBILE ADMIN (RESTAURATEUR)
+  {
+    path: "/admin-mobile",
+    element: (
+      <RestaurateurRoute>
+        <AdminMobileLayout />
+      </RestaurateurRoute>
+    ),
+    children: [{ path: "home", element: <AdminMobileHome /> }],
   },
 
   {
