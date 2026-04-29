@@ -55,6 +55,8 @@ import EstablishPage from "@/pages/client/EstablishPage";
 import EstablishmentPage from "@/pages/client/EstablishmentPage";
 import DishPage from "@/pages/client/DishPage";
 import CartPage from "@/pages/client/CartPage";
+import OrderPaymentPage from "@/pages/client/OrderPaymentPage";
+import OrderStatusPage from "@/pages/client/OrderStatusPage";
 
 export const router = createBrowserRouter([
   {
@@ -147,6 +149,22 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <CartPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/orders/:id/payment",
+        element: (
+          <ProtectedRoute>
+            <OrderPaymentPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/order/:id/status",
+        element: (
+          <ProtectedRoute>
+            <OrderStatusPage />
           </ProtectedRoute>
         ),
       },

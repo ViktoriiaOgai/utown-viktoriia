@@ -1,4 +1,5 @@
 import "@/components/UI/DishCard.css";
+import Delete from "@/assets/icons/Delete button.svg?react";
 
 type Dish = {
   id: number;
@@ -11,7 +12,7 @@ type Dish = {
 type Props = {
   dish: Dish;
   onClick?: () => void;
-
+  isConfirmDelete?: boolean;
   variant?: "default" | "cart";
 
   // cart mode
@@ -29,6 +30,7 @@ export default function DishCard({
   onIncrease,
   onDecrease,
   onDelete,
+  isConfirmDelete,
 }: Props) {
   return (
     <div className="dish-card" onClick={onClick}>
@@ -52,25 +54,27 @@ export default function DishCard({
             -
           </button>
 
-          <span>{quantity ?? 0}</span>
+          <span>{quantity}</span>
 
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onIncrease?.();
-            }}
-          >
-            +
-          </button>
-
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onDelete?.();
-            }}
-          >
-            🗑
-          </button>
+          {isConfirmDelete ? (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete?.();
+              }}
+            >
+              <Delete className="del-icon" />
+            </button>
+          ) : (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onIncrease?.();
+              }}
+            >
+              +
+            </button>
+          )}
         </div>
       )}
     </div>

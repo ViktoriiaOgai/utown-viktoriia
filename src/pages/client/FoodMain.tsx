@@ -12,6 +12,7 @@ import EstablishmentsCards from "@/components/UI/EstablishmentsCards";
 import "@/styles/layout.css";
 
 export default function FoodMain() {
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const { unreadCount } = useNotifications();
   const [address] = useState(() => localStorage.getItem("address") || "");
   return (
@@ -34,8 +35,12 @@ export default function FoodMain() {
           </p>
           <Search placeholder="Search for cafes,restaurants and dishes" icon={SearchIcon} />
           <PromoCards variant="pagination" />
-          <CategoriesCards />
-          <EstablishmentsCards />
+          <CategoriesCards
+            onSelectCategory={setSelectedCategory}
+            selectedCategory={selectedCategory}
+          />
+
+          <EstablishmentsCards selectedCategory={selectedCategory} />
         </div>
       </div>
     </div>

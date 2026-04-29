@@ -18,7 +18,10 @@ export default function MobileLayout() {
   const hideFooter =
     location.pathname.startsWith("/foodmain") ||
     location.pathname.startsWith("/establishment") ||
-    location.pathname.startsWith("/cart");
+    location.pathname.startsWith("/cart") ||
+    location.pathname.startsWith("/orders") ||
+    (location.pathname.includes("/order/") &&
+      (location.pathname.includes("/payment") || location.pathname.includes("/status")));
 
   return (
     <div className="mobile-layout">
