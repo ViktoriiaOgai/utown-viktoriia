@@ -60,6 +60,14 @@ import CartPage from "@/pages/client/CartPage";
 
 import AdminMobileLayout from "@/layout/AdminMobileLayout";
 import AdminMobileHome from "@/pages/admin/mobile/Home";
+import {
+  RestaurateurOrdersPage,
+  RestaurateurStatisticsPage,
+  RestaurateurMenuPage,
+  RestaurateurEstablishmentPage,
+  RestaurateurNotificationsPage,
+  RestaurateurHoursPage,
+} from "@/pages/admin/mobile/RestaurateurPlaceholders";
 
 export const router = createBrowserRouter([
   {
@@ -197,7 +205,15 @@ export const router = createBrowserRouter([
         <AdminMobileLayout />
       </RestaurateurRoute>
     ),
-    children: [{ path: "home", element: <AdminMobileHome /> }],
+    children: [
+      { path: "home", element: <AdminMobileHome /> },
+      { path: "orders", element: <RestaurateurOrdersPage /> },
+      { path: "statistics", element: <RestaurateurStatisticsPage /> },
+      { path: "menu", element: <RestaurateurMenuPage /> },
+      { path: "establishment", element: <RestaurateurEstablishmentPage /> },
+      { path: "notifications", element: <RestaurateurNotificationsPage /> },
+      { path: "hours", element: <RestaurateurHoursPage /> },
+    ],
   },
 
   {
