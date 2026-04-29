@@ -1,4 +1,4 @@
-.overlay {
+.mobile-sidebar-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.55);
@@ -8,12 +8,12 @@
   z-index: 9;
 }
 
-.overlay.show {
+.mobile-sidebar-overlay.show {
   opacity: 1;
   pointer-events: all;
 }
 
-.sidebar {
+.mobile-sidebar {
   position: fixed;
   top: 0;
   left: -88%;
@@ -25,17 +25,14 @@
   z-index: 10;
   display: flex;
   flex-direction: column;
-
-  /* мягкая тень как в Figma */
   box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08);
 }
 
-.sidebar.open {
+.mobile-sidebar.open {
   left: 0;
 }
 
-/* HEADER */
-.sidebar-header {
+.mobile-sidebar-header {
   display: flex;
   align-items: center;
   padding: 20px 18px;
@@ -43,15 +40,14 @@
   position: relative;
 }
 
-.logo {
+.mobile-sidebar-logo {
   font-size: 12px;
   letter-spacing: 1.5px;
   font-weight: 700;
   color: #111;
 }
 
-/* крестик */
-.close-btn {
+.mobile-sidebar-close-btn {
   position: absolute;
   right: 16px;
   top: 50%;
@@ -63,13 +59,12 @@
   cursor: pointer;
 }
 
-/* MENU */
-.menu {
+.mobile-sidebar-menu {
   display: flex;
   flex-direction: column;
 }
 
-.menu a {
+.mobile-sidebar-menu a {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -78,15 +73,14 @@
   font-weight: 500;
   color: #222;
   text-decoration: none;
-
   border-bottom: 1px solid #f6f6f6;
 }
 
-.menu a span:last-child {
+.mobile-sidebar-menu a span:last-child {
   font-size: 18px;
   color: #bbb;
 }
 
-.menu a:active {
+.mobile-sidebar-menu a:active {
   background: #f7f7f7;
 }

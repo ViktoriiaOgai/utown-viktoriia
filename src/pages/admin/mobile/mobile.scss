@@ -17,6 +17,10 @@
 .mobile-menu {
   font-size: 18px;
   margin-right: 10px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
 }
 
 .mobile-brand {
@@ -24,14 +28,12 @@
   font-size: 14px;
 }
 
-/* TITLE */
 .mobile-title {
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 14px;
 }
 
-/* CARD */
 .mobile-card {
   background: #132a4a;
   color: #fff;
@@ -54,7 +56,6 @@
   margin-top: 4px;
 }
 
-/* TOGGLE (как в макете) */
 .mobile-card input {
   width: 40px;
   height: 22px;
@@ -86,7 +87,6 @@
   transform: translateX(18px);
 }
 
-/* SECTION */
 .mobile-section {
   margin-bottom: 20px;
 }
@@ -97,7 +97,6 @@
   font-size: 14px;
 }
 
-/* GRID */
 .mobile-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -114,19 +113,17 @@
   font-size: 14px;
 }
 
-/* HOURS */
 .mobile-hours {
   display: flex;
   gap: 8px;
   margin-bottom: 16px;
-
-  overflow-x: auto;           /* ✅ скролл */
-  scrollbar-width: none;      /* ✅ Firefox */
-  -ms-overflow-style: none;   /* ✅ IE */
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .mobile-hours::-webkit-scrollbar {
-  display: none;              /* ✅ Chrome */
+  display: none;
 }
 
 .mobile-day {
@@ -136,8 +133,7 @@
   text-align: center;
   font-size: 11px;
   min-width: 70px;
-
-  flex: 0 0 auto;             /* ✅ не сжимается */
+  flex: 0 0 auto;
 }
 
 .mobile-day-title {
@@ -158,14 +154,4 @@
   color: #fff;
   font-weight: 600;
   font-size: 14px;
-}
-
-.mobile-menu {
-  font-size: 18px;
-  margin-right: 10px;
-
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
 }

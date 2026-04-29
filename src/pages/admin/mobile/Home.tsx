@@ -1,11 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
+import { api } from "@/services/api";
 import "./mobile.scss";
+
+type Restaurant = {
+  id: number;
+  title: string;
+  enabled: boolean;
+  workingHours?: { day: string; openTime: string; closeTime: string; dayOff: boolean }[];
+};
+
+const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 export default function AdminMobileHome() {
   const { setIsOpen } = useOutletContext<{ setIsOpen: (value: boolean) => void }>();
-  const [enabled, setEnabled] = useState(false);
   const navigate = useNavigate();
+  const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
 
   const navItems = [
     { label: "Order table", path: "/admin-mobile/orders" },
@@ -16,6 +26,18 @@ export default function AdminMobileHome() {
     { label: "Working hours", path: "/admin-mobile/hours" },
   ];
 
+  useEffect(() => {
+    api.get("/restaurant-owner/restaurants/my").then((res) => {
+      setRestaurant(res.data);
+    });
+  }, []);
+
+  const handleToggleStatus = async () => {
+    if (!restaurant) return;
+    await api.post(`/restaurant-owner/restaurants/${restaurant.id}/toggle-status`);
+    setRestaurant((prev) => (prev ? { ...prev, enabled: !prev.enabled } : prev));
+  };
+
   return (
     <div className="mobile-screen">
       <div className="mobile-header">
@@ -25,14 +47,18 @@ export default function AdminMobileHome() {
         <div className="mobile-brand">UT.BUSINESS</div>
       </div>
 
-      <h2 className="mobile-title">Fast Chicken</h2>
+      <h2 className="mobile-title">{restaurant?.title ?? "..."}</h2>
 
       <div className="mobile-card">
         <div>
           <div className="mobile-card-title">Suspend operations</div>
           <div className="mobile-card-sub">Temporarily suspend the establishment's operations</div>
         </div>
-        <input type="checkbox" checked={enabled} onChange={() => setEnabled(!enabled)} />
+        <input
+          type="checkbox"
+          checked={restaurant?.enabled ?? false}
+          onChange={handleToggleStatus}
+        />
       </div>
 
       <div className="mobile-section">
@@ -49,12 +75,17 @@ export default function AdminMobileHome() {
       <div className="mobile-section">
         <div className="mobile-section-title">Working hours</div>
         <div className="mobile-hours">
-          {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day, i) => (
-            <div key={day} className="mobile-day">
-              <div className="mobile-day-title">{day}</div>
-              <div className="mobile-day-time">{i === 1 ? "Day off" : "09:00 - 22:00"}</div>
-            </div>
-          ))}
+          {DAYS.map((day, i) => {
+            const wh = restaurant?.workingHours?.[i];
+            return (
+              <div key={day} className="mobile-day">
+                <div className="mobile-day-title">{day}</div>
+                <div className="mobile-day-time">
+                  {wh ? (wh.dayOff ? "Day off" : `${wh.openTime} - ${wh.closeTime}`) : "—"}
+                </div>
+              </div>
+            );
+          })}
         </div>
         <button className="mobile-action">Specify the establishment's working hours</button>
       </div>

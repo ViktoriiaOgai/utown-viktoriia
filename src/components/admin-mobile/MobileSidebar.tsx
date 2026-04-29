@@ -10,43 +10,43 @@ type Props = {
 const MobileSidebar: React.FC<Props> = ({ isOpen, onClose }) => {
   return (
     <>
-      <div className={`overlay ${isOpen ? "show" : ""}`} onClick={onClose} />
+      <div className={`mobile-sidebar-overlay ${isOpen ? "show" : ""}`} onClick={onClose} />
 
-      <div className={`sidebar ${isOpen ? "open" : ""}`}>
-        <div className="sidebar-header">
-          <span className="logo">UT.BUSINESS</span>
-          <button className="close-btn" onClick={onClose}>
+      <div className={`mobile-sidebar ${isOpen ? "open" : ""}`}>
+        <div className="mobile-sidebar-header">
+          <span className="mobile-sidebar-logo">UT.BUSINESS</span>
+          <button className="mobile-sidebar-close-btn" onClick={onClose}>
             ✕
           </button>
         </div>
 
-        <nav className="menu">
-          <Link to="/admin/orders" onClick={onClose}>
+        <nav className="mobile-sidebar-menu">
+          <Link to="/admin-mobile/orders" onClick={onClose}>
             <span>Order table</span>
             <span>›</span>
           </Link>
 
-          <Link to="/admin/notifications" onClick={onClose}>
+          <Link to="/admin-mobile/notifications" onClick={onClose}>
             <span>Notifications</span>
             <span>›</span>
           </Link>
 
-          <Link to="/admin/statistics" onClick={onClose}>
+          <Link to="/admin-mobile/statistics" onClick={onClose}>
             <span>Statistics</span>
             <span>›</span>
           </Link>
 
-          <Link to="/admin/menu" onClick={onClose}>
+          <Link to="/admin-mobile/menu" onClick={onClose}>
             <span>Menu</span>
             <span>›</span>
           </Link>
 
-          <Link to="/admin/establishments" onClick={onClose}>
+          <Link to="/admin-mobile/establishment" onClick={onClose}>
             <span>Establishment</span>
             <span>›</span>
           </Link>
 
-          <Link to="/admin/hours" onClick={onClose}>
+          <Link to="/admin-mobile/hours" onClick={onClose}>
             <span>Working hours</span>
             <span>›</span>
           </Link>

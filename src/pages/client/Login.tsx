@@ -36,7 +36,6 @@ export default function Login() {
         })
       );
 
-      // ✅ ДОБАВИЛИ редирект по роли
       if (user?.role === "RESTAURATEUR") {
         navigate("/admin-mobile/home");
         return;
