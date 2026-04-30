@@ -36,6 +36,11 @@ export default function Login() {
         })
       );
 
+      if (user?.role === "RESTAURATEUR") {
+        navigate("/admin-mobile/home");
+        return;
+      }
+
       navigate("/home");
     } catch (error) {
       const message = getErrorMessage(error);
@@ -46,6 +51,7 @@ export default function Login() {
       });
     }
   };
+
   const validate = () => {
     const newErrors = {
       phone: "",

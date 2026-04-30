@@ -8,26 +8,33 @@ type RouteProps = {
 
 export function ProtectedRoute({ children }: RouteProps) {
   const token = getToken();
-
   if (!token) {
     return <Navigate to="/login" replace />;
   }
-
   return <>{children}</>;
 }
 
 export function AdminRoute({ children }: RouteProps) {
   const token = getToken();
   const role = getRole();
-
   if (!token) {
     return <Navigate to="/admin/login" replace />;
   }
-
   if (!isAdminRole(role)) {
     return <Navigate to="/admin/login" replace />;
   }
+  return <>{children}</>;
+}
 
+export function RestaurateurRoute({ children }: RouteProps) {
+  const token = getToken();
+  const role = getRole();
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+  if (String(role).toUpperCase() !== "RESTAURATEUR") {
+    return <Navigate to="/home" replace />;
+  }
   return <>{children}</>;
 }
 
