@@ -4,7 +4,7 @@ import BackButton from "./BackButton";
 import BellIcon from "./BellIcon";
 import "@/components/UI/Header.css";
 import { useNavigate } from "react-router-dom";
-import { useNotifications } from "@/providers/NotificationProvider";
+import { useNotifications } from "@/services/useNotification";
 
 type Props = {
   showBack?: boolean;
