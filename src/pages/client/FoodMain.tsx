@@ -2,7 +2,6 @@ import { useState } from "react";
 import Location from "@/assets/icons/Location.svg";
 import "@/pages/client/Home.css";
 import MobileHeader from "@/components/UI/Header";
-import { useNotifications } from "@/services/useNotification";
 import "@/pages/client/FoodMain.css";
 import PromoCards from "@/components/UI/PromoCards";
 import Search from "@/components/UI/Search";
@@ -13,18 +12,10 @@ import "@/styles/layout.css";
 
 export default function FoodMain() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const { unreadCount } = useNotifications();
   const [address] = useState(() => localStorage.getItem("address") || "");
   return (
     <div className="page-wrapper">
-      <MobileHeader
-        logoVariant="white"
-        showBack
-        backColor="white"
-        bellColor="white"
-        showBell
-        unreadCount={unreadCount}
-      />
+      <MobileHeader logoVariant="white" showBack backColor="white" bellColor="white" showBell />
 
       {/* Основной контейнер */}
       <div className="main-container">

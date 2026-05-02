@@ -1,54 +1,26 @@
-import { useEffect } from "react";
-import { useOutletContext } from "react-router-dom";
 import { markAsRead } from "@/services/notifications";
-import { socket, connectSocket } from "@/services/socket";
 import NotificationGroup from "@/components/notifications/NotificationGroup";
-import type { Notification } from "@/services/notifications";
 import "@/components/notifications/NotificationList.css";
-
-type ContextType = {
-  notifications: Notification[];
-  setNotifications: React.Dispatch<React.SetStateAction<Notification[]>>;
-};
+import { useNotifications } from "@/services/useNotification";
 
 export default function NotificationList() {
-  const { notifications, setNotifications } = useOutletContext<ContextType>();
+  const { notifications, setNotifications } = useNotifications();
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      connectSocket(token);
-    }
-
-    const handleSocket = (data: Notification) => {
-      setNotifications((prev) => [data, ...prev]);
-    };
-
-    socket.on("notification", handleSocket);
-
-    return () => {
-      socket.off("notification", handleSocket);
-    };
-  }, [setNotifications]);
-
-  useEffect(() => {
-    if (notifications.length === 0) return;
-
-    notifications.forEach((n) => {
-      if (!n.isSuccessful) {
-        markAsRead(n.id);
-      }
-    });
-  }, [notifications]);
-
-  const isToday = (dateStr: string): boolean => {
+  const isToday = (dateStr: string) => {
     const today = new Date();
     const date = new Date(dateStr);
+
     return (
       date.getDate() === today.getDate() &&
       date.getMonth() === today.getMonth() &&
       date.getFullYear() === today.getFullYear()
     );
+  };
+
+  const handleRead = async (id: number) => {
+    await markAsRead(id);
+
+    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, isSuccessful: true } : n)));
   };
 
   const todayItems = notifications.filter((n) => isToday(n.date));
@@ -60,8 +32,13 @@ export default function NotificationList() {
 
   return (
     <div>
-      {otherItems.length > 0 && <NotificationGroup title="Yesterday" items={otherItems} />}
-      {todayItems.length > 0 && <NotificationGroup title="Today" items={todayItems} />}
+      {otherItems.length > 0 && (
+        <NotificationGroup title="Yesterday" items={otherItems} onRead={handleRead} />
+      )}
+
+      {todayItems.length > 0 && (
+        <NotificationGroup title="Today" items={todayItems} onRead={handleRead} />
+      )}
     </div>
   );
 }

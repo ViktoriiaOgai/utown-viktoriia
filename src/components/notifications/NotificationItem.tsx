@@ -3,6 +3,7 @@ import type { Notification } from "@/services/notifications";
 
 type Props = {
   item: Notification;
+  onRead?: (id: number) => void;
 };
 
 export default function NotificationItem({ item }: Props) {

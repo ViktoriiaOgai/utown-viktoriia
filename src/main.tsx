@@ -4,6 +4,7 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "@/app/router";
 import SplashScreen from "@/pages/client/SplashScreen";
 import { CartProvider } from "@/context/CartProvider";
+import { NotificationProvider } from "@/providers/NotificationProvider";
 
 function Root() {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,7 +22,9 @@ function Root() {
 
   return (
     <CartProvider>
-      <RouterProvider router={router} />
+      <NotificationProvider>
+        <RouterProvider router={router} />
+      </NotificationProvider>
     </CartProvider>
   );
 }
