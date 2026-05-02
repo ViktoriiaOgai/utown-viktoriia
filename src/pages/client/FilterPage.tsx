@@ -2,7 +2,6 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import Search from "@/components/UI/Search";
 import Candle from "@/assets/icons/candle.svg";
-import { useNotifications } from "@/services/useNotification";
 import MobileHeader from "@/components/UI/Header";
 import Location from "@/assets/icons/Location.svg";
 import "@/pages/client/FilterPage.css";
@@ -11,8 +10,6 @@ import AuthBtn from "@/components/UI/AuthBtn";
 export default function FiltersPage() {
   const navigate = useNavigate();
   const [params] = useSearchParams();
-
-  const { unreadCount } = useNotifications();
   const [address] = useState(() => localStorage.getItem("address") || "");
 
   //  берём из URL
@@ -27,14 +24,7 @@ export default function FiltersPage() {
 
   return (
     <div className="page-wrapper">
-      <MobileHeader
-        logoVariant="white"
-        showBack
-        backColor="white"
-        bellColor="white"
-        showBell
-        unreadCount={unreadCount}
-      />
+      <MobileHeader logoVariant="white" showBack backColor="white" bellColor="white" showBell />
 
       <div className="main-container">
         <div className="main-inner">

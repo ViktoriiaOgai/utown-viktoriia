@@ -7,25 +7,15 @@ import ModalDelAcc from "@/components/UI/ModalDelAcc";
 import { getUserData } from "@/hooks/auth";
 import { Outlet } from "react-router-dom";
 import MobileHeader from "@/components/UI/Header";
-import { useNotifications } from "@/services/useNotification";
-
 export default function AccountSettings() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const user = getUserData();
   const [firstName] = useState(user.fullName || "");
-  const { unreadCount } = useNotifications();
 
   return (
     <>
-      <MobileHeader
-        logoVariant="white"
-        showBack
-        backColor="white"
-        showBell
-        bellColor="white"
-        unreadCount={unreadCount}
-      />
+      <MobileHeader logoVariant="white" showBack backColor="white" showBell bellColor="white" />
       {/* Основной контейнер */}
       <div className="mainAcc">
         <h1 className="account_label">Account Settings</h1>

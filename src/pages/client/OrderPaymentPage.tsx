@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import MobileHeader from "@/components/UI/Header";
-import { useNotifications } from "@/services/useNotification";
 import "@/styles/layout.css";
 import { useParams, useNavigate } from "react-router-dom";
 import { api } from "@/services/api";
@@ -20,7 +19,6 @@ type Address = {
 
 export default function OrderPaymentPage() {
   const navigate = useNavigate();
-  const { unreadCount } = useNotifications();
   const { id } = useParams();
 
   const [order, setOrder] = useState<Orders | null>(null);
@@ -96,14 +94,7 @@ export default function OrderPaymentPage() {
 
   return (
     <div className="page-wrapper">
-      <MobileHeader
-        showBack
-        backColor="white"
-        showBell
-        bellColor="white"
-        unreadCount={unreadCount}
-        logoVariant="white"
-      />
+      <MobileHeader showBack backColor="white" showBell bellColor="white" logoVariant="white" />
 
       <div className="main-container">
         <div className="main-inner">
