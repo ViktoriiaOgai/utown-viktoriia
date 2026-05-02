@@ -9,7 +9,7 @@ type RouteProps = {
 export function ProtectedRoute({ children }: RouteProps) {
   const token = getToken();
 
-  if (!token || token === "") {
+  if (!token) {
     return <Navigate to="/login" replace />;
   }
 
@@ -20,12 +20,12 @@ export function AdminRoute({ children }: RouteProps) {
   const token = getToken();
   const role = getRole();
 
-  if (!token || token === "") {
+  if (!token) {
     return <Navigate to="/admin/login" replace />;
   }
 
   if (!isAdminRole(role)) {
-    return <Navigate to="/home" replace />;
+    return <Navigate to="/admin/login" replace />;
   }
 
   return <>{children}</>;

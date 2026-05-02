@@ -175,6 +175,14 @@ export default function ClientsPage() {
               <button className="applyBtn" type="button" onClick={handleApply}>
                 Apply
               </button>
+              <button
+                className="applyBtn"
+                type="button"
+                onClick={() => navigate("/admin/clients/add")}
+                style={{ background: "#111111", color: "#ffffff" }}
+              >
+                Add
+              </button>
             </div>
           </div>
         </div>

@@ -1,3 +1,4 @@
+import { api } from "../services/api";
 import type { Establishment } from "../types/establishment";
 
 export function asArray<T = unknown>(value: unknown): T[] {
@@ -61,10 +62,9 @@ export function normalizeEstablishment(item: unknown): Establishment {
   const location = getValue(["location"]);
   const city =
     location && typeof location === "object"
-      ? getString((location as Record<string, unknown>).city, "—")
-      : getString(getValue(["city", "addressCity"]), "—");
+      ? getString((location as Record<string, unknown>).city, "")
+      : getString(getValue(["city", "addressCity"]), "");
 
-  // deliveryAreas может быть массивом строк или одной строкой
   const deliveryRaw = getValue(["deliveryAreas", "deliveryZone", "deliveryAddress"]);
   const deliveryAreas = Array.isArray(deliveryRaw)
     ? deliveryRaw.map((v) => getString(v))
@@ -80,8 +80,8 @@ export function normalizeEstablishment(item: unknown): Establishment {
 
   return {
     id: getNumber(getValue(["id", "restaurantId", "restaurant_id"]), 0),
-    name: getString(getValue(["name", "restaurantName", "title"]), "—"),
-    phone: getString(getValue(["phone", "phoneNumber", "number"]), "—"),
+    name: getString(getValue(["name", "restaurantName", "title"]), ""),
+    phone: getString(getValue(["phone", "phoneNumber", "number"]), ""),
     city,
     ordersCount: getNumber(
       getValue(["ordersCount", "numberOfOrders", "orders", "orders_count"]),
@@ -94,6 +94,7 @@ export function normalizeEstablishment(item: unknown): Establishment {
     openingHours,
   };
 }
+
 export function getErrorMessage(error: unknown, fallback = "Something went wrong") {
   if (error instanceof Error) {
     return error.message || fallback;
@@ -105,8 +106,6 @@ export function getErrorMessage(error: unknown, fallback = "Something went wrong
 
   return fallback;
 }
-
-import { api } from "../services/api";
 
 export async function getOrders(page = 0, size = 6) {
   const response = await api.get(`/admin/orders?page=${page}&size=${size}`);

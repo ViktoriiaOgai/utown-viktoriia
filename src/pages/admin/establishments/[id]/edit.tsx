@@ -5,7 +5,6 @@ import EstablishmentForm from "../EstablishmentForm";
 import { api } from "../../../../services/api";
 import type { EstablishmentFormValues } from "../../../../types/establishment";
 import { getErrorMessage } from "../../../../utils/establishments";
-import { getRole, isAdminRole } from "../../../../hooks/auth";
 
 const initialValues: EstablishmentFormValues = {
   name: "",
@@ -15,13 +14,13 @@ const initialValues: EstablishmentFormValues = {
   category: "",
   city: "",
   deliveryAreas: "",
-  mon: "9:00 — 22:00",
+  mon: "9:00 - 22:00",
   tue: "Day off",
-  wed: "9:00 — 22:00",
-  thu: "9:00 — 22:00",
-  fri: "9:00 — 22:00",
-  sat: "9:00 — 22:00",
-  sun: "9:00 — 22:00",
+  wed: "9:00 - 22:00",
+  thu: "9:00 - 22:00",
+  fri: "9:00 - 22:00",
+  sat: "9:00 - 22:00",
+  sun: "9:00 - 22:00",
 };
 
 export default function EditEstablishmentPage() {
@@ -32,26 +31,13 @@ export default function EditEstablishmentPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-
-  // 🔥 добавили состояния для данных с бэка
   const [facilities, setFacilities] = useState("");
   const [isRecommended, setIsRecommended] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [fullAddress, setFullAddress] = useState("");
 
-  useEffect(() => {
-    const role = getRole();
-
-    if (!isAdminRole(role)) {
-      navigate("/home", { replace: true });
-    }
-  }, [navigate]);
-
   const handleChange = (field: keyof EstablishmentFormValues, value: string) => {
-    setValues((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    setValues((prev) => ({ ...prev, [field]: value }));
   };
 
   useEffect(() => {
@@ -77,16 +63,15 @@ export default function EditEstablishmentPage() {
           category: String(details?.category ?? ""),
           city: String(address?.city ?? details?.city ?? ""),
           deliveryAreas: String(address?.details ?? ""),
-          mon: String(details?.deliveryTime ?? "9:00 — 22:00"),
+          mon: String(details?.deliveryTime ?? "9:00 - 22:00"),
           tue: "Day off",
-          wed: "9:00 — 22:00",
-          thu: "9:00 — 22:00",
-          fri: "9:00 — 22:00",
-          sat: "9:00 — 22:00",
-          sun: "9:00 — 22:00",
+          wed: "9:00 - 22:00",
+          thu: "9:00 - 22:00",
+          fri: "9:00 - 22:00",
+          sat: "9:00 - 22:00",
+          sun: "9:00 - 22:00",
         });
 
-        // 🔥 сохраняем данные с бэка
         setFacilities(String(details?.facilities ?? ""));
         setIsRecommended(Boolean(details?.isRecommended ?? false));
         setImageUrl(String(details?.imageUrl ?? ""));
@@ -102,46 +87,35 @@ export default function EditEstablishmentPage() {
 
   const handleSave = async () => {
     if (!id) return;
-
     setError("");
-
-    const title = values.name.trim();
-    const description = values.description.trim();
-    const minOrderAmount = Number(values.minimumOrder) || 0;
-    const phone = values.phone.trim();
-    const category = values.category.trim();
-    const city = values.city.trim();
-    const deliveryAreas = values.deliveryAreas.trim();
-
     setIsSaving(true);
 
     try {
       await api.put(`/admin/restaurants/${id}`, {
-        title,
-        description,
-        category,
+        title: values.name.trim(),
+        description: values.description.trim(),
+        category: values.category.trim(),
         deliveryTime: values.mon || "",
-        facilities, // ✅ теперь не затирается
-        isRecommended, // ✅ теперь не затирается
-        minOrderAmount,
-        phone,
-        imageUrl, // ✅ теперь не затирается
+        facilities,
+        isRecommended,
+        minOrderAmount: Number(values.minimumOrder) || 0,
+        phone: values.phone.trim(),
+        imageUrl,
         address: {
           area: "",
-          city,
-          details: deliveryAreas,
-          fullAddress: fullAddress || city, // ✅ исправлено
+          city: values.city.trim(),
+          details: values.deliveryAreas.trim(),
+          fullAddress: fullAddress || values.city.trim(),
           latitude: 0,
           longitude: 0,
           postcode: "",
           state: "",
-          street: city,
+          street: values.city.trim(),
           typeAddress: 0,
           intercomCode: "",
         },
         ownerId: 0,
       });
-
       navigate("/admin/establishments");
     } catch (err) {
       setError(getErrorMessage(err, "Failed to save establishment"));
@@ -163,8 +137,8 @@ export default function EditEstablishmentPage() {
         onChange={handleChange}
         onSubmit={handleSave}
         onCancel={() => navigate(-1)}
-        onNavigateHome={() => navigate("/home")}
-        onNavigateProfile={() => navigate("/profile")}
+        onNavigateHome={() => navigate("/admin/home")}
+        onNavigateProfile={() => navigate("/admin/profile")}
         onNavigateEstablishments={() => navigate("/admin/establishments")}
       />
     </MainLayout>
