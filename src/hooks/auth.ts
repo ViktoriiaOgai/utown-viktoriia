@@ -67,7 +67,7 @@ export const getToken = () => {
     localStorage.getItem("token") ||
     user?.accessToken ||
     user?.token ||
-    ""
+    null
   );
 };
 

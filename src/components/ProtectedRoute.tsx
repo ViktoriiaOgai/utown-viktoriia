@@ -21,14 +21,13 @@ export function AdminRoute({ children }: RouteProps) {
   const role = getRole();
 
   if (!token) {
-    return <Navigate to="/admin/login" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   if (!isAdminRole(role)) {
-    return <Navigate to="/admin/login" replace />;
+    return <Navigate to="/home" replace />;
   }
 
   return <>{children}</>;
 }
-
 export default ProtectedRoute;

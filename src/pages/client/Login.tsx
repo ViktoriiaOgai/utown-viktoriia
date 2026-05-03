@@ -33,6 +33,7 @@ export default function Login() {
         JSON.stringify({
           ...user,
           phone: phone,
+          roles: user.roles || [],
         })
       );
 

@@ -8,19 +8,25 @@ export const NotificationProvider = ({ children }: { children: React.ReactNode }
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const load = async () => {
-    const data = await fetchNotifications();
-    setNotifications(data);
+    try {
+      const data = await fetchNotifications();
+      setNotifications(data);
+    } catch (e) {
+      console.log("notifications error", e);
+    }
   };
 
   useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+
+    // ❗ ключевой фикс
+    if (!token) return;
+
     const init = async () => {
       await load();
     };
 
     init();
-
-    const token = localStorage.getItem("token");
-    if (!token) return;
 
     if (!socket.connected) {
       connectSocket(token);
