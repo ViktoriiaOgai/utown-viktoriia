@@ -74,7 +74,8 @@ export const getToken = () => {
 export const getRole = () => {
   const user = getStoredUser();
 
-  return user?.roles?.[0] || "";
+  // ✅ ИСПРАВЛЕНО: поддержка и roles и role
+  return user?.roles?.[0] || user?.role || "";
 };
 
 export const isSuperAdmin = (roles: string[] = []) => {
@@ -91,6 +92,7 @@ export const logout = () => {
   localStorage.removeItem("role");
   localStorage.removeItem("user");
 };
+
 export const getUserName = () => {
   try {
     const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -113,13 +115,11 @@ export const updateUserProfile = async (data: {
   username?: string;
   address?: string;
 }) => {
-  //1. отправляем на сервер
   await api.put("/users/profile", {
     fullName: data.fullName,
     username: data.username,
   });
 
-  // 2. обновляем localStorage
   const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
 
   const updatedUser = {
@@ -130,18 +130,15 @@ export const updateUserProfile = async (data: {
 
   localStorage.setItem("user", JSON.stringify(updatedUser));
 
-  // адрес (API)
   if (data.address && data.address.trim()) {
     localStorage.setItem("address", data.address);
     let addressId = null;
 
     try {
-      // пробуем default
       const res = await api.get("/addresses/default");
       addressId = res.data.id;
     } catch {
       try {
-        // fallback — берём первый адрес
         const res = await api.get("/addresses");
         if (res.data.length > 0) {
           addressId = res.data[0].id;
@@ -178,6 +175,7 @@ export const updateUserProfile = async (data: {
     }
   }
 };
+
 export const getAddresses = () => {
   return api.get("/addresses");
 };

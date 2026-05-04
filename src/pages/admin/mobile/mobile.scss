@@ -1,0 +1,157 @@
+.mobile-screen {
+  max-width: 375px;
+  margin: 0 auto;
+  background: #f3f4f6;
+  min-height: 100vh;
+  padding: 16px;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mobile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.mobile-menu {
+  font-size: 18px;
+  margin-right: 10px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.mobile-brand {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.mobile-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.mobile-card {
+  background: #132a4a;
+  color: #fff;
+  padding: 16px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.mobile-card-title {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.mobile-card-sub {
+  font-size: 12px;
+  opacity: 0.7;
+  margin-top: 4px;
+}
+
+.mobile-card input {
+  width: 40px;
+  height: 22px;
+  appearance: none;
+  background: #ccc;
+  border-radius: 20px;
+  position: relative;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.mobile-card input:checked {
+  background: #4c7dff;
+}
+
+.mobile-card input::before {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+  transition: 0.3s;
+}
+
+.mobile-card input:checked::before {
+  transform: translateX(18px);
+}
+
+.mobile-section {
+  margin-bottom: 20px;
+}
+
+.mobile-section-title {
+  margin-bottom: 10px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.mobile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.mobile-btn {
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #4c7dff;
+  background: #fff;
+  color: #4c7dff;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.mobile-hours {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.mobile-hours::-webkit-scrollbar {
+  display: none;
+}
+
+.mobile-day {
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+  font-size: 11px;
+  min-width: 70px;
+  flex: 0 0 auto;
+}
+
+.mobile-day-title {
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.mobile-day-time {
+  color: #777;
+}
+
+.mobile-action {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(90deg, #4c7dff, #5a9cff);
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+}

@@ -1,8 +1,7 @@
 import { Navigate } from "react-router-dom";
 import type { ReactNode } from "react";
 import { getToken } from "../hooks/auth";
-import { getHomePathForRoles } from "@/utils/roleHelpers";
-import { hasRole, ROLE } from "@/utils/roleHelpers";
+import { getHomePathForRoles, hasRole, ROLE } from "@/utils/roleHelpers";
 
 type RouteProps = {
   children: ReactNode;
@@ -37,6 +36,5 @@ export function AdminRoute({ children }: RouteProps) {
   if (!hasRole(roles, ROLE.ADMIN)) {
     return <Navigate to={getHomePathForRoles(roles)} replace />;
   }
-
   return <>{children}</>;
 }

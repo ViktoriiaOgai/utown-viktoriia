@@ -7,10 +7,10 @@ export const ROLE = {
 export const getHomePathForRole = (role?: string): string => {
   switch (role) {
     case ROLE.RESTAURATEUR:
-      return "/mobile-admin/restaurateur";
+      return "/home";
 
     case ROLE.ADMIN:
-      return "/admin/dashboard";
+      return "/admin/home";
 
     case ROLE.CLIENT:
     default:
@@ -24,11 +24,7 @@ export const hasRole = (userRoles: string[] = [], role: string) => {
 
 export const getHomePathForRoles = (roles: string[] = []): string => {
   if (roles.includes(ROLE.ADMIN)) {
-    return "/admin/dashboard";
-  }
-
-  if (roles.includes(ROLE.RESTAURATEUR)) {
-    return "/mobile-admin/restaurateur";
+    return "/admin/home";
   }
 
   return "/home";

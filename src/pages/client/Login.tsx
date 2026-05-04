@@ -39,7 +39,9 @@ export default function Login() {
       );
 
       const role = user.roles?.[0];
-      navigate(getHomePathForRole(role));
+      const path = getHomePathForRole(role);
+
+      navigate(path);
     } catch (error) {
       const message = getErrorMessage(error);
 
@@ -49,6 +51,7 @@ export default function Login() {
       });
     }
   };
+
   const validate = () => {
     const newErrors = {
       phone: "",
