@@ -66,8 +66,9 @@ import {
   RestaurateurMenuPage,
   RestaurateurEstablishmentPage,
   RestaurateurNotificationsPage,
-  RestaurateurHoursPage,
 } from "@/pages/admin/mobile/RestaurateurPlaceholders";
+import HoursPage from "@/pages/admin/mobile/HoursPage";
+import HourEditPage from "@/pages/admin/mobile/HourEditPage";
 
 export const router = createBrowserRouter([
   {
@@ -197,7 +198,6 @@ export const router = createBrowserRouter([
     element: <AdminLogin />,
   },
 
-  // MOBILE ADMIN (RESTAURATEUR)
   {
     path: "/admin-mobile",
     element: (
@@ -212,7 +212,8 @@ export const router = createBrowserRouter([
       { path: "menu", element: <RestaurateurMenuPage /> },
       { path: "establishment", element: <RestaurateurEstablishmentPage /> },
       { path: "notifications", element: <RestaurateurNotificationsPage /> },
-      { path: "hours", element: <RestaurateurHoursPage /> },
+      { path: "hours", element: <HoursPage /> },
+      { path: "hours/:day", element: <HourEditPage /> },
     ],
   },
 
