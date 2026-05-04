@@ -38,3 +38,19 @@ export function AdminRoute({ children }: RouteProps) {
   }
   return <>{children}</>;
 }
+
+export function RestaurateurRoute({ children }: RouteProps) {
+  const token = getToken();
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const roles: string[] = user.roles || [];
+
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (!hasRole(roles, ROLE.RESTAURATEUR)) {
+    return <Navigate to={getHomePathForRoles(roles)} replace />;
+  }
+
+  return <>{children}</>;
+}
