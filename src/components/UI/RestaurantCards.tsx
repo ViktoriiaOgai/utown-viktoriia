@@ -119,7 +119,7 @@ export default function RestaurantCards({
               {variant === "grid1" ? (
                 <>
                   <div className="est-row">
-                    s<p>{r.description}</p>
+                    <p>{r.description}</p>
                     <button className="time">{r.deliveryTime}</button>
                   </div>
                 </>

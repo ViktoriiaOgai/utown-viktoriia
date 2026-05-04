@@ -1,5 +1,6 @@
 import LogoGradient from "@/assets/icons/Vector.svg?react";
 import LogoWhite from "@/assets/icons/Vector-1.svg?react";
+import LogoBlack from "@/assets/icons/LogoBlack.svg?react";
 import BackButton from "./BackButton";
 import BellIcon from "./BellIcon";
 import "@/components/UI/Header.css";
@@ -11,7 +12,7 @@ type Props = {
   backColor?: string;
   showBell?: boolean;
   bellColor?: string;
-  logoVariant?: "gradient" | "white" | "title";
+  logoVariant?: "gradient" | "white" | "title" | "black";
 
   title?: string;
 };
@@ -36,6 +37,7 @@ export default function MobileHeader({
           {logoVariant === "white" && <LogoWhite className="logo-icon" />}
 
           {logoVariant === "gradient" && <LogoGradient className="logo-icon" />}
+          {logoVariant === "gradient" && <LogoBlack className="logo-icon" />}
 
           {logoVariant === "title" && (
             <>

@@ -14,31 +14,52 @@ import { Orders } from "@/types/restaurant";
 export default function OrderStatusPage() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-
   const { refetch } = useNotifications();
 
   const [order, setOrder] = useState<Orders | null>(null);
-
+  const [isError, setIsError] = useState(false);
   const prevStatusRef = useRef<string | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const attemptsRef = useRef(0);
 
   useEffect(() => {
     if (!id) return;
 
+    let isMounted = true;
+    attemptsRef.current = 0;
     const fetchOrder = async () => {
-      const res = await api.get<Orders>(`/orders/${id}`);
-      const newStatus = res.data.status ?? null;
-
-      if (prevStatusRef.current && prevStatusRef.current !== newStatus) {
-        refetch();
+      // СБРОС ОШИБКИ ЗДЕСЬ
+      // вызов внутри функции, а не напрямую в теле useEffect
+      if (attemptsRef.current === 0) {
+        setIsError(false);
       }
 
-      prevStatusRef.current = newStatus;
-      setOrder(res.data);
+      try {
+        const res = await api.get<Orders>(`/orders/${id}`);
+        if (!isMounted) return;
 
-      if (newStatus === "DELIVERED" || newStatus === "CANCELLED") {
-        if (intervalRef.current) {
-          clearInterval(intervalRef.current);
+        const data = res.data;
+        if (!data) return;
+
+        const newStatus = data.status ?? "PENDING";
+
+        if (prevStatusRef.current && prevStatusRef.current !== newStatus) {
+          refetch();
+        }
+
+        prevStatusRef.current = newStatus;
+        setOrder(data);
+
+        if (newStatus === "DELIVERED" || newStatus === "CANCELLED") {
+          if (intervalRef.current) clearInterval(intervalRef.current);
+        }
+      } catch (e: unknown) {
+        if (!isMounted) return;
+        attemptsRef.current += 1;
+        console.error("Polling error:", e);
+        if (attemptsRef.current >= 3) {
+          if (intervalRef.current) clearInterval(intervalRef.current);
+          setIsError(true);
         }
       }
     };
@@ -47,9 +68,8 @@ export default function OrderStatusPage() {
     intervalRef.current = setInterval(fetchOrder, 3000);
 
     return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
+      isMounted = false;
+      if (intervalRef.current) clearInterval(intervalRef.current);
     };
   }, [id, refetch]);
 
@@ -84,7 +104,6 @@ export default function OrderStatusPage() {
 
   const currentStatus = order?.status || "PENDING";
   const isInitialStatus = currentStatus === "PENDING" || currentStatus === "CONFIRMED";
-
   const ImageComponent = statusImageMap[currentStatus];
 
   if (!order) {
@@ -109,6 +128,11 @@ export default function OrderStatusPage() {
 
       <div className="status-container">
         <div className="status-screen">
+          {isError && (
+            <div style={{ color: "red", marginBottom: "10px", fontSize: "14px" }}>
+              Connection lost. Please refresh the page.
+            </div>
+          )}
           <h2>{order.deliveryTime}</h2>
           <p className="commit">minutes until delivery</p>
           <p className="restName">{order.restaurantName}</p>

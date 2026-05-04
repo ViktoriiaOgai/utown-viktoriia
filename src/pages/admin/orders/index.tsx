@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import MainLayout from "@/components/MainLayout";
 import { api } from "@/services/api";
-import "./orders.scss";
+import "@/pages/admin/orders/orders.scss";
 
 type OrderItem = {
   id: number | string;

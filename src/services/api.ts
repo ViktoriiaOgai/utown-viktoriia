@@ -83,15 +83,12 @@ function logoutAndRedirect() {
   localStorage.removeItem("role");
   localStorage.removeItem("user");
 
-  const publicPaths = ["/welcome", "/login", "/register"];
+  const path = window.location.pathname;
 
-  const isPublic = publicPaths.includes(window.location.pathname);
+  const isPublic =
+    path.startsWith("/welcome") || path.startsWith("/login") || path.startsWith("/register");
 
   if (!isPublic) {
-    if (window.location.pathname.startsWith("/admin")) {
-      window.location.href = "/admin/login";
-    } else {
-      window.location.href = "/login";
-    }
+    window.location.href = "/login"; //  один логин
   }
 }

@@ -49,6 +49,7 @@ export default function OrderPaymentPage() {
 
   const [payStatus, setPayStatus] = useState<"idle" | "loading" | "processing">("idle");
   const [orderStatus] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const handlePay = async () => {
     if (!id) return;
 
@@ -63,9 +64,11 @@ export default function OrderPaymentPage() {
 
       //  переход вместо polling
       navigate(`/order/${id}/status`);
-    } catch (e) {
-      console.error(e);
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : "Something went wrong";
+      setError(errorMessage);
       setPayStatus("idle");
+      console.error("Payment failed:", errorMessage);
     }
   };
 
@@ -88,6 +91,25 @@ export default function OrderPaymentPage() {
         <h3>{statusMap[orderStatus || "PENDING"]}</h3>
 
         <AuthBtn>Hide Order Status</AuthBtn>
+      </div>
+    );
+  }
+  if (error) {
+    return (
+      <div className="loader-wrapper">
+        <div className="status-container" style={{ textAlign: "center", padding: "20px" }}>
+          <p style={{ color: "red" }}>{error}</p>
+          <AuthBtn onClick={() => setError(null)}>Try Again</AuthBtn>
+        </div>
+      </div>
+    );
+  }
+
+  // проверяем загрузку (если ошибки нет, но данные еще не пришли)
+  if (!order) {
+    return (
+      <div className="loader-wrapper">
+        <div className="gradient-loader" />
       </div>
     );
   }
