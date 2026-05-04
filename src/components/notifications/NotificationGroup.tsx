@@ -5,9 +5,10 @@ import type { Notification } from "@/services/notifications";
 type Props = {
   title: string;
   items: Notification[];
+  onRead?: (id: number) => void;
 };
 
-export default function NotificationGroup({ title, items }: Props) {
+export default function NotificationGroup({ title, items, onRead }: Props) {
   if (!items.length) return null;
 
   return (
@@ -15,7 +16,7 @@ export default function NotificationGroup({ title, items }: Props) {
       <p className="group-title">{title}</p>
 
       {items.map((item) => (
-        <NotificationItem key={item.id} item={item} />
+        <NotificationItem key={item.id} item={item} onRead={onRead} />
       ))}
     </div>
   );

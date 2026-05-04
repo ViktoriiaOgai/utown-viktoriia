@@ -89,3 +89,7 @@ export const getDishesByRestaurant = async (restaurantId: number) => {
   const res = await api.get(`/dishes/restaurant/${restaurantId}`);
   return res.data;
 };
+export const getFavorites = async () => {
+  const res = await api.get("/favorites");
+  return res.data;
+};

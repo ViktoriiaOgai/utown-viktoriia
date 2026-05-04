@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Location from "@/assets/icons/Location.svg";
 import MobileHeader from "@/components/UI/Header";
-import { useNotifications } from "@/services/useNotification";
 import Search from "@/components/UI/Search";
 import SearchIcon from "@/assets/icons/search-normal.svg";
 import Candle from "@/assets/icons/candle.svg";
@@ -22,7 +21,6 @@ type Restaurant = {
 };
 
 export default function SearchPage() {
-  const { unreadCount } = useNotifications();
   const [address] = useState(() => localStorage.getItem("address") || "");
 
   const [params, setParams] = useSearchParams();
@@ -66,14 +64,7 @@ export default function SearchPage() {
 
   return (
     <div className="page-wrapper">
-      <MobileHeader
-        showBack
-        backColor="white"
-        showBell
-        bellColor="white"
-        unreadCount={unreadCount}
-        logoVariant="white"
-      />
+      <MobileHeader showBack backColor="white" showBell bellColor="white" logoVariant="white" />
 
       <div className="main-container">
         <div className="main-inner">

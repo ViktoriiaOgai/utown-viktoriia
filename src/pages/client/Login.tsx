@@ -7,6 +7,7 @@ import Vector from "@/assets/icons/Vector.svg";
 import BackButton from "@/components/UI/BackButton";
 import { login } from "@/hooks/auth";
 import { getErrorMessage } from "@/services/getErrorMessage";
+import { getHomePathForRole } from "@/utils/roleHelpers";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -33,15 +34,20 @@ export default function Login() {
         JSON.stringify({
           ...user,
           phone: phone,
+          roles: user.roles || [],
         })
       );
+      const roles: string[] = user.roles || [];
 
-      if (user?.role === "RESTAURATEUR") {
-        navigate("/admin-mobile/home");
+      if (roles.includes("ADMIN")) {
+        navigate("/admin/login");
         return;
       }
 
-      navigate("/home");
+      const role = roles[0];
+      const path = getHomePathForRole(role);
+
+      navigate(path);
     } catch (error) {
       const message = getErrorMessage(error);
 

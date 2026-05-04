@@ -191,3 +191,18 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  filter: grayscale(1);
+}
+
+.closed-badge {
+  color: red;
+  font-size: 12px;
+}
+
+.open-badge {
+  color: green;
+  font-size: 12px;
+}
