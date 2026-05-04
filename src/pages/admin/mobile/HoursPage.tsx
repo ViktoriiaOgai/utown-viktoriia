@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { api } from "@/services/api";
-import { getOperatingModes, OperatingMode } from "@/services/workingHoursService";
+import { getMyRestaurant, getOperatingModes, OperatingMode } from "@/services/workingHoursService";
 import "./hours.scss";
 
 const DAYS: { label: string; value: number }[] = [
@@ -18,19 +17,35 @@ export default function HoursPage() {
   const navigate = useNavigate();
   const [modes, setModes] = useState<OperatingMode[]>([]);
   const [restaurantId, setRestaurantId] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    api.get("/restaurant-owner/restaurants").then((res) => {
-      const restaurants = res.data;
-      if (restaurants.length > 0) {
-        const id = restaurants[0].id;
-        setRestaurantId(id);
-        getOperatingModes(id).then(setModes);
+    const load = async () => {
+      try {
+        const restaurant = await getMyRestaurant();
+        localStorage.setItem("restaurantId", String(restaurant.id));
+        setRestaurantId(restaurant.id);
+        const data = await getOperatingModes(restaurant.id);
+        setModes(data);
+      } catch {
+        setError("Failed to load working hours");
+      } finally {
+        setLoading(false);
       }
-    });
+    };
+    load();
   }, []);
 
   const getModeForDay = (dayValue: number) => modes.find((m) => m.dayOfWeek === dayValue);
+
+  if (loading) {
+    return (
+      <div className="hours-screen">
+        <div className="hours-loader">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="hours-screen">
@@ -43,12 +58,23 @@ export default function HoursPage() {
 
       <h1 className="hours-title">Opening hours of the establishment</h1>
 
+      {error && <div className="hours-error">{error}</div>}
+
       <div className="hours-list">
         {DAYS.map((day) => {
           const mode = getModeForDay(day.value);
           return (
             <div key={day.value} className="hours-row">
-              <span className="hours-day">{day.label}</span>
+              <div className="hours-day-info">
+                <span className="hours-day">{day.label}</span>
+                {mode ? (
+                  <span className="hours-day-time">
+                    {mode.dayOff ? "Day off" : `${mode.start} - ${mode.end}`}
+                  </span>
+                ) : (
+                  <span className="hours-day-time hours-day-time--empty">Not set</span>
+                )}
+              </div>
               <button
                 className="hours-edit"
                 onClick={() =>
