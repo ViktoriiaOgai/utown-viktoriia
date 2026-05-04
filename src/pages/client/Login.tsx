@@ -7,7 +7,7 @@ import Vector from "@/assets/icons/Vector.svg";
 import BackButton from "@/components/UI/BackButton";
 import { login } from "@/hooks/auth";
 import { getErrorMessage } from "@/services/getErrorMessage";
-import { isAdminRole } from "@/hooks/auth";
+import { getHomePathForRole } from "@/utils/roleHelpers";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -39,12 +39,7 @@ export default function Login() {
       );
 
       const role = user.roles?.[0];
-
-      if (isAdminRole(role)) {
-        navigate("/admin/login");
-      } else {
-        navigate("/home");
-      }
+      navigate(getHomePathForRole(role));
     } catch (error) {
       const message = getErrorMessage(error);
 

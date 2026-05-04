@@ -77,11 +77,13 @@ export const getRole = () => {
   return user?.roles?.[0] || "";
 };
 
-export const isAdminRole = (role?: string) => {
-  const currentRole = role || getRole();
-  return ["ADMIN", "SUPER_ADMIN"].includes(String(currentRole).toUpperCase());
+export const isSuperAdmin = (roles: string[] = []) => {
+  return roles.some((r) => r.toUpperCase() === "SUPER_ADMIN");
 };
 
+export const isRestaurantAdmin = (roles: string[] = []) => {
+  return roles.some((r) => r.toUpperCase() === "ADMIN");
+};
 export const logout = () => {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");

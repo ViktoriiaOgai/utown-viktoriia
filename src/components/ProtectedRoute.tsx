@@ -1,16 +1,25 @@
 import { Navigate } from "react-router-dom";
 import type { ReactNode } from "react";
-import { getToken, getRole, isAdminRole } from "../hooks/auth";
+import { getToken } from "../hooks/auth";
+import { getHomePathForRoles } from "@/utils/roleHelpers";
+import { hasRole, ROLE } from "@/utils/roleHelpers";
 
 type RouteProps = {
   children: ReactNode;
+  allowedRoles?: string[];
 };
 
-export function ProtectedRoute({ children }: RouteProps) {
+export function ProtectedRoute({ children, allowedRoles }: RouteProps) {
   const token = getToken();
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const roles: string[] = user.roles || [];
 
   if (!token) {
     return <Navigate to="/login" replace />;
+  }
+
+  if (allowedRoles && !roles.some((r) => allowedRoles.includes(r))) {
+    return <Navigate to={getHomePathForRoles(roles)} replace />;
   }
 
   return <>{children}</>;
@@ -18,16 +27,16 @@ export function ProtectedRoute({ children }: RouteProps) {
 
 export function AdminRoute({ children }: RouteProps) {
   const token = getToken();
-  const role = getRole();
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const roles: string[] = user.roles || [];
 
   if (!token) {
     return <Navigate to="/login" replace />;
   }
 
-  if (!isAdminRole(role)) {
-    return <Navigate to="/home" replace />;
+  if (!hasRole(roles, ROLE.ADMIN)) {
+    return <Navigate to={getHomePathForRoles(roles)} replace />;
   }
 
   return <>{children}</>;
 }
-export default ProtectedRoute;
