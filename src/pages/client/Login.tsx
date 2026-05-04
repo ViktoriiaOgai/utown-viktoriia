@@ -37,8 +37,14 @@ export default function Login() {
           roles: user.roles || [],
         })
       );
+      const roles: string[] = user.roles || [];
 
-      const role = user.roles?.[0];
+      if (roles.includes("ADMIN")) {
+        navigate("/admin/login");
+        return;
+      }
+
+      const role = roles[0];
       const path = getHomePathForRole(role);
 
       navigate(path);
