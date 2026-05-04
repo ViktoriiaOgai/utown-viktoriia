@@ -54,6 +54,7 @@ export default function Login() {
       });
     }
   };
+
   const validate = () => {
     const newErrors = {
       phone: "",
