@@ -58,17 +58,17 @@ import EstablishmentPage from "@/pages/client/EstablishmentPage";
 import DishPage from "@/pages/client/DishPage";
 import CartPage from "@/pages/client/CartPage";
 
-import AdminMobileLayout from "@/layout/AdminMobileLayout";
-import AdminMobileHome from "@/pages/admin/mobile/Home";
+import RestaurateurLayout from "@/layout/RestaurateurLayout";
+import RestaurateurHome from "@/pages/restaurateur/Home";
 import {
   RestaurateurOrdersPage,
   RestaurateurStatisticsPage,
   RestaurateurMenuPage,
   RestaurateurEstablishmentPage,
   RestaurateurNotificationsPage,
-} from "@/pages/admin/mobile/RestaurateurPlaceholders";
-import HoursPage from "@/pages/admin/mobile/HoursPage";
-import HourEditPage from "@/pages/admin/mobile/HourEditPage";
+} from "@/pages/restaurateur/RestaurateurPlaceholders";
+import HoursPage from "@/pages/restaurateur/HoursPage";
+import HourEditPage from "@/pages/restaurateur/HourEditPage";
 
 export const router = createBrowserRouter([
   {
@@ -198,15 +198,16 @@ export const router = createBrowserRouter([
     element: <AdminLogin />,
   },
 
+  // RESTAURATEUR
   {
-    path: "/admin-mobile",
+    path: "/restaurateur",
     element: (
       <RestaurateurRoute>
-        <AdminMobileLayout />
+        <RestaurateurLayout />
       </RestaurateurRoute>
     ),
     children: [
-      { path: "home", element: <AdminMobileHome /> },
+      { path: "home", element: <RestaurateurHome /> },
       { path: "orders", element: <RestaurateurOrdersPage /> },
       { path: "statistics", element: <RestaurateurStatisticsPage /> },
       { path: "menu", element: <RestaurateurMenuPage /> },
