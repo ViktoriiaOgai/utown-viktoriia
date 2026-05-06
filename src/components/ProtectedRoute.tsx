@@ -1,24 +1,15 @@
 import { Navigate } from "react-router-dom";
 import type { ReactNode } from "react";
-import { getToken, isRestaurateurRole } from "../hooks/auth";
+import { getToken, isAdminRole, isRestaurateurRole } from "../hooks/auth";
 
 type RouteProps = {
   children: ReactNode;
   allowedRoles?: string[];
 };
 
-const ROLE = {
-  ADMIN: "ADMIN",
-  SUPER_ADMIN: "SUPER_ADMIN",
-  RESTAURATEUR: "RESTAURATEUR",
-};
-
-const hasRole = (roles: string[], role: string) =>
-  roles.some((r) => r.toUpperCase() === role.toUpperCase());
-
 const getHomePathForRoles = (roles: string[]) => {
-  if (hasRole(roles, ROLE.ADMIN) || hasRole(roles, ROLE.SUPER_ADMIN)) return "/admin/home";
-  if (hasRole(roles, ROLE.RESTAURATEUR)) return "/restaurateur/home";
+  if (isAdminRole(roles)) return "/admin/home";
+  if (isRestaurateurRole(roles)) return "/restaurateur/home";
   return "/home";
 };
 
@@ -47,9 +38,10 @@ export function AdminRoute({ children }: RouteProps) {
     return <Navigate to="/login" replace />;
   }
 
-  if (!hasRole(roles, ROLE.ADMIN)) {
+  if (!isAdminRole(roles)) {
     return <Navigate to={getHomePathForRoles(roles)} replace />;
   }
+
   return <>{children}</>;
 }
 
@@ -62,7 +54,7 @@ export function RestaurateurRoute({ children }: RouteProps) {
     return <Navigate to="/login" replace />;
   }
 
-  if (!isRestaurateurRole(roles[0])) {
+  if (!isRestaurateurRole(roles)) {
     return <Navigate to={getHomePathForRoles(roles)} replace />;
   }
 

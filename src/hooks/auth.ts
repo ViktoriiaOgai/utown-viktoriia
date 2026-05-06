@@ -75,18 +75,18 @@ export const getRole = () => {
   return user?.roles?.[0] || user?.role || "";
 };
 
-export const isSuperAdmin = (roles: string[] = []) => {
-  return roles.some((r) => r.toUpperCase() === "SUPER_ADMIN");
-};
-
-export const isRestaurateurRole = (role?: string) => {
-  const currentRole = role || getRole();
-  return String(currentRole).toUpperCase() === "RESTAURATEUR";
-};
-
-export const isRestaurantAdmin = (roles: string[] = []) => {
+export const isAdminRole = (roles: string[] = []) => {
   return roles.some((r) => r.toUpperCase() === "ADMIN");
 };
+
+export const isRestaurateurRole = (roles: string[] = []) => {
+  return roles.some((r) => r.toUpperCase() === "RESTAURATEUR");
+};
+
+export const isClientRole = (roles: string[] = []) => {
+  return roles.some((r) => r.toUpperCase() === "CLIENT");
+};
+
 export const logout = () => {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");
