@@ -50,7 +50,7 @@ export default function HoursPage() {
   return (
     <div className="hours-screen">
       <div className="hours-header">
-        <button className="hours-back" onClick={() => navigate("/admin-mobile/home")}>
+        <button className="hours-back" onClick={() => navigate("/restaurateur/home")}>
           ←
         </button>
         <span className="hours-brand">UT.BUSINESS</span>
@@ -78,7 +78,7 @@ export default function HoursPage() {
               <button
                 className="hours-edit"
                 onClick={() =>
-                  navigate(`/admin-mobile/hours/${day.value}`, {
+                  navigate(`/restaurateur/hours/${day.value}`, {
                     state: { mode, restaurantId, dayLabel: day.label },
                   })
                 }

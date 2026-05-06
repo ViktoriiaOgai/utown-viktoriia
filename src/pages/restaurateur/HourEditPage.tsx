@@ -41,7 +41,7 @@ export default function HourEditPage() {
       } else {
         await createOperatingMode(restaurantId, data);
       }
-      navigate("/admin-mobile/hours");
+      navigate("/restaurateur/hours");
     } catch {
       setError("Failed to save. Please try again.");
     } finally {
@@ -52,7 +52,7 @@ export default function HourEditPage() {
   return (
     <div className="hours-screen">
       <div className="hours-header">
-        <button className="hours-back" onClick={() => navigate("/admin-mobile/hours")}>
+        <button className="hours-back" onClick={() => navigate("/restaurateur/hours")}>
           ←
         </button>
         <span className="hours-brand">UT.BUSINESS</span>
