@@ -6,6 +6,8 @@ import "@/components/UI/CategoriesCards.css";
 
 type Props = {
   variant?: "scroll" | "grid";
+  onSelectCategory?: (category: string | null) => void;
+  selectedCategory?: string | null;
 };
 
 type Restaurant = {
@@ -23,7 +25,11 @@ type CategoryItem = {
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export default function CategoriesCards({ variant = "scroll" }: Props) {
+export default function CategoriesCards({
+  variant = "scroll",
+  onSelectCategory,
+  selectedCategory,
+}: Props) {
   const [categories, setCategories] = useState<CategoryItem[]>([]);
 
   useEffect(() => {
@@ -68,16 +74,20 @@ export default function CategoriesCards({ variant = "scroll" }: Props) {
 
       <div className={`categories-cards-container ${variant === "grid" ? "vertical" : ""}`}>
         {categories.map((c) => (
-          <div className="categories-card" key={c.name}>
+          <div
+            className={`categories-card ${selectedCategory === c.name ? "active" : ""}`}
+            key={c.name}
+            onClick={() => onSelectCategory?.(selectedCategory === c.name ? null : c.name)}
+          >
             <img
               src={c.imageUrl || placeholder}
               alt={c.name}
               onError={(e) => (e.currentTarget.src = placeholder)}
             />
 
-            <div className="text-block">
+            <div className="overlay">
               <h4 className="title">{c.name}</h4>
-              <p className="categ">{c.count} establishments</p>
+              <p className="categ">{c.count} places</p>
             </div>
           </div>
         ))}

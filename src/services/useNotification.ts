@@ -1,10 +1,12 @@
-import { useOutletContext } from "react-router-dom";
-import type { Notification } from "@/services/notifications";
+import { useContext } from "react";
+import { NotificationContext } from "./NotificationContext";
 
 export const useNotifications = () => {
-  const { notifications } = useOutletContext<{ notifications: Notification[] }>();
+  const ctx = useContext(NotificationContext);
 
-  const unreadCount = notifications.filter((n) => !n.isSuccessful).length;
+  if (!ctx) {
+    throw new Error("NotificationProvider missing");
+  }
 
-  return { notifications, unreadCount };
+  return ctx;
 };

@@ -1,0 +1,35 @@
+.pay-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 20, 0.85); /* почти чёрный с фиолетовым оттенком */
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+
+  z-index: 2000;
+}
+.gradient-loader {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+
+  background: conic-gradient(#6c5ce7, #a29bfe, #00cec9, #6c5ce7);
+
+  mask: radial-gradient(farthest-side, transparent 70%, black 71%);
+  -webkit-mask: radial-gradient(farthest-side, transparent 70%, black 71%);
+
+  animation: spin 1.2s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.pay-text {
+  color: #fff;
+  font-size: 14px;
+  opacity: 0.8;
+}

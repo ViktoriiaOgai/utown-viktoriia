@@ -9,12 +9,10 @@ import Pic from "@/assets/images/Pic.svg";
 import "@/pages/client/Home.css";
 import MobileHeader from "@/components/UI/Header";
 import { getUserName } from "@/hooks/auth";
-import { useNotifications } from "@/services/useNotification";
 
 export default function Home() {
   const userProfile = { city: "Ansan", lat: 37.3349584, lon: 126.7918849 };
   const [firstName] = useState(() => getUserName() || "");
-  const { unreadCount } = useNotifications();
   const navigate = useNavigate();
 
   return (
@@ -22,7 +20,7 @@ export default function Home() {
       {/* Фоновая картинка */}
       <img className="splash-img2" src={Pic} alt="Pic" />
 
-      <MobileHeader logoVariant="white" bellColor="white" showBell unreadCount={unreadCount} />
+      <MobileHeader logoVariant="white" bellColor="white" showBell />
 
       {/* Основной контейнер */}
       <div className="mainCont">

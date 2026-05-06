@@ -57,6 +57,8 @@ import EstablishPage from "@/pages/client/EstablishPage";
 import EstablishmentPage from "@/pages/client/EstablishmentPage";
 import DishPage from "@/pages/client/DishPage";
 import CartPage from "@/pages/client/CartPage";
+import OrderPaymentPage from "@/pages/client/OrderPaymentPage";
+import OrderStatusPage from "@/pages/client/OrderStatusPage";
 
 import RestaurateurLayout from "@/layout/RestaurateurLayout";
 import RestaurateurHome from "@/pages/restaurateur/Home";
@@ -86,7 +88,7 @@ export const router = createBrowserRouter([
       {
         path: "/home",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["CLIENT"]}>
             <Home />
           </ProtectedRoute>
         ),
@@ -94,7 +96,7 @@ export const router = createBrowserRouter([
       {
         path: "/favourites",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["CLIENT"]}>
             <Favourites />
           </ProtectedRoute>
         ),
@@ -102,7 +104,7 @@ export const router = createBrowserRouter([
       {
         path: "/notifications",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["CLIENT"]}>
             <Notifications />
           </ProtectedRoute>
         ),
@@ -110,7 +112,7 @@ export const router = createBrowserRouter([
       {
         path: "/foodmain",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["CLIENT"]}>
             <FoodMain />
           </ProtectedRoute>
         ),
@@ -118,7 +120,7 @@ export const router = createBrowserRouter([
       {
         path: "/establish",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["CLIENT"]}>
             <EstablishPage />
           </ProtectedRoute>
         ),
@@ -126,7 +128,7 @@ export const router = createBrowserRouter([
       {
         path: "/establishment/:id",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["CLIENT"]}>
             <EstablishmentPage />
           </ProtectedRoute>
         ),
@@ -134,7 +136,7 @@ export const router = createBrowserRouter([
       {
         path: "/search",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["CLIENT"]}>
             <SearchPage />
           </ProtectedRoute>
         ),
@@ -142,7 +144,7 @@ export const router = createBrowserRouter([
       {
         path: "/filters",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["CLIENT"]}>
             <FiltersPage />
           </ProtectedRoute>
         ),
@@ -150,7 +152,7 @@ export const router = createBrowserRouter([
       {
         path: "/dish/:id",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["CLIENT"]}>
             <DishPage />
           </ProtectedRoute>
         ),
@@ -158,15 +160,31 @@ export const router = createBrowserRouter([
       {
         path: "/cart",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["CLIENT"]}>
             <CartPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/orders/:id/payment",
+        element: (
+          <ProtectedRoute allowedRoles={["CLIENT"]}>
+            <OrderPaymentPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/order/:id/status",
+        element: (
+          <ProtectedRoute allowedRoles={["CLIENT"]}>
+            <OrderStatusPage />
           </ProtectedRoute>
         ),
       },
       {
         path: "/profile",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["CLIENT"]}>
             <ProfileLayout />
           </ProtectedRoute>
         ),

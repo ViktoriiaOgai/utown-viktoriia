@@ -6,6 +6,8 @@ import placeholder from "@/assets/images/Ad 1.svg";
 import Deliver from "@/assets/icons/deliver.svg?react";
 import { getErrorMessage } from "@/services/getErrorMessage";
 import { useNavigate } from "react-router-dom";
+import { useMemo } from "react";
+import type { Restaurant } from "@/types/restaurant";
 
 type Props = {
   variant?: "scroll" | "grid" | "row" | "grid1" | "header";
@@ -13,17 +15,12 @@ type Props = {
   data?: Restaurant[];
   showMore?: boolean;
   onMoreClick?: () => void;
+  selectedCategory?: string | null;
+  onlyFavorites?: boolean;
 };
 
-type Restaurant = {
-  id: number;
-  title: string;
-  description: string;
-  logoUrl?: string;
-  imageUrl?: string;
-  category: string;
-  minOrderAmount: number;
-  deliveryTime: string;
+type FavoriteResponse = {
+  restaurant: Restaurant;
 };
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -33,17 +30,46 @@ export default function RestaurantCards({
   data,
   showMore = false,
   onMoreClick,
+  selectedCategory,
+  onlyFavorites = false,
 }: Props) {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const navigate = useNavigate();
+  const restaurantsToRender = data ?? restaurants;
+
+  const filteredRestaurants = useMemo(() => {
+    let result = restaurantsToRender;
+
+    if (selectedCategory) {
+      result = result.filter((r) => r.category === selectedCategory);
+    }
+
+    if (onlyFavorites) {
+      result = result.filter((r) => r.isFavorite);
+    }
+
+    return result;
+  }, [restaurantsToRender, selectedCategory, onlyFavorites]);
 
   useEffect(() => {
-    if (data) return; // если есть данные — не грузим
+    if (data) return;
 
     const fetchRestaurants = async () => {
       try {
-        const res = await api.get(`${API_URL}/public/restaurants`);
-        setRestaurants(res.data.content || []);
+        if (onlyFavorites) {
+          const res = await api.get(`${API_URL}/favorites`);
+
+          // API возвращает не рестораны, а обертку
+          const mapped = res.data.map((f: FavoriteResponse) => ({
+            ...f.restaurant,
+            isFavorite: true,
+          }));
+
+          setRestaurants(mapped);
+        } else {
+          const res = await api.get(`${API_URL}/public/restaurants`);
+          setRestaurants(res.data.content || []);
+        }
       } catch (error) {
         const message = getErrorMessage(error);
         console.error("Ошибка загрузки ресторанов:", message);
@@ -51,8 +77,7 @@ export default function RestaurantCards({
     };
 
     fetchRestaurants();
-  }, [data]);
-  const restaurantsToRender = data ?? restaurants;
+  }, [data, onlyFavorites]);
 
   return (
     <div className="restaurants-section">
@@ -70,11 +95,13 @@ export default function RestaurantCards({
                                                   ${variant === "row" ? "row" : ""}
                                                 ${variant === "grid1" ? "vertical1" : ""}`}
       >
-        {restaurantsToRender.map((r) => (
+        {filteredRestaurants.map((r) => (
           <div
-            className={`restaurant-card ${variant === "row" ? "row-card" : ""}`}
-            key={r.id}
-            onClick={() => navigate(`/establishment/${r.id}`)}
+            className={`restaurant-card ${variant === "row" ? "row-card" : ""} ${!r.isActive ? "disabled" : ""}`}
+            onClick={() => {
+              if (!r.isActive) return;
+              navigate(`/establishment/${r.id}`);
+            }}
           >
             <img
               className="title"
@@ -86,6 +113,9 @@ export default function RestaurantCards({
             />
             <div className="text-block">
               <h4>{r.title}</h4>
+              {r.isActive === false && <span className="closed-badge">Closed</span>}
+
+              {r.isActive !== false && <span className="open-badge">Open</span>}
               {variant === "grid1" ? (
                 <>
                   <div className="est-row">

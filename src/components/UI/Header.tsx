@@ -1,17 +1,19 @@
 import LogoGradient from "@/assets/icons/Vector.svg?react";
 import LogoWhite from "@/assets/icons/Vector-1.svg?react";
+import LogoBlack from "@/assets/icons/LogoBlack.svg?react";
 import BackButton from "./BackButton";
 import BellIcon from "./BellIcon";
 import "@/components/UI/Header.css";
 import { useNavigate } from "react-router-dom";
+import { useNotifications } from "@/services/useNotification";
 
 type Props = {
   showBack?: boolean;
   backColor?: string;
   showBell?: boolean;
   bellColor?: string;
-  logoVariant?: "gradient" | "white" | "title";
-  unreadCount?: number;
+  logoVariant?: "gradient" | "white" | "title" | "black";
+
   title?: string;
 };
 
@@ -21,10 +23,11 @@ export default function MobileHeader({
   backColor = "black",
   bellColor = "rgba(141, 141, 141, 1)",
   logoVariant = "gradient",
-  unreadCount = 0,
+
   title = "",
 }: Props) {
   const navigate = useNavigate();
+  const { unreadCount } = useNotifications();
   return (
     <div className="header-icons">
       <div className="header-left">{showBack && <BackButton color={backColor} />}</div>
@@ -34,6 +37,7 @@ export default function MobileHeader({
           {logoVariant === "white" && <LogoWhite className="logo-icon" />}
 
           {logoVariant === "gradient" && <LogoGradient className="logo-icon" />}
+          {logoVariant === "gradient" && <LogoBlack className="logo-icon" />}
 
           {logoVariant === "title" && (
             <>
