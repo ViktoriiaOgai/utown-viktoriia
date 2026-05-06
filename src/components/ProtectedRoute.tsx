@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import type { ReactNode } from "react";
-import { getToken, getRole, isAdminRole } from "../hooks/auth";
+import { getToken, getRole, isAdminRole, isRestaurateurRole } from "../hooks/auth";
 
 type RouteProps = {
   children: ReactNode;
@@ -32,7 +32,7 @@ export function RestaurateurRoute({ children }: RouteProps) {
   if (!token) {
     return <Navigate to="/login" replace />;
   }
-  if (String(role).toUpperCase() !== "RESTAURATEUR") {
+  if (!isRestaurateurRole(role)) {
     return <Navigate to="/home" replace />;
   }
   return <>{children}</>;
