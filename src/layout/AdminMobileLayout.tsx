@@ -7,8 +7,6 @@ export default function AdminMobileLayout() {
 
   return (
     <div className="mobile-layout">
-      <header style={{ padding: "10px", borderBottom: "1px solid #eee" }}></header>
-
       <MobileSidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
 
       <main className="mobile-content">

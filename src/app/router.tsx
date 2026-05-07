@@ -63,13 +63,13 @@ import OrderStatusPage from "@/pages/client/OrderStatusPage";
 import AdminMobileLayout from "@/layout/AdminMobileLayout";
 import AdminMobileHome from "@/pages/admin/mobile/Home";
 import {
-  RestaurateurOrdersPage,
   RestaurateurStatisticsPage,
   RestaurateurMenuPage,
   RestaurateurEstablishmentPage,
   RestaurateurNotificationsPage,
   RestaurateurHoursPage,
 } from "@/pages/admin/mobile/RestaurateurPlaceholders";
+import RestaurateurOrdersPage from "@/pages/admin/mobile/restPages/RestaurateurOrdersPage";
 
 export const router = createBrowserRouter([
   {

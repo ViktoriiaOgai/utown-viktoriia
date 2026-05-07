@@ -130,3 +130,15 @@
 .option.active .radio {
   background: #000;
 }
+.modal-cancel {
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px;
+
+  background: #eee;
+  border: none;
+  border-radius: 8px;
+
+  font-size: 14px;
+  cursor: pointer;
+}

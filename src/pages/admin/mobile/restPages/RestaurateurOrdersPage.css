@@ -1,0 +1,61 @@
+
+.main-container {
+  width: 100%;
+  align-items: stretch;
+  margin: 0;
+}
+.main-title {
+    margin: 0;
+    display: flex;
+  align-items: center;
+  justify-content: space-between; /* ключевая строка */
+    flex-direction: row;
+    
+}
+.rotate-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+
+ 
+
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.rotate {
+  width: 20px;
+  height: 20px;
+}
+.rotate-btn:hover {
+  background: #f3f4f6;
+  border-radius: 8px;
+}
+.rotate-btn:hover .rotate {
+  transform: rotate(90deg);
+  transition: 0.3s;
+}
+.ordStatusBtn {
+    display: flex;
+  align-items: center;
+  justify-content:space-between;
+  flex-direction: row;
+ gap: 15px;
+}
+.statusBtn {
+    width: 214px;
+height: 42px;
+opacity: 1;
+border-radius: 10px;
+cursor: pointer;
+   background: none; 
+    border: 1px solid rgba(137, 137, 137, 1)
+}
+.statusBtn:hover {
+   background: rgba(53, 53, 53, 1);
+color: white;
+  transition: 0.3s;
+}

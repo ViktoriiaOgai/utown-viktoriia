@@ -1,0 +1,49 @@
+.order-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.order-items {
+  padding-left: 16px;
+}
+
+.order-sub {
+  font-size: 12px;
+  color: #888;
+}
+
+.order-price {
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.order-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+.accept {
+  background: #16a34a;
+  color: #fff;
+}
+
+.completed {
+  background: #3f3f46;
+  color: #fff;
+}
+
+.more {
+  background: #eee;
+}
