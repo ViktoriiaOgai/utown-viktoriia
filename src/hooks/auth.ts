@@ -61,7 +61,6 @@ const getStoredUser = () => {
 
 export const getToken = () => {
   const user = getStoredUser();
-
   return (
     localStorage.getItem("accessToken") ||
     localStorage.getItem("token") ||
@@ -73,18 +72,21 @@ export const getToken = () => {
 
 export const getRole = () => {
   const user = getStoredUser();
-
-  // ✅ ИСПРАВЛЕНО: поддержка и roles и role
   return user?.roles?.[0] || user?.role || "";
 };
 
-export const isSuperAdmin = (roles: string[] = []) => {
-  return roles.some((r) => r.toUpperCase() === "SUPER_ADMIN");
-};
-
-export const isRestaurantAdmin = (roles: string[] = []) => {
+export const isAdminRole = (roles: string[] = []) => {
   return roles.some((r) => r.toUpperCase() === "ADMIN");
 };
+
+export const isRestaurateurRole = (roles: string[] = []) => {
+  return roles.some((r) => r.toUpperCase() === "RESTAURATEUR");
+};
+
+export const isClientRole = (roles: string[] = []) => {
+  return roles.some((r) => r.toUpperCase() === "CLIENT");
+};
+
 export const logout = () => {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
+import { getMyRestaurant } from "@/services/workingHoursService";
 import { api } from "@/services/api";
 import "./mobile.scss";
 
@@ -7,34 +8,31 @@ type Restaurant = {
   id: number;
   title: string;
   enabled: boolean;
-  workingHours?: { day: string; openTime: string; closeTime: string; dayOff: boolean }[];
 };
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-export default function AdminMobileHome() {
+export default function RestaurateurHome() {
   const { setIsOpen } = useOutletContext<{ setIsOpen: (value: boolean) => void }>();
   const navigate = useNavigate();
   const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
 
   const navItems = [
-    { label: "Order table", path: "/admin-mobile/orders" },
-    { label: "Statistics", path: "/admin-mobile/statistics" },
-    { label: "Menu", path: "/admin-mobile/menu" },
-    { label: "Establishment", path: "/admin-mobile/establishment" },
-    { label: "Notifications", path: "/admin-mobile/notifications" },
-    { label: "Working hours", path: "/admin-mobile/hours" },
+    { label: "Order table", path: "/restaurateur/orders" },
+    { label: "Statistics", path: "/restaurateur/statistics" },
+    { label: "Menu", path: "/restaurateur/menu" },
+    { label: "Establishment", path: "/restaurateur/establishment" },
+    { label: "Notifications", path: "/restaurateur/notifications" },
+    { label: "Working hours", path: "/restaurateur/hours" },
   ];
 
   useEffect(() => {
-    api.get("/restaurant-owner/restaurants/my").then((res) => {
-      setRestaurant(res.data);
-    });
+    getMyRestaurant().then(setRestaurant);
   }, []);
 
   const handleToggleStatus = async () => {
     if (!restaurant) return;
-    await api.post(`/restaurant-owner/restaurants/${restaurant.id}/toggle-status`);
+    await api.patch(`/restaurant-owner/restaurants/${restaurant.id}/toggle-status`);
     setRestaurant((prev) => (prev ? { ...prev, enabled: !prev.enabled } : prev));
   };
 
@@ -75,19 +73,16 @@ export default function AdminMobileHome() {
       <div className="mobile-section">
         <div className="mobile-section-title">Working hours</div>
         <div className="mobile-hours">
-          {DAYS.map((day, i) => {
-            const wh = restaurant?.workingHours?.[i];
-            return (
-              <div key={day} className="mobile-day">
-                <div className="mobile-day-title">{day}</div>
-                <div className="mobile-day-time">
-                  {wh ? (wh.dayOff ? "Day off" : `${wh.openTime} - ${wh.closeTime}`) : "—"}
-                </div>
-              </div>
-            );
-          })}
+          {DAYS.map((day) => (
+            <div key={day} className="mobile-day">
+              <div className="mobile-day-title">{day}</div>
+              <div className="mobile-day-time">—</div>
+            </div>
+          ))}
         </div>
-        <button className="mobile-action">Specify the establishment's working hours</button>
+        <button className="mobile-action" onClick={() => navigate("/restaurateur/hours")}>
+          Specify the establishment's working hours
+        </button>
       </div>
     </div>
   );
