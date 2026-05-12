@@ -38,9 +38,15 @@ export default function AddEstablishmentPage() {
 
     const title = values.name.trim();
     const phone = values.phone.trim();
+    const category = values.category.trim();
 
     if (!title || !phone) {
       setError("Fill in Establishment name and Phone number");
+      return;
+    }
+
+    if (!category) {
+      setError("Please select a category");
       return;
     }
 
@@ -49,7 +55,7 @@ export default function AddEstablishmentPage() {
       await api.post("/admin/restaurants", {
         title,
         description: values.description.trim(),
-        category: values.category.trim(),
+        category,
         deliveryTime: values.mon || "",
         facilities: "",
         isRecommended: false,
