@@ -10,8 +10,9 @@ export type OperatingMode = {
 
 export const getMyRestaurant = async () => {
   const res = await api.get("/restaurant-owner/restaurants");
-  const restaurants = res.data;
-  if (!restaurants || restaurants.length === 0) throw new Error("No restaurant found");
+  const data = res.data;
+  const restaurants = Array.isArray(data) ? data : Array.isArray(data?.content) ? data.content : [];
+  if (restaurants.length === 0) throw new Error("No restaurant found");
   return restaurants[0];
 };
 

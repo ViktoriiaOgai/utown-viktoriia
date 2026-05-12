@@ -69,7 +69,6 @@ export default function AddEstablishmentPage() {
           typeAddress: 0,
           intercomCode: "",
         },
-        ownerId: 0,
       });
       navigate("/admin/establishments");
     } catch (err) {
