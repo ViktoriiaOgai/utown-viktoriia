@@ -63,19 +63,12 @@ export default function EstablishmentPositionAddPage() {
     try {
       const selectedCategory = categories.find((item) => item.name === category);
       const res = await api.post("/admin/dishes", {
-        restaurantId: Number(id ?? 0),
-        name: name.trim(),
+        title: name.trim(),
         description: description.trim(),
-        price,
-        amount: price,
-        category,
-        categoryId: selectedCategory?.id,
-        priority: Number(priority),
-        sortOrder: Number(priority),
-        putOnHold,
-        onHold: putOnHold,
-        isOnHold: putOnHold,
-        blocked: putOnHold,
+        price: Number(price) || 0,
+        sort: Number(priority) || 0,
+        restaurantId: Number(id ?? 0),
+        dishCategoryId: selectedCategory?.id ?? 0,
       });
       const createdDish = res.data;
       const createdDishId = createdDish?.id ?? createdDish?.dishId ?? createdDish?.data?.id ?? null;
@@ -88,7 +81,6 @@ export default function EstablishmentPositionAddPage() {
                 .post(`/admin/dishes/${createdDishId}/options`, {
                   name: item.name,
                   price: item.price,
-                  amount: item.price,
                 })
                 .catch(() => null)
             )
@@ -141,7 +133,7 @@ export default function EstablishmentPositionAddPage() {
           </div>
           <div className="position-form__card">
             <div className="position-form__preview">
-              <div className="position-form__preview-icon">🖼</div>
+              <div className="position-form__preview-icon">🍽</div>
               <div className="position-form__preview-bg" />
             </div>
             <div className="position-form__fields">

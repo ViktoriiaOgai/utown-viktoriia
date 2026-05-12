@@ -85,7 +85,7 @@ export default function ClientCardModal({ open, client, onClose, onEdit }: Props
             {avatar ? (
               <img
                 src={avatar}
-                alt={client.name}
+                alt={client.name || client.phone}
                 style={{
                   width: "100%",
                   height: "100%",
@@ -106,7 +106,7 @@ export default function ClientCardModal({ open, client, onClose, onEdit }: Props
                   background: "#f3f4f6",
                 }}
               >
-                {(client.name || "C").trim().charAt(0).toUpperCase()}
+                {(client.name || client.phone || "C").trim().charAt(0).toUpperCase()}
               </div>
             )}
           </div>
@@ -166,7 +166,7 @@ export default function ClientCardModal({ open, client, onClose, onEdit }: Props
                 lineHeight: 1.35,
               }}
             >
-              {client.name}
+              {client.name || client.phone}
             </div>
           </div>
 
