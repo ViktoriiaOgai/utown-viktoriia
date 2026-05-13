@@ -29,9 +29,10 @@ export default function AddClientPage() {
     setIsSaving(true);
     try {
       await api.post("/admin/clients", {
-        name: name.trim(),
-        phone: phone.trim(),
+        fullName: name.trim(),
+        username: phone.trim(),
         address: address.trim(),
+        role: "CLIENT",
       });
       navigate("/admin/clients");
     } catch (err: unknown) {

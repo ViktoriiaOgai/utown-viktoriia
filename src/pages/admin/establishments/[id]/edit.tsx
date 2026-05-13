@@ -114,7 +114,6 @@ export default function EditEstablishmentPage() {
           typeAddress: 0,
           intercomCode: "",
         },
-        ownerId: 0,
       });
       navigate("/admin/establishments");
     } catch (err) {
