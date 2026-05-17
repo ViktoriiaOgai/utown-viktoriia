@@ -1,11 +1,16 @@
 import { Navigate } from "react-router-dom";
 import type { ReactNode } from "react";
-import { getToken } from "../hooks/auth";
-import { getHomePathForRoles, hasRole, ROLE } from "@/utils/roleHelpers";
+import { getToken, isAdminRole, isRestaurateurRole } from "../hooks/auth";
 
 type RouteProps = {
   children: ReactNode;
   allowedRoles?: string[];
+};
+
+const getHomePathForRoles = (roles: string[]) => {
+  if (isAdminRole(roles)) return "/admin/home";
+  if (isRestaurateurRole(roles)) return "/restaurateur/home";
+  return "/home";
 };
 
 export function ProtectedRoute({ children, allowedRoles }: RouteProps) {
@@ -33,9 +38,10 @@ export function AdminRoute({ children }: RouteProps) {
     return <Navigate to="/login" replace />;
   }
 
-  if (!hasRole(roles, ROLE.ADMIN)) {
+  if (!isAdminRole(roles)) {
     return <Navigate to={getHomePathForRoles(roles)} replace />;
   }
+
   return <>{children}</>;
 }
 
@@ -48,9 +54,11 @@ export function RestaurateurRoute({ children }: RouteProps) {
     return <Navigate to="/login" replace />;
   }
 
-  if (!hasRole(roles, ROLE.RESTAURATEUR)) {
+  if (!isRestaurateurRole(roles)) {
     return <Navigate to={getHomePathForRoles(roles)} replace />;
   }
 
   return <>{children}</>;
 }
+
+export default ProtectedRoute;

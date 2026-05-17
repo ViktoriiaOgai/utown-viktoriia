@@ -21,32 +21,32 @@ const MobileSidebar: React.FC<Props> = ({ isOpen, onClose }) => {
         </div>
 
         <nav className="mobile-sidebar-menu">
-          <Link to="/admin-mobile/orders" onClick={onClose}>
+          <Link to="/restaurateur/orders" onClick={onClose}>
             <span>Order table</span>
             <span>›</span>
           </Link>
 
-          <Link to="/admin-mobile/notifications" onClick={onClose}>
+          <Link to="/restaurateur/notifications" onClick={onClose}>
             <span>Notifications</span>
             <span>›</span>
           </Link>
 
-          <Link to="/admin-mobile/statistics" onClick={onClose}>
+          <Link to="/restaurateur/statistics" onClick={onClose}>
             <span>Statistics</span>
             <span>›</span>
           </Link>
 
-          <Link to="/admin-mobile/menu" onClick={onClose}>
+          <Link to="/restaurateur/menu" onClick={onClose}>
             <span>Menu</span>
             <span>›</span>
           </Link>
 
-          <Link to="/admin-mobile/establishment" onClick={onClose}>
+          <Link to="/restaurateur/establishment" onClick={onClose}>
             <span>Establishment</span>
             <span>›</span>
           </Link>
 
-          <Link to="/admin-mobile/hours" onClick={onClose}>
+          <Link to="/restaurateur/hours" onClick={onClose}>
             <span>Working hours</span>
             <span>›</span>
           </Link>

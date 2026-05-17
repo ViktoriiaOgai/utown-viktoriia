@@ -60,18 +60,19 @@ import CartPage from "@/pages/client/CartPage";
 import OrderPaymentPage from "@/pages/client/OrderPaymentPage";
 import OrderStatusPage from "@/pages/client/OrderStatusPage";
 import MyOrdersPage from "@/pages/client/MyOrdersPage";
+import RestaurateurOrdersPage from "@/pages/admin/mobile/restPages/RestaurateurOrdersPage";
+import AcceptCookingPage from "@/pages/admin/mobile/restPages/AcceptCookingPage";
 
-import AdminMobileLayout from "@/layout/AdminMobileLayout";
-import AdminMobileHome from "@/pages/admin/mobile/Home";
+import RestaurateurLayout from "@/layout/RestaurateurLayout";
+import RestaurateurHome from "@/pages/restaurateur/Home";
 import {
   RestaurateurStatisticsPage,
   RestaurateurMenuPage,
   RestaurateurEstablishmentPage,
   RestaurateurNotificationsPage,
-  RestaurateurHoursPage,
-} from "@/pages/admin/mobile/RestaurateurPlaceholders";
-import RestaurateurOrdersPage from "@/pages/admin/mobile/restPages/RestaurateurOrdersPage";
-import AcceptCookingPage from "@/pages/admin/mobile/restPages/AcceptCookingPage";
+} from "@/pages/restaurateur/RestaurateurPlaceholders";
+import HoursPage from "@/pages/restaurateur/HoursPage";
+import HourEditPage from "@/pages/restaurateur/HourEditPage";
 
 export const router = createBrowserRouter([
   {
@@ -226,23 +227,24 @@ export const router = createBrowserRouter([
     element: <AdminLogin />,
   },
 
-  // MOBILE ADMIN (RESTAURATEUR)
+  // RESTAURATEUR
   {
-    path: "/admin-mobile",
+    path: "/restaurateur",
     element: (
       <RestaurateurRoute>
-        <AdminMobileLayout />
+        <RestaurateurLayout />
       </RestaurateurRoute>
     ),
     children: [
-      { path: "home", element: <AdminMobileHome /> },
+      { path: "home", element: <RestaurateurHome /> },
       { path: "orders", element: <RestaurateurOrdersPage /> },
       { path: "orders/:orderId/cooking", element: <AcceptCookingPage /> },
       { path: "statistics", element: <RestaurateurStatisticsPage /> },
       { path: "menu", element: <RestaurateurMenuPage /> },
       { path: "establishment", element: <RestaurateurEstablishmentPage /> },
       { path: "notifications", element: <RestaurateurNotificationsPage /> },
-      { path: "hours", element: <RestaurateurHoursPage /> },
+      { path: "hours", element: <HoursPage /> },
+      { path: "hours/:day", element: <HourEditPage /> },
     ],
   },
 

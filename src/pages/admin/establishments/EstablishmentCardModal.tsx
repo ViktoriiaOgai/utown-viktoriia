@@ -178,31 +178,7 @@ export default function EstablishmentCardModal({ open, establishment, onClose }:
                   }}
                 >
                   <span>Edit account</span>
-                  <span style={{ fontSize: 18, lineHeight: 1, color: "#6b7280" }}>→</span>
-                </button>
-
-                <button
-                  type="button"
-                  style={{
-                    height: 40,
-                    padding: "0 16px",
-                    border: "1px solid #e5e7eb",
-                    borderRadius: 8,
-                    background: "#fff",
-                    cursor: "pointer",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    gap: 20,
-                    fontWeight: 600,
-                    fontSize: 14,
-                    color: "#111827",
-                    minWidth: 200,
-                    transition: "border-color 0.15s, background 0.15s",
-                  }}
-                >
-                  <span>Menu</span>
-                  <span style={{ fontSize: 18, lineHeight: 1, color: "#6b7280" }}>→</span>
+                  <span style={{ fontSize: 18, lineHeight: 1, color: "#6b7280" }}>›</span>
                 </button>
               </div>
             </div>

@@ -11,7 +11,6 @@ export const getHomePathForRole = (role?: string): string => {
 
     case ROLE.ADMIN:
       return "/admin/home";
-
     case ROLE.CLIENT:
     default:
       return "/home";

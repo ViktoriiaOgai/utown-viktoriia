@@ -26,10 +26,10 @@ function normalizeClient(item: unknown): Client {
   const address = i?.address as Record<string, unknown>;
   return {
     id: Number(i?.id ?? 0),
-    name: String(i?.name ?? i?.username ?? i?.fullName ?? i?.firstName ?? "?"),
-    phone: String(i?.phone ?? i?.phoneNumber ?? i?.username ?? "?"),
-    city: String(i?.city ?? address?.city ?? "?"),
-    address: String(i?.fullAddress ?? address?.fullAddress ?? address?.details ?? "?"),
+    name: String(i?.fullName ?? i?.name ?? i?.firstName ?? ""),
+    phone: String(i?.username ?? i?.phone ?? i?.phoneNumber ?? ""),
+    city: String(i?.city ?? address?.city ?? ""),
+    address: String(i?.fullAddress ?? address?.fullAddress ?? address?.details ?? ""),
     orders: Number(i?.ordersCount ?? i?.orders ?? 0),
     avatarUrl: i?.avatarUrl ? String(i.avatarUrl) : undefined,
   };
@@ -62,7 +62,6 @@ export default function ClientsPage() {
       })
       .then((response) => {
         if (cancelled) return;
-
         setIsLoading(false);
         setPageError("");
         setRows(response.data.content.map(normalizeClient));
@@ -237,7 +236,7 @@ export default function ClientsPage() {
                           onChange={() => toggleOne(c.id)}
                         />
                       </td>
-                      <td className="td cellStrong">{c.name}</td>
+                      <td className="td cellStrong">{c.name || c.phone}</td>
                       <td className="td">{c.phone}</td>
                       <td className="td">{c.city}</td>
                       <td className="td">{c.address}</td>
