@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { api } from "@/services/api";
 import MobileHeader from "@/components/UI/Header";
 import "@/pages/admin/mobile/restPages/RestaurateurOrdersPage.css";
 import Rotate from "@/assets/icons/Rotate Icon.svg?react";
 import { OrderCard } from "../restComponents/OrderCard";
 import Modal from "@/components/UI/Modal";
-import { Order } from "@/types/order";
+import type { Order } from "@/types/order";
+import { useNavigate } from "react-router-dom";
 
 type Restaurant = {
   id: number;
@@ -14,15 +15,11 @@ type Restaurant = {
 export default function RestaurateurOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
-  const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [tab, setTab] = useState<"new" | "completed">("new");
+  const navigate = useNavigate();
 
-  // 👇 ДОБАВИЛИ refresh trigger
-  const [refreshKey, setRefreshKey] = useState(0);
-
-  // =========================
   // 1. GET RESTAURANT
-  // =========================
   useEffect(() => {
     const fetchRestaurant = async () => {
       try {
@@ -44,23 +41,39 @@ export default function RestaurateurOrdersPage() {
     fetchRestaurant();
   }, []);
 
-  // =========================
   // 2. GET ORDERS
-  // =========================
   useEffect(() => {
     if (!restaurant) return;
 
     const loadOrders = async () => {
       try {
-        let res;
+        const res = await api.get(
+          `/orders/restaurant/${restaurant.id}?page=0&size=50&sort=date,desc`
+        );
 
-        if (tab === "new") {
-          res = await api.get(`/orders/restaurant/${restaurant.id}/active`);
-          setOrders(Array.isArray(res.data) ? res.data : []);
-        } else {
-          res = await api.get(`/orders/restaurant/${restaurant.id}?page=0&size=20&sort=date,desc`);
-          setOrders(Array.isArray(res.data.content) ? res.data.content : []);
-        }
+        const data = res.data.content ?? res.data ?? [];
+
+        const ordersWithDetails = await Promise.all(
+          data.map(async (order: Order) => {
+            try {
+              const detailsRes = await api.get(`/orders/${order.id}`);
+
+              return {
+                ...order,
+                items: detailsRes.data.items ?? [],
+              };
+            } catch (e) {
+              console.error(`Failed to load order ${order.id}`, e);
+
+              return {
+                ...order,
+                items: [],
+              };
+            }
+          })
+        );
+
+        setOrders(ordersWithDetails);
       } catch (e) {
         console.error("Ошибка загрузки заказов", e);
         setOrders([]);
@@ -68,51 +81,69 @@ export default function RestaurateurOrdersPage() {
     };
 
     loadOrders();
-  }, [restaurant, tab, refreshKey]);
+  }, [restaurant]);
 
-  // =========================
-  // FILTER
-  // =========================
-  const filteredOrders = orders.filter((order) =>
-    tab === "new"
-      ? order.status === "NEW" || order.status === "ACCEPTED"
-      : order.status === "COMPLETED"
-  );
+  // 3. FILTER BY TAB (ИСПРАВЛЕНО ПОД BACKEND)
+  const filteredOrders = useMemo(() => {
+    const activeStatuses = ["PENDING", "CONFIRMED", "PREPARING", "READY", "OUT_FOR_DELIVERY"];
 
-  // =========================
+    const completedStatuses = ["DELIVERED", "CANCELLED"];
+
+    return orders.filter((order) => {
+      if (tab === "new") {
+        return activeStatuses.includes(order.status);
+      }
+
+      if (tab === "completed") {
+        return completedStatuses.includes(order.status);
+      }
+
+      return false;
+    });
+  }, [orders, tab]);
+
   // TAB SWITCH
-  // =========================
   const handleTabChange = (newTab: "new" | "completed") => {
     setTab(newTab);
   };
 
-  // =========================
   // ACCEPT ORDER
-  // =========================
-  const handleAcceptClick = (id: number) => {
-    setSelectedOrderId(id);
+  const handleAcceptClick = (order: Order) => {
+    setSelectedOrder(order);
   };
-
   const handleConfirmAccept = async () => {
-    if (!selectedOrderId) return;
+    if (!selectedOrder) return;
 
     try {
-      await api.put(`/orders/${selectedOrderId}/status`, {
-        status: "ACCEPTED",
+      // меняем статус на CONFIRMED
+      await api.put(`/orders/${selectedOrder.id}/status`, {
+        status: "CONFIRMED",
       });
 
-      setSelectedOrderId(null);
-      setRefreshKey((prev) => prev + 1); // 🔥 нормальный refresh
+      // закрываем модалку
+      setSelectedOrder(null);
+
+      // переходим на страницу cooking
+      navigate(`/admin-mobile/orders/${selectedOrder.id}/cooking`);
     } catch (e) {
       console.error("Ошибка обновления статуса", e);
     }
   };
 
-  // =========================
-  // REFRESH BUTTON
-  // =========================
-  const handleRefresh = () => {
-    setRefreshKey((prev) => prev + 1); // 🔥 правильно
+  // REFRESH
+  const handleRefresh = async () => {
+    if (!restaurant) return;
+
+    try {
+      const res = await api.get(
+        `/orders/restaurant/${restaurant.id}?page=0&size=50&sort=date,desc`
+      );
+
+      const data = res.data.content ?? res.data ?? [];
+      setOrders(Array.isArray(data) ? data : []);
+    } catch (e) {
+      console.error("Ошибка обновления", e);
+    }
   };
 
   return (
@@ -139,7 +170,7 @@ export default function RestaurateurOrdersPage() {
             className={`statusBtn ${tab === "new" ? "active" : ""}`}
             onClick={() => handleTabChange("new")}
           >
-            New/InProgress
+            New / In Progress
           </button>
 
           <button
@@ -159,11 +190,11 @@ export default function RestaurateurOrdersPage() {
         )}
       </div>
 
-      {selectedOrderId && (
+      {selectedOrder && (
         <Modal
-          title="Accept the order"
-          message={`Order #${selectedOrderId}`}
-          onCancel={() => setSelectedOrderId(null)}
+          title={`${selectedOrder.number}`}
+          message={`Accept the order for processing?`}
+          onCancel={() => setSelectedOrder(null)}
           onAccept={handleConfirmAccept}
         />
       )}

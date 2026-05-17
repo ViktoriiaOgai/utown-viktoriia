@@ -34,10 +34,18 @@ export default function EstablishmentPage() {
   const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
 
   useEffect(() => {
-    api.get(`/public/restaurants/${id}`).then((res) => {
-      setRestaurant(res.data);
-    });
-  }, [id]);
+    const fetchRestaurant = async () => {
+      try {
+        const res = await api.get(`/public/restaurants/${id}`);
+        setRestaurant(res.data);
+      } catch (error) {
+        console.error("Restaurant not found", error);
+        navigate("/home");
+      }
+    };
+
+    fetchRestaurant();
+  }, [id, navigate]);
 
   //  расчёты
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);

@@ -1,29 +1,45 @@
 .order-card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 14px;
-  margin-bottom: 12px;
+   flex: 0 0 auto;
+  width: 320px;
+  min-height: 230px;
+ background: rgba(255, 255, 255, 1);
+
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: start;
+  box-sizing: border-box;
+  border-radius: 8px;
+  border: 1px solid rgba(137, 137, 137, 1);
+  overflow: hidden;
+  cursor: pointer;
+  
 }
 
 .order-header {
   display: flex;
   justify-content: space-between;
+  flex-direction: row;
   font-size: 14px;
   margin-bottom: 8px;
-}
+  padding: 10px;
+  color: rgba(138, 138, 138, 1);
 
+}
+.order-time {
+  color: rgba(138, 138, 138, 1);
+}
 .order-items {
-  padding-left: 16px;
+  padding-left: 20px;
 }
-
-.order-sub {
-  font-size: 12px;
-  color: #888;
+.order-empty {
+  padding-left: 30px;
 }
 
 .order-price {
   margin-top: 10px;
   font-weight: 600;
+  color: rgba(138, 138, 138, 1);
+  padding-left: 20px;
 }
 
 .order-btn {
@@ -45,5 +61,12 @@
 }
 
 .more {
-  background: #eee;
+  background: rgba(245, 245, 245, 1);
+  color: black;
+  border: 1px solid rgba(233, 233, 233, 1)
+}
+.order-sub {
+  font-size: 12px;
+  color: #8b8b8b;
+  margin-top: 4px;
 }

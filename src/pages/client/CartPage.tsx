@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 import DishCard from "@/components/UI/DishCard";
 import { useCart } from "@/context/useCart";
 import { useState } from "react";
-import { createOrder } from "@/services/createOrder";
+import axios from "axios";
+import { checkoutCart, updateCartItem, removeFromCart } from "@/services/cartService";
 
 export default function CartPage() {
   const navigate = useNavigate();
@@ -20,28 +21,47 @@ export default function CartPage() {
       0
     );
 
-  const handleIncrease = (dishId: number, quantity: number) => {
-    setCart((prev) =>
-      prev.map((item) => (item.dish.id === dishId ? { ...item, quantity: quantity + 1 } : item))
-    );
+  const handleIncrease = async (dishId: number, quantity: number) => {
+    try {
+      await updateCartItem(dishId, quantity + 1);
+
+      setCart((prev) =>
+        prev.map((item) => (item.dish.id === dishId ? { ...item, quantity: quantity + 1 } : item))
+      );
+    } catch (e) {
+      console.error("Increase failed", e);
+    }
   };
 
-  const handleDecrease = (dishId: number, quantity: number) => {
+  const handleDecrease = async (dishId: number, quantity: number) => {
     if (quantity === 1) {
       setConfirmDeleteId(dishId);
       return;
     }
 
-    setCart((prev) =>
-      prev.map((item) =>
-        item.dish.id === dishId ? { ...item, quantity: item.quantity - 1 } : item
-      )
-    );
+    try {
+      await updateCartItem(dishId, quantity - 1);
+
+      setCart((prev) =>
+        prev.map((item) =>
+          item.dish.id === dishId ? { ...item, quantity: item.quantity - 1 } : item
+        )
+      );
+    } catch (e) {
+      console.error("Decrease failed", e);
+    }
   };
 
-  const handleDelete = (dishId: number) => {
-    setCart((prev) => prev.filter((item) => item.dish.id !== dishId));
-    setConfirmDeleteId(null);
+  const handleDelete = async (dishId: number) => {
+    try {
+      await removeFromCart(dishId);
+
+      setCart((prev) => prev.filter((item) => item.dish.id !== dishId));
+
+      setConfirmDeleteId(null);
+    } catch (e) {
+      console.error("Delete failed", e);
+    }
   };
 
   const handleCheckout = async () => {
@@ -56,37 +76,49 @@ export default function CartPage() {
       return;
     }
 
-    const payload = {
+    const payload: Parameters<typeof checkoutCart>[0] = {
+      restaurantId,
+
       fullAddress: "Seoul Gangnam 122",
       area: "Seoul",
       city: "Seoul",
       street: "Gangnam",
+
       details: "",
-      clientPhone: "01020203032",
+      clientPhone: "+821020203032",
+
       deliveryTime: "ASAP",
-      cookingTime: 0,
-      orderPrice: getTotal(cart),
-      deliveryPrice: 0,
-      totalSum: getTotal(cart),
-      payment: "CARD",
-      noteForCourier: "",
-      restaurantId,
+      payment: "CASH" as const,
       latitude: 0,
       longitude: 0,
+
       postcode: "",
       state: "",
+
       typeAddress: 0,
       intercomCode: "",
+
+      noteForCourier: "",
     };
 
     try {
-      const order = await createOrder(payload);
+      const order = await checkoutCart(payload);
 
-      console.log("order response:", order);
+      console.log("CHECKOUT RESPONSE:", order);
+
+      if (!order?.id) {
+        console.error("Order id missing");
+        return;
+      }
 
       navigate(`/orders/${order.id}/payment`);
-    } catch (e) {
-      console.error("FAILED createOrder:", e);
+    } catch (e: unknown) {
+      if (axios.isAxiosError(e)) {
+        console.log("STATUS:", e.response?.status);
+        console.log("DATA:", e.response?.data);
+      }
+
+      console.error("FAILED checkoutCart:", e);
     }
   };
   return (

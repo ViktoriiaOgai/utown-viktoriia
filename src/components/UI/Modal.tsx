@@ -23,7 +23,7 @@ export default function Modal({
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <img src={Pic} alt="Pic" className="Pic" />
+        {!onAccept && !onCancel && <img src={Pic} alt="Pic" className="Pic" />}
 
         <h3>{title}</h3>
         <p>{message}</p>
@@ -35,7 +35,9 @@ export default function Modal({
               Cancel
             </AuthBtn>
 
-            <AuthBtn onClick={onAccept}>Accept</AuthBtn>
+            <AuthBtn className="modal-accept" onClick={onAccept}>
+              Accept
+            </AuthBtn>
           </>
         ) : (
           /* иначе обычная модалка */

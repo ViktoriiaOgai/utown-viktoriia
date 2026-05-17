@@ -30,8 +30,9 @@ export default function Home() {
           <div className="main-top-row">
             <Weather userCity={userProfile.city} lat={userProfile.lat} lon={userProfile.lon} />
 
-            <div className="active-orders-card">
+            <div className="active-orders-card" onClick={() => navigate("/my-orders")}>
               <img src={ShoppingCart} alt="Cart" className="shopping" />
+
               <h3>Your active orders</h3>
             </div>
           </div>

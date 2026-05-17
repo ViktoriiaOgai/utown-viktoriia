@@ -1,66 +1,88 @@
 import { Order } from "@/types/order";
+import "@/pages/admin/mobile/restComponents/OrderCard.css";
+import AuthBtn from "@/components/UI/AuthBtn";
 
 type Props = {
   order: Order;
   tab: "new" | "completed";
-  onAccept: (id: number) => void;
+  onAccept: (order: Order) => void;
 };
 
 export function OrderCard({ order, onAccept }: Props) {
-  const time = order.createdAt
-    ? new Date(order.createdAt).toLocaleTimeString([], {
+  const timeSource = order.date || order.time;
+
+  const time = timeSource
+    ? new Date(timeSource).toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
       })
-    : "";
+    : "—";
 
   return (
     <div className="order-card">
-      {/* HEADER */}
       <div className="order-header">
-        <span className="order-number">Order No. {order.id}</span>
+        <span className="order-number">Order No. {order.number}</span>
+
         <span className="order-time">{time}</span>
       </div>
 
       {/* ITEMS */}
       <ul className="order-items">
-        {order.items?.map((item) => (
-          <li key={item.id} className="order-item">
-            <strong>
-              {item.name} / x{item.quantity}
-            </strong>
+        {!order.items?.length ? (
+          <li className="order-empty">No items</li>
+        ) : (
+          order.items.map((item) => (
+            <li key={item.id} className="order-item">
+              <strong>
+                {item.dishTitle} / x{item.count}
+              </strong>
 
-            {item.options?.length ? (
-              <div className="order-sub">{item.options.join(", ")}</div>
-            ) : null}
-          </li>
-        ))}
+              {!!item.elements?.length && (
+                <div className="order-sub">{item.elements.join(", ")}</div>
+              )}
+            </li>
+          ))
+        )}
       </ul>
-
       {/* PRICE */}
-      <div className="order-price">{order.totalSum.toLocaleString()} KRW</div>
+      <div className="order-price">{order.totalSum?.toLocaleString() ?? 0} KRW</div>
 
       {/* ACTIONS */}
       <div className="order-actions">
-        {order.status === "NEW" && (
-          <button className="order-btn accept" onClick={() => onAccept(order.id)}>
+        {/* PENDING */}
+        {order.status === "PENDING" && (
+          <AuthBtn className="order-btn accept" onClick={() => onAccept(order)}>
             Accept
-          </button>
+          </AuthBtn>
         )}
 
-        {order.status === "ACCEPTED" && (
+        {/* CONFIRMED / PREPARING */}
+        {order.status === "PREPARING" && (
           <button className="order-btn inprogress" disabled>
-            In Progress
+            Preparing
           </button>
         )}
 
-        {order.status === "COMPLETED" && (
+        {order.status === "CONFIRMED" && (
+          <button className="order-btn inprogress" disabled>
+            Accepted
+          </button>
+        )}
+        {/* DELIVERED */}
+        {order.status === "DELIVERED" && (
           <button className="order-btn completed" disabled>
             Completed
           </button>
         )}
 
-        <button className="order-btn more">More Details</button>
+        {/* CANCELLED */}
+        {order.status === "CANCELLED" && (
+          <button className="order-btn declined" disabled>
+            Declined
+          </button>
+        )}
+
+        <AuthBtn className="order-btn more">More Details</AuthBtn>
       </div>
     </div>
   );
