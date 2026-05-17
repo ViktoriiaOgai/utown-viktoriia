@@ -124,7 +124,7 @@ export default function RestaurateurOrdersPage() {
       setSelectedOrder(null);
 
       // переходим на страницу cooking
-      navigate(`/admin-mobile/orders/${selectedOrder.id}/cooking`);
+      navigate(`/restaurateur/orders/${selectedOrder.id}/cooking`);
     } catch (e) {
       console.error("Ошибка обновления статуса", e);
     }
