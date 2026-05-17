@@ -10,29 +10,32 @@ import { api } from "@/services/api";
 export default function AcceptCookingPage() {
   const [time, setTime] = useState(50);
 
-  const increaseTime = () => {
-    setTime((prev) => prev + 5);
-  };
+  const navigate = useNavigate();
+  const { orderId } = useParams<{ orderId: string }>();
+
+  if (!orderId) return null;
+
+  const orderIdNum = Number(orderId);
+
+  const increaseTime = () => setTime((p) => p + 5);
 
   const decreaseTime = () => {
-    if (time > 5) {
-      setTime((prev) => prev - 5);
-    }
+    if (time > 5) setTime((p) => p - 5);
   };
-  const navigate = useNavigate();
-  const { orderId } = useParams();
 
   const handleStartCooking = async () => {
     try {
-      await api.put(`/orders/${orderId}/status`, {
+      await api.put(`/orders/${orderIdNum}`, {
         status: "PREPARING",
+        cookingTime: time,
       });
 
-      navigate("/admin-mobile/orders");
+      navigate("/restaurateur/orders", { replace: true });
     } catch (e) {
       console.error("Ошибка обновления статуса", e);
     }
   };
+
   return (
     <>
       <MobileHeader

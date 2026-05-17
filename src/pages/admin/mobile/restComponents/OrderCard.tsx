@@ -56,26 +56,24 @@ export function OrderCard({ order, onAccept }: Props) {
           </AuthBtn>
         )}
 
-        {/* CONFIRMED / PREPARING */}
+        {order.status === "CONFIRMED" && (
+          <button className="order-btn-inprogress" disabled>
+            Accepted
+          </button>
+        )}
+
         {order.status === "PREPARING" && (
-          <button className="order-btn inprogress" disabled>
+          <button className="order-btn-inprogress" disabled>
             Preparing
           </button>
         )}
 
-        {order.status === "CONFIRMED" && (
-          <button className="order-btn inprogress" disabled>
-            Accepted
-          </button>
-        )}
-        {/* DELIVERED */}
         {order.status === "DELIVERED" && (
-          <button className="order-btn completed" disabled>
+          <button className="order-btn-completed" disabled>
             Completed
           </button>
         )}
 
-        {/* CANCELLED */}
         {order.status === "CANCELLED" && (
           <button className="order-btn declined" disabled>
             Declined

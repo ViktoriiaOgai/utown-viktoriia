@@ -17,17 +17,17 @@ export default function RestaurateurOrdersPage() {
   const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [tab, setTab] = useState<"new" | "completed">("new");
+
   const navigate = useNavigate();
 
-  // 1. GET RESTAURANT
+  // ---------------- RESTAURANT ----------------
   useEffect(() => {
     const fetchRestaurant = async () => {
       try {
         const userRes = await api.get("/users/profile");
-        const userId = userRes.data.id;
 
         const restRes = await api.get("/restaurant-owner/restaurants", {
-          params: { userId },
+          params: { userId: userRes.data.id },
         });
 
         if (restRes.data?.length) {
@@ -41,7 +41,7 @@ export default function RestaurateurOrdersPage() {
     fetchRestaurant();
   }, []);
 
-  // 2. GET ORDERS
+  // ---------------- ORDERS ----------------
   useEffect(() => {
     if (!restaurant) return;
 
@@ -53,27 +53,7 @@ export default function RestaurateurOrdersPage() {
 
         const data = res.data.content ?? res.data ?? [];
 
-        const ordersWithDetails = await Promise.all(
-          data.map(async (order: Order) => {
-            try {
-              const detailsRes = await api.get(`/orders/${order.id}`);
-
-              return {
-                ...order,
-                items: detailsRes.data.items ?? [],
-              };
-            } catch (e) {
-              console.error(`Failed to load order ${order.id}`, e);
-
-              return {
-                ...order,
-                items: [],
-              };
-            }
-          })
-        );
-
-        setOrders(ordersWithDetails);
+        setOrders(Array.isArray(data) ? data : []);
       } catch (e) {
         console.error("Ошибка загрузки заказов", e);
         setOrders([]);
@@ -83,54 +63,74 @@ export default function RestaurateurOrdersPage() {
     loadOrders();
   }, [restaurant]);
 
-  // 3. FILTER BY TAB (ИСПРАВЛЕНО ПОД BACKEND)
+  // ---------------- AUTO REFRESH ON FOCUS ----------------
+  useEffect(() => {
+    if (!restaurant) return;
+
+    const loadOrders = async () => {
+      try {
+        const res = await api.get(
+          `/orders/restaurant/${restaurant.id}?page=0&size=50&sort=date,desc`
+        );
+
+        const data = res.data.content ?? res.data ?? [];
+        setOrders(Array.isArray(data) ? data : []);
+      } catch (e) {
+        console.error("Ошибка обновления", e);
+      }
+    };
+
+    const onFocus = () => loadOrders();
+
+    window.addEventListener("focus", onFocus);
+    return () => window.removeEventListener("focus", onFocus);
+  }, [restaurant]);
+
+  // ---------------- FILTER ----------------
   const filteredOrders = useMemo(() => {
     const activeStatuses = ["PENDING", "CONFIRMED", "PREPARING", "READY", "OUT_FOR_DELIVERY"];
 
     const completedStatuses = ["DELIVERED", "CANCELLED"];
 
-    return orders.filter((order) => {
-      if (tab === "new") {
-        return activeStatuses.includes(order.status);
-      }
-
-      if (tab === "completed") {
-        return completedStatuses.includes(order.status);
-      }
-
-      return false;
-    });
+    return orders.filter((order) =>
+      tab === "new"
+        ? activeStatuses.includes(order.status)
+        : completedStatuses.includes(order.status)
+    );
   }, [orders, tab]);
 
-  // TAB SWITCH
-  const handleTabChange = (newTab: "new" | "completed") => {
-    setTab(newTab);
-  };
-
-  // ACCEPT ORDER
+  // ---------------- ACCEPT ----------------
   const handleAcceptClick = (order: Order) => {
     setSelectedOrder(order);
   };
+
   const handleConfirmAccept = async () => {
     if (!selectedOrder) return;
 
     try {
-      // меняем статус на CONFIRMED
       await api.put(`/orders/${selectedOrder.id}/status`, {
         status: "CONFIRMED",
       });
 
-      // закрываем модалку
       setSelectedOrder(null);
 
-      // переходим на страницу cooking
+      // refresh
+      if (restaurant) {
+        const res = await api.get(
+          `/orders/restaurant/${restaurant.id}?page=0&size=50&sort=date,desc`
+        );
+
+        const data = res.data.content ?? res.data ?? [];
+        setOrders(Array.isArray(data) ? data : []);
+      }
+
       navigate(`/restaurateur/orders/${selectedOrder.id}/cooking`);
     } catch (e) {
       console.error("Ошибка обновления статуса", e);
     }
   };
 
-  // REFRESH
+  // ---------------- REFRESH ----------------
   const handleRefresh = async () => {
     if (!restaurant) return;
 
@@ -168,14 +168,14 @@ export default function RestaurateurOrdersPage() {
         <div className="ordStatusBtn">
           <button
             className={`statusBtn ${tab === "new" ? "active" : ""}`}
-            onClick={() => handleTabChange("new")}
+            onClick={() => setTab("new")}
           >
             New / In Progress
           </button>
 
           <button
             className={`statusBtn ${tab === "completed" ? "active" : ""}`}
-            onClick={() => handleTabChange("completed")}
+            onClick={() => setTab("completed")}
           >
             Completed
           </button>
