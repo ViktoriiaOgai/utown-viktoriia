@@ -1,0 +1,49 @@
+.cooking-time {
+     display: flex;
+  justify-content: center;
+  align-items: center;
+    min-height: calc(100vh - 60px);
+   
+}
+.cooking-content {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.cooking-label {
+  font-size: 16px;
+  font-weight: 500;
+
+  margin-bottom: 24px;
+}
+
+.time-controls {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.time-btn {
+  border: none;
+  background: transparent;
+
+  font-size: 42px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.time-value {
+  font-size: 56px;
+  font-weight: 700;
+}
+
+.start-cooking-btn {
+  width: 100%;
+  background: #16a34a;
+  cursor: pointer;
+}

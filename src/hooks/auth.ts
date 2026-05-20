@@ -1,4 +1,4 @@
-import { api } from "../services/api";
+import { api } from "@/services/api";
 
 export const register = (
   phone: string,
@@ -72,6 +72,8 @@ export const getToken = () => {
 
 export const getRole = () => {
   const user = getStoredUser();
+
+  //  ИСПРАВЛЕНО: поддержка и roles и role
   return user?.roles?.[0] || user?.role || "";
 };
 

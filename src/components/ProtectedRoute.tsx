@@ -16,7 +16,7 @@ const getHomePathForRoles = (roles: string[]) => {
 export function ProtectedRoute({ children, allowedRoles }: RouteProps) {
   const token = getToken();
   const user = JSON.parse(localStorage.getItem("user") || "{}");
-  const roles: string[] = user.roles || [];
+  const roles: string[] = user.roles || (user.role ? [user.role] : []);
 
   if (!token) {
     return <Navigate to="/login" replace />;
@@ -32,7 +32,7 @@ export function ProtectedRoute({ children, allowedRoles }: RouteProps) {
 export function AdminRoute({ children }: RouteProps) {
   const token = getToken();
   const user = JSON.parse(localStorage.getItem("user") || "{}");
-  const roles: string[] = user.roles || [];
+  const roles: string[] = user.roles || (user.role ? [user.role] : []);
 
   if (!token) {
     return <Navigate to="/login" replace />;
@@ -48,7 +48,7 @@ export function AdminRoute({ children }: RouteProps) {
 export function RestaurateurRoute({ children }: RouteProps) {
   const token = getToken();
   const user = JSON.parse(localStorage.getItem("user") || "{}");
-  const roles: string[] = user.roles || [];
+  const roles: string[] = user.roles || (user.role ? [user.role] : []);
 
   if (!token) {
     return <Navigate to="/login" replace />;

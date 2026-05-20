@@ -12,8 +12,8 @@ type Props = {
   backColor?: string;
   showBell?: boolean;
   bellColor?: string;
-  logoVariant?: "gradient" | "white" | "title" | "black";
-
+  logoVariant?: "gradient" | "white" | "title" | "black" | "title-black";
+  titleColor?: string;
   title?: string;
 };
 
@@ -23,11 +23,12 @@ export default function MobileHeader({
   backColor = "black",
   bellColor = "rgba(141, 141, 141, 1)",
   logoVariant = "gradient",
-
+  titleColor = "",
   title = "",
 }: Props) {
   const navigate = useNavigate();
   const { unreadCount } = useNotifications();
+  const isTitleVariant = logoVariant === "title" || logoVariant === "title-black";
   return (
     <div className="header-icons">
       <div className="header-left">{showBack && <BackButton color={backColor} />}</div>
@@ -37,12 +38,18 @@ export default function MobileHeader({
           {logoVariant === "white" && <LogoWhite className="logo-icon" />}
 
           {logoVariant === "gradient" && <LogoGradient className="logo-icon" />}
-          {logoVariant === "gradient" && <LogoBlack className="logo-icon" />}
 
-          {logoVariant === "title" && (
+          {isTitleVariant && (
             <>
-              <LogoWhite className="logo-icon" />
-              <div className="title-header">{title}</div>
+              {logoVariant === "title-black" ? (
+                <LogoBlack className="logo-icon" />
+              ) : (
+                <LogoWhite className="logo-icon" />
+              )}
+
+              <div className="title-header" style={{ color: titleColor }}>
+                {title}
+              </div>
             </>
           )}
         </div>

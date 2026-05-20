@@ -8,6 +8,8 @@
   align-items: center;
   background: rgba(138, 126, 214, 1);
   overflow-x: hidden;
+  
+
 }
 
 /* --- БЕЛЫЙ БЛОК --- */
@@ -17,14 +19,14 @@
   background: white;
   border-top-left-radius: 45px;
   border-top-right-radius: 45px;
-
+  
   padding: 20px;
 
   display: flex;
   flex-direction: column;
   gap: 15px;
   align-items: stretch;
-  margin-top: 20px;
+   margin-top: 60px;
 }
 
 /* --- ВНУТРЕННИЙ КОНТЕНТ --- */

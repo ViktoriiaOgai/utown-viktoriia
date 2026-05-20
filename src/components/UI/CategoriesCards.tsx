@@ -1,20 +1,13 @@
-// components/UI/CategoriesCards.tsx
-import { useEffect, useState } from "react";
-import { api } from "@/services/api";
+import { useMemo } from "react";
+import { useRestaurantsData } from "@/hooks/useRestaurantsData";
 import placeholder from "@/assets/images/Ad 1.svg";
 import "@/components/UI/CategoriesCards.css";
+import type { Restaurant } from "@/types/restaurant";
 
 type Props = {
   variant?: "scroll" | "grid";
   onSelectCategory?: (category: string | null) => void;
   selectedCategory?: string | null;
-};
-
-type Restaurant = {
-  id: number;
-  title: string;
-  category: string;
-  imageUrl: string;
 };
 
 type CategoryItem = {
@@ -23,48 +16,37 @@ type CategoryItem = {
   imageUrl: string;
 };
 
-const API_URL = import.meta.env.VITE_API_URL;
-
 export default function CategoriesCards({
   variant = "scroll",
   onSelectCategory,
   selectedCategory,
 }: Props) {
-  const [categories, setCategories] = useState<CategoryItem[]>([]);
+  const restaurants = useRestaurantsData();
 
-  useEffect(() => {
-    const fetchRestaurants = async () => {
-      try {
-        const res = await api.get(`${API_URL}/public/restaurants`);
+  const categories = useMemo<CategoryItem[]>(() => {
+    const map: Record<string, CategoryItem> = {};
 
-        const data = res.data.content || res.data;
-        console.log("RESTAURANTS:", data);
+    restaurants.forEach((r: Restaurant) => {
+      const key = r.category || "Other";
 
-        //группировка по категориям
-        const map: Record<string, CategoryItem> = {};
-
-        data.forEach((r: Restaurant) => {
-          const key = r.category || "Other";
-
-          if (!map[key]) {
-            map[key] = {
-              name: key,
-              count: 0,
-              imageUrl: r.imageUrl,
-            };
-          }
-
-          map[key].count += 1;
-        });
-
-        setCategories(Object.values(map));
-      } catch (error) {
-        console.error("Ошибка загрузки категорий:", error);
+      if (!map[key]) {
+        map[key] = {
+          name: key,
+          count: 0,
+          imageUrl: r.imageUrl || "",
+        };
       }
-    };
 
-    fetchRestaurants();
-  }, []);
+      map[key].count += 1;
+
+      // берём первую нормальную картинку
+      if (!map[key].imageUrl && r.imageUrl) {
+        map[key].imageUrl = r.imageUrl;
+      }
+    });
+
+    return Object.values(map);
+  }, [restaurants]);
 
   return (
     <div className="categories-section">
@@ -75,19 +57,21 @@ export default function CategoriesCards({
       <div className={`categories-cards-container ${variant === "grid" ? "vertical" : ""}`}>
         {categories.map((c) => (
           <div
-            className={`categories-card ${selectedCategory === c.name ? "active" : ""}`}
             key={c.name}
+            className={`categories-card ${selectedCategory === c.name ? "active" : ""}`}
             onClick={() => onSelectCategory?.(selectedCategory === c.name ? null : c.name)}
           >
             <img
               src={c.imageUrl || placeholder}
               alt={c.name}
-              onError={(e) => (e.currentTarget.src = placeholder)}
+              onError={(e) => {
+                e.currentTarget.src = placeholder;
+              }}
             />
 
             <div className="overlay">
               <h4 className="title">{c.name}</h4>
-              <p className="categ">{c.count} places</p>
+              <p className="categ">{c.count} establishments </p>
             </div>
           </div>
         ))}

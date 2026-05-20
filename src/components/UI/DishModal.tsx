@@ -2,6 +2,7 @@ import "@/components/UI/Modal.css";
 import AuthBtn from "@/components/UI/AuthBtn";
 import { useState } from "react";
 import type { Dish, DishOption, CartItem } from "@/types/cart";
+import { addToCart } from "@/services/cartService";
 
 type Props = {
   dish: Dish;
@@ -21,14 +22,20 @@ export default function DishModal({ dish, onClose, buttonText, onAddToCart }: Pr
 
   const totalPrice = (dish.price + (selectedOption?.price ?? 0)) * quantity;
 
-  const handleAdd = () => {
-    onAddToCart({
-      dish,
-      option: selectedOption,
-      quantity,
-    });
+  const handleAdd = async () => {
+    try {
+      await addToCart(dish.id, quantity);
 
-    onClose();
+      onAddToCart({
+        dish,
+        option: selectedOption,
+        quantity,
+      });
+
+      onClose();
+    } catch (e) {
+      console.error("Add to cart failed", e);
+    }
   };
   return (
     <div className="modal-overlay" onClick={onClose}>

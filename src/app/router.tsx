@@ -59,11 +59,13 @@ import DishPage from "@/pages/client/DishPage";
 import CartPage from "@/pages/client/CartPage";
 import OrderPaymentPage from "@/pages/client/OrderPaymentPage";
 import OrderStatusPage from "@/pages/client/OrderStatusPage";
+import MyOrdersPage from "@/pages/client/MyOrdersPage";
+import RestaurateurOrdersPage from "@/pages/admin/mobile/restPages/RestaurateurOrdersPage";
+import AcceptCookingPage from "@/pages/admin/mobile/restPages/AcceptCookingPage";
 
 import RestaurateurLayout from "@/layout/RestaurateurLayout";
 import RestaurateurHome from "@/pages/restaurateur/Home";
 import {
-  RestaurateurOrdersPage,
   RestaurateurStatisticsPage,
   RestaurateurMenuPage,
   RestaurateurEstablishmentPage,
@@ -173,11 +175,20 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+
       {
         path: "/order/:id/status",
         element: (
           <ProtectedRoute allowedRoles={["CLIENT"]}>
             <OrderStatusPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/my-orders",
+        element: (
+          <ProtectedRoute allowedRoles={["CLIENT"]}>
+            <MyOrdersPage />
           </ProtectedRoute>
         ),
       },
@@ -227,6 +238,7 @@ export const router = createBrowserRouter([
     children: [
       { path: "home", element: <RestaurateurHome /> },
       { path: "orders", element: <RestaurateurOrdersPage /> },
+      { path: "orders/:orderId/cooking", element: <AcceptCookingPage /> },
       { path: "statistics", element: <RestaurateurStatisticsPage /> },
       { path: "menu", element: <RestaurateurMenuPage /> },
       { path: "establishment", element: <RestaurateurEstablishmentPage /> },

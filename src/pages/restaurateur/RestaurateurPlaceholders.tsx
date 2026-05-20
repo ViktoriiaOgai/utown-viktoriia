@@ -1,7 +1,3 @@
-export function RestaurateurOrdersPage() {
-  return <div style={{ padding: 32, fontSize: 24, fontWeight: 700 }}>Orders</div>;
-}
-
 export function RestaurateurStatisticsPage() {
   return <div style={{ padding: 32, fontSize: 24, fontWeight: 700 }}>Statistics</div>;
 }

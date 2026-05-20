@@ -13,7 +13,7 @@ type SearchParams = {
 export const searchRestaurants = async (params: { title?: string; category?: string }) => {
   const queryParams: SearchParams = {
     page: 0,
-    size: 50,
+    size: 999,
   };
 
   if (params.title?.trim()) {
