@@ -144,7 +144,7 @@ export default function OrderStatusPage() {
         </div>
 
         <div className="pay-container">
-          <AuthBtn onClick={() => navigate("/foodmain")}>Hide Order Status</AuthBtn>
+          <AuthBtn onClick={() => navigate("/my-orders")}>Hide Order Status</AuthBtn>
         </div>
       </div>
     </div>

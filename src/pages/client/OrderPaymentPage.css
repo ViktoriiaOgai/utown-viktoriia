@@ -6,7 +6,7 @@
 
   margin: 0 auto;
   width: 100%;
-  max-width: 428px;
+  width: 430px;
 
   padding: 20px;
 
@@ -25,13 +25,18 @@
 }
 
 .status-container {
-  position: fixed;
-  bottom: 80px;
-  left: 0;
-  right: 0;
-  width: 100%;
+   position: absolute;
+  bottom: 0;
+
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: calc(100% - 32px);
+  width: 430px;
   height: 350px;
+
   background: white;
+
   border-top-left-radius: 45px;
   border-top-right-radius: 45px;
 
@@ -40,7 +45,6 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  align-items: stretch;
 }
 .field {
   margin-bottom: 14px;

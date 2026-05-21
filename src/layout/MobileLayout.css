@@ -1,7 +1,7 @@
 .mobile-layout {
   width: 100%;
   max-width: 430px;
-  min-height: 100vh;
+ height: 100vh;
 
   margin: 0 auto;
 
@@ -9,6 +9,7 @@
   flex-direction: column;
   background: white;
   padding-bottom: 80px;
+  
 }
 .mobile-content {
   flex: 1;

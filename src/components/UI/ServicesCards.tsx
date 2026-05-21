@@ -29,7 +29,7 @@ export default function ServicesCards() {
         title="Food Delivery"
         icon={reserve}
         color="rgba(132, 117, 232, 1)"
-        onClick={() => navigate("/favourites")}
+        onClick={() => navigate("/foodmain")}
       />
       <Card title="Mobile Connection" icon={mobileIcon} color="rgba(54, 214, 164, 1)" />
       <Card title="Jobs" icon={jobsIcon} color=" rgba(31, 188, 223, 1)" />

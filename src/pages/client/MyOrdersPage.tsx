@@ -5,15 +5,17 @@ import { api } from "@/services/api";
 import MobileHeader from "@/components/UI/Header";
 import "@/pages/client/MyOrdersPage.css";
 import type { Order } from "@/types/order";
+import { useNavigate } from "react-router-dom";
 
 export default function MyOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadOrders = async () => {
       try {
-        const res = await api.get("/orders/my-orders");
+        const res = await api.get("/orders/my-orders/paginated");
 
         const data = res.data.content ?? res.data ?? [];
 
@@ -62,7 +64,11 @@ export default function MyOrdersPage() {
             <p>No active orders</p>
           ) : (
             activeOrders.map((order) => (
-              <div key={order.id} className="client-order-card">
+              <div
+                key={order.id}
+                className="client-order-card"
+                onClick={() => navigate(`/order/${order.id}/status`)}
+              >
                 <div className="client-order-top">
                   <span>{order.restaurantName}</span>
 

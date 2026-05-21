@@ -1,31 +1,19 @@
 import { Order } from "@/types/order";
 import "@/pages/admin/mobile/restComponents/OrderCard.css";
 import AuthBtn from "@/components/UI/AuthBtn";
-
+import { useNavigate } from "react-router-dom";
+import OrderNumTime from "@/pages/admin/mobile/restComponents/OrderNumTime";
 type Props = {
   order: Order;
   tab: "new" | "completed";
   onAccept: (order: Order) => void;
+  isDetails?: boolean;
 };
-
-export function OrderCard({ order, onAccept }: Props) {
-  const timeSource = order.date || order.time;
-
-  const time = timeSource
-    ? new Date(timeSource).toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      })
-    : "—";
-
+export function OrderCard({ order, onAccept, isDetails }: Props) {
+  const navigate = useNavigate();
   return (
     <div className="order-card">
-      <div className="order-header">
-        <span className="order-number">Order No. {order.number}</span>
-
-        <span className="order-time">{time}</span>
-      </div>
-
+      {!isDetails && <OrderNumTime order={order} />}
       {/* ITEMS */}
       <ul className="order-items">
         {!order.items?.length ? (
@@ -80,7 +68,14 @@ export function OrderCard({ order, onAccept }: Props) {
           </button>
         )}
 
-        <AuthBtn className="order-btn more">More Details</AuthBtn>
+        {!isDetails && (
+          <AuthBtn
+            className="order-btn-more"
+            onClick={() => navigate(`/restaurateur/orders/${order.id}/details`)}
+          >
+            More Details
+          </AuthBtn>
+        )}
       </div>
     </div>
   );

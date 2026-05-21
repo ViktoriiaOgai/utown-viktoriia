@@ -1,0 +1,33 @@
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  font-size: 14px;
+  margin-bottom: 8px;
+  padding: 10px;
+  color: rgba(138, 138, 138, 1);
+
+}
+.order-time {
+  color: rgba(138, 138, 138, 1);
+}
+.order-header--details {
+  padding: 16px 20px;
+  border-bottom: 1px solid #eee;
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+    }
+
+.order-number--details {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111;
+}
+.order-details-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}

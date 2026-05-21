@@ -62,6 +62,7 @@ import OrderStatusPage from "@/pages/client/OrderStatusPage";
 import MyOrdersPage from "@/pages/client/MyOrdersPage";
 import RestaurateurOrdersPage from "@/pages/admin/mobile/restPages/RestaurateurOrdersPage";
 import AcceptCookingPage from "@/pages/admin/mobile/restPages/AcceptCookingPage";
+import OrderDetailsPage from "@/pages/admin/mobile/restPages/OrderDetailsPage";
 
 import RestaurateurLayout from "@/layout/RestaurateurLayout";
 import RestaurateurHome from "@/pages/restaurateur/Home";
@@ -238,6 +239,7 @@ export const router = createBrowserRouter([
     children: [
       { path: "home", element: <RestaurateurHome /> },
       { path: "orders", element: <RestaurateurOrdersPage /> },
+      { path: "orders/:orderId/details", element: <OrderDetailsPage /> },
       { path: "orders/:orderId/cooking", element: <AcceptCookingPage /> },
       { path: "statistics", element: <RestaurateurStatisticsPage /> },
       { path: "menu", element: <RestaurateurMenuPage /> },
