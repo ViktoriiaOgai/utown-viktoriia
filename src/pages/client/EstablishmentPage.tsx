@@ -73,7 +73,8 @@ export default function EstablishmentPage() {
       return [
         ...prev,
         {
-          dish: { ...item.dish }, //  копия
+          id: Date.now(),
+          dish: { ...item.dish },
           option: item.option,
           quantity: item.quantity,
         },
