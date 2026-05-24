@@ -17,6 +17,7 @@ export type DishOption = {
 };
 
 export type CartItem = {
+  id: number;
   dish: Dish;
   quantity: number;
   option: DishOption | null;

@@ -1,37 +1,42 @@
 import type { Order } from "@/types/order";
-import OrderNumTime from "./OrderNumTime";
+import "./OrderTimeline.css";
 
 type Props = {
   order: Order;
 };
 
 export function OrderTimeline({ order }: Props) {
-  const cookingFinishTime = order.time
-    ? new Date(
-        new Date(order.time).getTime() + (order.cookingTime ?? 0) * 60000
-      ).toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      })
-    : "";
+  const cookingMinutes = order.cookingTime ?? 50;
+
+  let readyTime = "--:--";
+
+  if (order.time) {
+    const [hours, minutes] = order.time.split(":").map(Number);
+
+    if (!isNaN(hours) && !isNaN(minutes)) {
+      const totalMinutes = hours * 60 + minutes + cookingMinutes;
+
+      const readyHours = Math.floor(totalMinutes / 60) % 24;
+
+      const readyMinutes = totalMinutes % 60;
+
+      readyTime = `${String(readyHours).padStart(2, "0")}:${String(readyMinutes).padStart(2, "0")}`;
+    }
+  }
 
   return (
-    <div className="order-timeline">
-      <div className="order-timeline-row">
-        <span>
-          <OrderNumTime order={order} hideOrderNumber />
-        </span>
+    <div className="timeline-box">
+      <div className="timeline-left">
+        <span className="timeline-time">{readyTime}</span>
+
+        <div className="timeline-cooking">
+          <span>Cooking time</span>
+
+          <span>{cookingMinutes} min.</span>
+        </div>
       </div>
 
-      <div className="order-timeline-row">
-        <span>Cooking time</span>
-        <span>{order.cookingTime ?? 0} min</span>
-      </div>
-
-      <div className="order-timeline-row">
-        <span>Ready at</span>
-        <span>{cookingFinishTime}</span>
-      </div>
+      <button className="timeline-status">Courier collects order.</button>
     </div>
   );
 }

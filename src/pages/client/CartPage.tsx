@@ -7,12 +7,16 @@ import DishCard from "@/components/UI/DishCard";
 import { useCart } from "@/context/useCart";
 import { useState } from "react";
 import axios from "axios";
+
 import { checkoutCart, updateCartItem, removeFromCart } from "@/services/cartService";
 
 export default function CartPage() {
   const navigate = useNavigate();
+
   const { cart, setCart } = useCart();
+
   const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
+
   const getCount = (cart: CartItem[]) => cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const getTotal = (cart: CartItem[]) =>
@@ -21,30 +25,46 @@ export default function CartPage() {
       0
     );
 
-  const handleIncrease = async (dishId: number, quantity: number) => {
+  /* ================= INCREASE ================= */
+
+  const handleIncrease = async (cartItemId: number, quantity: number) => {
     try {
-      await updateCartItem(dishId, quantity + 1);
+      await updateCartItem(cartItemId, quantity + 1);
 
       setCart((prev) =>
-        prev.map((item) => (item.dish.id === dishId ? { ...item, quantity: quantity + 1 } : item))
+        prev.map((item) =>
+          item.id === cartItemId
+            ? {
+                ...item,
+                quantity: quantity + 1,
+              }
+            : item
+        )
       );
     } catch (e) {
       console.error("Increase failed", e);
     }
   };
 
-  const handleDecrease = async (dishId: number, quantity: number) => {
+  /* ================= DECREASE ================= */
+
+  const handleDecrease = async (cartItemId: number, quantity: number) => {
     if (quantity === 1) {
-      setConfirmDeleteId(dishId);
+      setConfirmDeleteId(cartItemId);
       return;
     }
 
     try {
-      await updateCartItem(dishId, quantity - 1);
+      await updateCartItem(cartItemId, quantity - 1);
 
       setCart((prev) =>
         prev.map((item) =>
-          item.dish.id === dishId ? { ...item, quantity: item.quantity - 1 } : item
+          item.id === cartItemId
+            ? {
+                ...item,
+                quantity: quantity - 1,
+              }
+            : item
         )
       );
     } catch (e) {
@@ -52,11 +72,13 @@ export default function CartPage() {
     }
   };
 
-  const handleDelete = async (dishId: number) => {
-    try {
-      await removeFromCart(dishId);
+  /* ================= DELETE ================= */
 
-      setCart((prev) => prev.filter((item) => item.dish.id !== dishId));
+  const handleDelete = async (cartItemId: number) => {
+    try {
+      await removeFromCart(cartItemId);
+
+      setCart((prev) => prev.filter((item) => item.id !== cartItemId));
 
       setConfirmDeleteId(null);
     } catch (e) {
@@ -64,9 +86,9 @@ export default function CartPage() {
     }
   };
 
-  const handleCheckout = async () => {
-    console.log("checkout clicked");
+  /* ================= CHECKOUT ================= */
 
+  const handleCheckout = async () => {
     if (!cart.length) return;
 
     const restaurantId = cart[0]?.dish.restaurantId;
@@ -88,7 +110,8 @@ export default function CartPage() {
       clientPhone: "+821020203032",
 
       deliveryTime: "ASAP",
-      payment: "CASH" as const,
+      payment: "CASH",
+
       latitude: 0,
       longitude: 0,
 
@@ -104,23 +127,25 @@ export default function CartPage() {
     try {
       const order = await checkoutCart(payload);
 
-      console.log("CHECKOUT RESPONSE:", order);
-
       if (!order?.id) {
         console.error("Order id missing");
         return;
       }
 
+      setCart([]);
+
       navigate(`/orders/${order.id}/payment`);
     } catch (e: unknown) {
       if (axios.isAxiosError(e)) {
         console.log("STATUS:", e.response?.status);
+
         console.log("DATA:", e.response?.data);
       }
 
       console.error("FAILED checkoutCart:", e);
     }
   };
+
   return (
     <div className="page-wrapper">
       <MobileHeader
@@ -131,6 +156,7 @@ export default function CartPage() {
         bellColor="white"
         title="Food"
       />
+
       <div className="main-container">
         <div className="cart-page">
           <h2>Your order</h2>
@@ -140,14 +166,14 @@ export default function CartPage() {
           ) : (
             cart.map((item) => (
               <DishCard
-                key={item.dish.id}
+                key={item.id}
                 dish={item.dish}
                 variant="cart"
                 quantity={item.quantity}
-                onIncrease={() => handleIncrease(item.dish.id, item.quantity)}
-                onDecrease={() => handleDecrease(item.dish.id, item.quantity)}
-                onDelete={() => handleDelete(item.dish.id)}
-                isConfirmDelete={confirmDeleteId === item.dish.id}
+                onIncrease={() => handleIncrease(item.id, item.quantity)}
+                onDecrease={() => handleDecrease(item.id, item.quantity)}
+                onDelete={() => handleDelete(item.id)}
+                isConfirmDelete={confirmDeleteId === item.id}
               />
             ))
           )}

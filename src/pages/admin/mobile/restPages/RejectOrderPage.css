@@ -1,0 +1,107 @@
+.reject-page {
+  padding: 16px;
+  padding-bottom: 120px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.reject-page h2 {
+  margin: 0;
+
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.reject-box {
+  border: 1px solid #ececec;
+  border-radius: 24px;
+
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  background: white;
+}
+
+.reject-box h3 {
+  margin: 0;
+
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.reject-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.reject-reason {
+  min-height: 54px;
+
+  border-radius: 16px;
+  border: 1px solid #ececec;
+
+  background: white;
+
+  padding: 16px;
+
+  text-align: left;
+
+  font-size: 14px;
+
+  transition: 0.2s;
+
+  cursor: pointer;
+}
+
+.reject-reason.active {
+  background: black;
+  color: white;
+  border-color: black;
+}
+
+.reject-custom {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.reject-custom label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.reject-custom textarea {
+  min-height: 120px;
+
+  border-radius: 18px;
+  border: 1px solid #ececec;
+
+  padding: 16px;
+
+  resize: none;
+
+  font-size: 14px;
+}
+
+.reject-submit-btn {
+  position: fixed;
+
+  bottom: 20px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: calc(100% - 32px);
+  max-width: 398px;
+
+  height: 56px;
+
+  border-radius: 18px;
+  background: red;
+}

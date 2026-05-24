@@ -6,7 +6,7 @@ import Rotate from "@/assets/icons/Rotate Icon.svg?react";
 import { OrderCard } from "../restComponents/OrderCard";
 import Modal from "@/components/UI/Modal";
 import type { Order } from "@/types/order";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 type Restaurant = {
   id: number;
@@ -16,9 +16,14 @@ export default function RestaurateurOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
-  const [tab, setTab] = useState<"new" | "completed">("new");
 
   const navigate = useNavigate();
+
+  const [searchParams] = useSearchParams();
+
+  const initialTab = searchParams.get("tab") === "completed" ? "completed" : "new";
+
+  const [tab, setTab] = useState<"new" | "completed">(initialTab);
 
   // ---------------- RESTAURANT ----------------
   useEffect(() => {

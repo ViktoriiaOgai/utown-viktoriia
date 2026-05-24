@@ -1,0 +1,54 @@
+.timeline-box {
+  width: calc(100% - 32px);
+
+  margin: 12px auto 0;
+
+  border: 1px solid #d9d9d9;
+  border-radius: 14px;
+
+  padding: 12px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background: #fff;
+}
+
+.timeline-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.timeline-time {
+  font-size: 28px;
+  font-weight: 500;
+  color: #111;
+}
+
+.timeline-cooking {
+  display: flex;
+  flex-direction: column;
+
+  font-size: 10px;
+  line-height: 1.1;
+
+  color: #8a8a8a;
+}
+
+.timeline-status {
+  border: none;
+  border-radius: 10px;
+
+  background: #ccee00;
+
+  padding: 12px 14px;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  color: #111;
+
+  white-space: nowrap;
+}

@@ -25,7 +25,7 @@ export default function AcceptCookingPage() {
 
   const handleStartCooking = async () => {
     try {
-      await api.put(`/orders/${orderIdNum}`, {
+      await api.put(`/orders/${orderIdNum}/status`, {
         status: "PREPARING",
         cookingTime: time,
       });

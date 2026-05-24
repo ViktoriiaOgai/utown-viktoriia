@@ -7,6 +7,7 @@ type Props = {
   type?: "button" | "submit";
   onClick?: () => void;
   className?: string;
+  disabled?: boolean;
 };
 
 export default function AuthBtn({ children, to, type = "button", onClick, className = "" }: Props) {
