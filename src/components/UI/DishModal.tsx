@@ -27,6 +27,7 @@ export default function DishModal({ dish, onClose, buttonText, onAddToCart }: Pr
       await addToCart(dish.id, quantity);
 
       onAddToCart({
+        id: Date.now(),
         dish,
         option: selectedOption,
         quantity,
