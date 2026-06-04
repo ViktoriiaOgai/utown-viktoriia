@@ -33,10 +33,10 @@ export default function CartPage() {
 
       setCart((prev) =>
         prev.map((item) =>
-          item.id === cartItemId
+          item.dish.id === cartItemId
             ? {
                 ...item,
-                quantity: quantity + 1,
+                quantity: item.quantity + 1,
               }
             : item
         )
@@ -59,7 +59,7 @@ export default function CartPage() {
 
       setCart((prev) =>
         prev.map((item) =>
-          item.id === cartItemId
+          item.dish.id === cartItemId
             ? {
                 ...item,
                 quantity: quantity - 1,
@@ -78,7 +78,7 @@ export default function CartPage() {
     try {
       await removeFromCart(cartItemId);
 
-      setCart((prev) => prev.filter((item) => item.id !== cartItemId));
+      setCart((prev) => prev.filter((item) => item.dish.id !== cartItemId));
 
       setConfirmDeleteId(null);
     } catch (e) {
@@ -145,7 +145,7 @@ export default function CartPage() {
       console.error("FAILED checkoutCart:", e);
     }
   };
-
+  console.log(cart);
   return (
     <div className="page-wrapper">
       <MobileHeader
@@ -170,10 +170,10 @@ export default function CartPage() {
                 dish={item.dish}
                 variant="cart"
                 quantity={item.quantity}
-                onIncrease={() => handleIncrease(item.id, item.quantity)}
-                onDecrease={() => handleDecrease(item.id, item.quantity)}
-                onDelete={() => handleDelete(item.id)}
-                isConfirmDelete={confirmDeleteId === item.id}
+                onIncrease={() => handleIncrease(item.dish.id, item.quantity)}
+                onDecrease={() => handleDecrease(item.dish.id, item.quantity)}
+                onDelete={() => handleDelete(item.dish.id)}
+                isConfirmDelete={confirmDeleteId === item.dish.id}
               />
             ))
           )}

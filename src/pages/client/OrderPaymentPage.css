@@ -171,10 +171,19 @@
 .link:hover {
   text-decoration: underline;
 }
+.status-image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+   margin: 50px auto;
+}
+
 .status-image {
-  width: 220px;
-  margin: 20px auto;
-  display: block;
+  width: 280px;
+  height: 280px;
+  object-fit: contain;
+  margin: 50px auto;
 }
 .restName {
   font-family: SF Pro Display;

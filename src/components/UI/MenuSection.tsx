@@ -3,13 +3,23 @@ import { getDishesByRestaurant } from "@/services/restaurantService";
 import DishCard from "./DishCard";
 import "@/components/UI/MenuSection.css";
 import { useMemo } from "react";
-import type { Dish, CartItem } from "@/types/cart";
+import type { Dish } from "@/types/cart";
 
 type Props = {
   restaurantId: number;
   search: string;
   selectedCategory: number | null;
-  onAddToCart: (item: CartItem) => void;
+  onAddToCart: (serverCart: {
+    items: {
+      id: number;
+      count: number;
+      dishId: number;
+      dishTitle: string;
+      dishImageUrl: string;
+      restaurantId: number;
+      sum: number;
+    }[];
+  }) => void;
   onSelectDish: (dish: Dish) => void;
   onAdd?: () => void;
 };

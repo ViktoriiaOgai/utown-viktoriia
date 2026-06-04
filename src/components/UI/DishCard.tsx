@@ -69,6 +69,7 @@ export default function DishCard({
             <button
               onClick={(e) => {
                 e.stopPropagation();
+                console.log("PLUS CLICK");
                 onIncrease?.();
               }}
             >

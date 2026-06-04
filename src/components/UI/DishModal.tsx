@@ -1,16 +1,25 @@
 import "@/components/UI/Modal.css";
 import AuthBtn from "@/components/UI/AuthBtn";
 import { useState } from "react";
-import type { Dish, DishOption, CartItem } from "@/types/cart";
-import { addToCart } from "@/services/cartService";
+import type { Dish, DishOption } from "@/types/cart";
+import { addToCart, getMyCart } from "@/services/cartService";
 
 type Props = {
   dish: Dish;
   buttonText: string;
   onClose: () => void;
-  onAddToCart: (item: CartItem) => void;
+  onAddToCart: (serverCart: {
+    items: {
+      id: number;
+      count: number;
+      dishId: number;
+      dishTitle: string;
+      dishImageUrl: string;
+      restaurantId: number;
+      sum: number;
+    }[];
+  }) => void;
 };
-
 export default function DishModal({ dish, onClose, buttonText, onAddToCart }: Props) {
   const [quantity, setQuantity] = useState(1);
   const OPTIONS: DishOption[] = [
@@ -26,12 +35,9 @@ export default function DishModal({ dish, onClose, buttonText, onAddToCart }: Pr
     try {
       await addToCart(dish.id, quantity);
 
-      onAddToCart({
-        id: Date.now(),
-        dish,
-        option: selectedOption,
-        quantity,
-      });
+      const serverCart = await getMyCart();
+
+      onAddToCart(serverCart);
 
       onClose();
     } catch (e) {

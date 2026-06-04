@@ -8,7 +8,7 @@ import { api } from "@/services/api";
 import "@/pages/client/EstablishmentPage.css";
 import Search from "@/components/UI/Search";
 import Icon from "@/assets/icons/search-normal.svg";
-import type { CartItem, Dish } from "@/types/cart";
+import type { Dish } from "@/types/cart";
 import DishModal from "@/components/UI/DishModal";
 import { useCart } from "@/context/useCart";
 
@@ -56,30 +56,36 @@ export default function EstablishmentPage() {
   );
 
   // универсальная функция добавления
-  const addToCartLocal = (item: CartItem) => {
-    setCart((prev) => {
-      const existing = prev.find(
-        (i) => i.dish.id === item.dish.id && (i.option?.id ?? null) === (item.option?.id ?? null)
-      );
+  const addToCartLocal = (serverCart: {
+    items: {
+      id: number;
+      count: number;
+      dishId: number;
+      dishTitle: string;
+      dishImageUrl: string;
+      restaurantId: number;
+      sum: number;
+    }[];
+  }) => {
+    const mappedCart = serverCart.items.map((item) => ({
+      id: item.id,
+      quantity: item.count,
+      option: null,
 
-      if (existing) {
-        return prev.map((i) =>
-          i.dish.id === item.dish.id && (i.option?.id ?? null) === (item.option?.id ?? null)
-            ? { ...i, quantity: i.quantity + item.quantity }
-            : i
-        );
-      }
+      dish: {
+        id: item.dishId,
+        title: item.dishTitle,
+        description: "",
+        price: item.sum / item.count,
+        imageUrl: item.dishImageUrl,
+        restaurantId: item.restaurantId,
+        dishCategoryId: 0,
+        categoryName: "",
+        buttonText: "",
+      },
+    }));
 
-      return [
-        ...prev,
-        {
-          id: Date.now(),
-          dish: { ...item.dish },
-          option: item.option,
-          quantity: item.quantity,
-        },
-      ];
-    });
+    setCart(mappedCart);
   };
   return (
     <div className="page-wrapper">

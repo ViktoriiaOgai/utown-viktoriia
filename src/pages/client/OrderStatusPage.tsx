@@ -8,6 +8,7 @@ import { useNotifications } from "@/services/useNotification";
 import AuthBtn from "@/components/UI/AuthBtn";
 import Prepared from "@/assets/images/PreaparedOrder.svg?react";
 import IllDEliver from "@/assets/images/Illustration.svg?react";
+import Conf from "@/assets/images/Conf.png";
 import DeliverOk from "@/assets/images/Deliveryok.svg?react";
 import { Orders } from "@/types/restaurant";
 
@@ -83,9 +84,9 @@ export default function OrderStatusPage() {
     CANCELLED: "Order cancelled",
   };
 
-  const statusImageMap: Record<string, React.FC | null> = {
+  const statusImageMap: Record<string, string | React.FC | null> = {
     PENDING: null,
-    CONFIRMED: null,
+    CONFIRMED: Conf,
     PREPARING: Prepared,
     READY: Prepared,
     OUT_FOR_DELIVERY: IllDEliver,
@@ -103,7 +104,7 @@ export default function OrderStatusPage() {
   };
 
   const currentStatus = order?.status || "PENDING";
-  const isInitialStatus = currentStatus === "PENDING" || currentStatus === "CONFIRMED";
+  const isInitialStatus = currentStatus === "PENDING";
   const ImageComponent = statusImageMap[currentStatus];
 
   if (!order) {
@@ -123,7 +124,15 @@ export default function OrderStatusPage() {
           <div className="gradient-loader" />
         </div>
       ) : (
-        ImageComponent && <ImageComponent />
+        ImageComponent && (
+          <div className="status-image-wrapper">
+            {typeof ImageComponent === "string" ? (
+              <img src={ImageComponent} alt="status" className="status-image" />
+            ) : (
+              <ImageComponent />
+            )}
+          </div>
+        )
       )}
 
       <div className="status-container">
