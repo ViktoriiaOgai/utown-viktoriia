@@ -86,9 +86,22 @@ function logoutAndRedirect() {
   const path = window.location.pathname;
 
   const isPublic =
-    path.startsWith("/welcome") || path.startsWith("/login") || path.startsWith("/register");
+    path === "/" ||
+    path.startsWith("/home") ||
+    path.startsWith("/foodmain") ||
+    path.startsWith("/search") ||
+    path.startsWith("/filters") ||
+    path.startsWith("/establish") ||
+    path.startsWith("/establishment") ||
+    path.startsWith("/dish") ||
+    path.startsWith("/welcome") ||
+    path.startsWith("/login") ||
+    path.startsWith("/register") ||
+    path.startsWith("/recover") ||
+    path.startsWith("/reset-password") ||
+    path.startsWith("/reset-code");
 
   if (!isPublic) {
-    window.location.href = "/login"; //  один логин
+    window.location.href = "/login";
   }
 }

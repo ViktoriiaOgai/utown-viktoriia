@@ -79,7 +79,7 @@ import HourEditPage from "@/pages/restaurateur/HourEditPage";
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Navigate to="/welcome" />,
+    element: <Navigate to="/home" replace />,
   },
   {
     path: "/welcome",
@@ -91,11 +91,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/home",
-        element: (
-          <ProtectedRoute allowedRoles={["CLIENT"]}>
-            <Home />
-          </ProtectedRoute>
-        ),
+        element: <Home />,
       },
       {
         path: "/favourites",
@@ -115,51 +111,27 @@ export const router = createBrowserRouter([
       },
       {
         path: "/foodmain",
-        element: (
-          <ProtectedRoute allowedRoles={["CLIENT"]}>
-            <FoodMain />
-          </ProtectedRoute>
-        ),
+        element: <FoodMain />,
       },
       {
         path: "/establish",
-        element: (
-          <ProtectedRoute allowedRoles={["CLIENT"]}>
-            <EstablishPage />
-          </ProtectedRoute>
-        ),
+        element: <EstablishPage />,
       },
       {
         path: "/establishment/:id",
-        element: (
-          <ProtectedRoute allowedRoles={["CLIENT"]}>
-            <EstablishmentPage />
-          </ProtectedRoute>
-        ),
+        element: <EstablishmentPage />,
       },
       {
         path: "/search",
-        element: (
-          <ProtectedRoute allowedRoles={["CLIENT"]}>
-            <SearchPage />
-          </ProtectedRoute>
-        ),
+        element: <SearchPage />,
       },
       {
         path: "/filters",
-        element: (
-          <ProtectedRoute allowedRoles={["CLIENT"]}>
-            <FiltersPage />
-          </ProtectedRoute>
-        ),
+        element: <FiltersPage />,
       },
       {
         path: "/dish/:id",
-        element: (
-          <ProtectedRoute allowedRoles={["CLIENT"]}>
-            <DishPage />
-          </ProtectedRoute>
-        ),
+        element: <DishPage />,
       },
       {
         path: "/cart",
