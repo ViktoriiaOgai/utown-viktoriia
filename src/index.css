@@ -1,11 +1,18 @@
 html,
-body {
+body,
+#root {
+  width: 100%;
+  min-height: 100vh;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+}
+
+body {
+  overflow-x: hidden;
   font-family:
-    -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial,
-    sans-serif;
+    -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  background: linear-gradient(135deg, #dfe9f3, #ffffff);
 }
 
 a {
@@ -15,14 +22,6 @@ a {
 }
 a:hover {
   color: #535bf2;
-}
-
-body {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #dfe9f3, #ffffff);
 }
 
 h1 {

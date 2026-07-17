@@ -10,57 +10,59 @@ interface WeatherData {
   city: string;
 }
 
-interface WeatherProps {
-  userCity: string; // берем город из профиля
-  lat?: number; // если есть координаты
-  lon?: number;
-}
-
-export default function Weather({ userCity, lat, lon }: WeatherProps) {
+export default function Weather() {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const API_KEY = "6d1180af0325ae32a299ef4ef42301fe";
 
   useEffect(() => {
-    const fetchWeather = async () => {
-      try {
-        const params =
-          lat && lon
-            ? { lat, lon, appid: API_KEY, units: "metric", lang: "ru" }
-            : { q: userCity, appid: API_KEY, units: "metric", lang: "ru" };
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        try {
+          const response = await axios.get("https://api.openweathermap.org/data/2.5/weather", {
+            params: {
+              lat: position.coords.latitude,
+              lon: position.coords.longitude,
+              appid: API_KEY,
+              units: "metric",
+              lang: "ru",
+            },
+          });
 
-        const response = await axios.get("https://api.openweathermap.org/data/2.5/weather", {
-          params,
-        });
+          const data = response.data;
 
-        const data = response.data;
-
-        setWeather({
-          city: data.name,
-          temp: data.main.temp.toFixed(1),
-          feels: data.main.feels_like.toFixed(1),
-          desc: data.weather[0].description,
-          icon: data.weather[0].icon,
-          wind: data.wind.speed.toFixed(1),
-        });
-      } catch {
-        setError(" Не удалось получить погоду.");
+          setWeather({
+            city: data.name,
+            temp: data.main.temp.toFixed(1),
+            feels: data.main.feels_like.toFixed(1),
+            desc: data.weather[0].description,
+            icon: data.weather[0].icon,
+            wind: data.wind.speed.toFixed(1),
+          });
+        } catch {
+          setError("Не удалось получить погоду.");
+        }
+      },
+      () => {
+        setError("Разрешите доступ к геолокации.");
       }
-    };
+    );
+  }, []);
 
-    fetchWeather();
-  }, [userCity, lat, lon]);
-
-  if (error) return <div className="weather-error">{error}</div>;
-  if (!weather) return <div className="weather-loading">Загрузка...</div>;
+  if (error) return <div>{error}</div>;
+  if (!weather) return <div>Загрузка...</div>;
 
   return (
     <div className="weather-widget">
       <h3>{weather.city}</h3>
-      <p>{weather.temp}°C</p>
-      <p>☁️ {weather.desc}</p>
-      <p>💨 Ветер: {weather.wind} м/с</p>
+
+      <img src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`} alt={weather.desc} />
+
+      <h2>{weather.temp}°</h2>
+      <p>Ощущается как {weather.feels}°C</p>
+      <p>{weather.desc}</p>
+      <p>💨 {weather.wind} м/с</p>
     </div>
   );
 }

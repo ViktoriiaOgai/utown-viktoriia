@@ -11,7 +11,6 @@ import MobileHeader from "@/components/UI/Header";
 import { getUserName } from "@/hooks/auth";
 
 export default function Home() {
-  const userProfile = { city: "Ansan", lat: 37.3349584, lon: 126.7918849 };
   const [firstName] = useState(() => getUserName() || "");
   const navigate = useNavigate();
 
@@ -28,7 +27,7 @@ export default function Home() {
           <h1 className="Hello">Hello{firstName ? `, ${firstName}` : ""}!</h1>
 
           <div className="main-top-row">
-            <Weather userCity={userProfile.city} lat={userProfile.lat} lon={userProfile.lon} />
+            <Weather />
 
             <div className="active-orders-card" onClick={() => navigate("/my-orders")}>
               <img src={ShoppingCart} alt="Cart" className="shopping" />
